@@ -96,5 +96,7 @@
   "platform.appletv": "Apple TV",
   "client.recommended": "Recommended",
   "client.download_for": "Download {name}",
-  "announce.open": "Open link"
+  "announce.open": "Open link",
+  "support.renew": "Renew subscription",
+  "support.renew_newtab": "Renew subscription, opens in a new tab"
 }
