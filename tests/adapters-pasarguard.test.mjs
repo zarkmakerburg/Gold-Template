@@ -270,7 +270,7 @@ test('the adapter is deterministic and does not mutate its input', () => {
 
 test('the 17 artifacts are byte-identical to their committed locks', async () => {
   const { build } = await import('../tools/build.mjs');
-  const { templateIds } = await import('../tools/templates.mjs');
+  const { coreTemplateIds } = await import('../tools/templates.mjs');
   const source = readFileSync(join(ROOT, 'tests', 'build.test.mjs'), 'utf8');
   const locked = {};
   for (const m of source.matchAll(/^\s*\['([a-z]+)', (\d+), '([0-9a-f]{64})'\],/gm)) locked[m[1]] = +m[2];
@@ -279,7 +279,7 @@ test('the 17 artifacts are byte-identical to their committed locks', async () =>
     locked[id] = +m[1];
   }
   assert.equal(Object.keys(locked).length, 17);
-  for (const id of templateIds()) {
+  for (const id of coreTemplateIds()) {
     assert.equal(Buffer.byteLength(build(true, id).html, 'utf8'), locked[id], id + ' must not move');
   }
 });
