@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  یک صفحهٔ اشتراک شکیل و خودبسنده برای پنل های <a href="https://github.com/MHSanaei/3x-ui">3X-UI</a>، <a href="https://github.com/PasarGuard/panel">PasarGuard</a> و <a href="https://github.com/rebeccapanel/Rebecca">Rebecca</a> — هجده طرح (۱۷ طرح اصلی + طرح اختصاصی Gold)، که هر کدام یک فایل HTML است، کاملاً وایت‌لیبل، و بدون هیچ درخواستی به شخص ثالث از صفحه ای که مشترکان شما باز می کنند.
+  یک صفحهٔ اشتراک شکیل و خودبسنده برای پنل های <a href="https://github.com/MHSanaei/3x-ui">3X-UI</a>، <a href="https://github.com/PasarGuard/panel">PasarGuard</a> و <a href="https://github.com/rebeccapanel/Rebecca">Rebecca</a> — بیست طرح (۱۷ طرح اصلی + ۳ طرح سفارشی GoldApp)، که هر کدام یک فایل HTML است، کاملاً وایت‌لیبل، و بدون هیچ درخواستی به شخص ثالث از صفحه ای که مشترکان شما باز می کنند.
 </p>
 
 <p align="center">
@@ -37,10 +37,12 @@
 ## لایهٔ اختصاصی GoldApp
 
 - **Gold** — تم اختصاصی مشکی/سرمه‌ای و طلایی با ساختار تست‌شدهٔ Signature و پشتیبانی کامل RTL.
+- **Obsidian** — تم معماری و بسیار مینیمال با مشکی/گرافیتی و accent برنزی.
+- **Swiss** — تم شبکه‌ای، تیز و پرکنتراست با هندسهٔ مربعی و accent قرمز.
 - **Smart Renewal CTA** — فقط با داده‌های محلی اشتراک، از ۸۵٪ مصرف به بالا، در ۳ روز پایانی اعتبار یا بعد از اتمام حجم/انقضا، دکمه پشتیبانی به CTA تمدید تبدیل می‌شود؛ بدون telemetry و بدون درخواست جدید به سرویس ثالث.
 - **GoldApp preset** — با `RT_PRESET=goldapp` طرح Gold، نام `GoldApp Online` و مقصد پشتیبانی/تمدید `https://go.goldapponline.ir` به‌صورت پیش‌فرض تنظیم می‌شوند و هر `RT_*` صریح فقط همان مقدار را override می‌کند.
 - **کانال انتشار مستقل** — installer و update برای دنبال‌کردن releaseهای همین مخزن آماده شده‌اند و دیگر قرار نیست بی‌صدا از releaseهای upstream نصب کنند.
-- **سازگار با upstream** — ۱۷ طرح اصلی به‌صورت core و byte-locked باقی مانده‌اند؛ طرح Gold در tier سفارشی و unlocked است تا دریافت تغییرات upstream کم‌ریسک‌تر باشد.
+- **سازگار با upstream** — ۱۷ طرح اصلی به‌صورت core و byte-locked باقی مانده‌اند؛ Gold، Obsidian و Swiss در tier سفارشی و unlocked هستند تا دریافت تغییرات upstream کم‌ریسک‌تر باشد.
 - **سازگاری CLI** — فعلاً فرمان `row-template` و مسیرهای نصب قبلی حفظ شده‌اند تا سرورهای نصب‌شده نشکنند.
 
 > Gold-Template یک توزیع مشتق‌شده است. اعتبار نویسندهٔ Row-Template، مجوز MIT و مجوزهای اجزای جانبی باید حفظ شوند.
@@ -55,13 +57,13 @@
 
 - **محرمانه از پایه.** صفحه ای که مشترکان شما باز می کنند هیچ درخواستی به شخص ثالث نمی فرستد. کدهای QR روی خود صفحه تولید می شوند و اطلاعات برندسازی شما به صورت متن تزریق می شود — هرگز اجرا نمی شود و هرگز به هیچ جایی فرستاده نمی شود.
 - **واقعاً وایت لیبل.** نام سرویس، پیوند پشتیبانی و لوگوی خودتان. هیچ چیزی روی صفحهٔ ارائه شده معرف Row-Template نیست.
-- **هجده طرح، هر کدام یک فایل.** ظاهری را انتخاب کنید که به سرویس شما می آید. همهٔ طرح ها ویژگی ها، زبان ها و بررسی های ایمنی یکسانی دارند — روی هر پنل پشتیبانی شده.
+- **بیست طرح، هر کدام یک فایل.** ظاهری را انتخاب کنید که به سرویس شما می آید. همهٔ طرح ها ویژگی ها، زبان ها و بررسی های ایمنی یکسانی دارند — روی هر پنل پشتیبانی شده.
 - **ساخته شده برای مشترکان شما.** نمای زندهٔ مصرف و انقضا، ورود (import) با یک لمس به برنامه های پرکاربرد، و فهرستی قابل جستجو از پیکربندی های جداگانه برای افزودن دستی یک سرور.
 - **ایمن برای بهره برداری.** نسخه هایی که مجموع کنترلی آن ها بررسی می شود، فعال سازی تراکنشی که اگر گامی شکست بخورد پنل را دقیقاً به حالت قبل برمی گرداند، و بازگردانی تک دستوری. هرگز پنل شما را وصله نمی کند: در 3X-UI یک تنظیم (`subThemeDir`) را تغییر می دهد، در PasarGuard یک بلوک نشان دار به `.env` می افزاید، و در Rebecca دو فیلد از تنظیمات اشتراک را مقدار می دهد.
 
 ## طرح ها
 
-Gold-Template شامل ۱۷ طرح upstream به‌علاوهٔ طرح اختصاصی **Gold** است. برای حفظ سازگاری، Row همچنان پیش‌فرض داخلی است؛ برای ظاهر GoldApp از `RT_TEMPLATE=gold` استفاده کنید.
+Gold-Template شامل ۱۷ طرح frozen upstream به‌علاوهٔ سه طرح سفارشی **Gold**، **Obsidian** و **Swiss** است. Row همچنان پیش‌فرض سازگاری است؛ برای تم‌های اختصاصی از `RT_TEMPLATE=gold`، `RT_TEMPLATE=obsidian` یا `RT_TEMPLATE=swiss` استفاده کنید.
 
 <table>
   <tr>
@@ -91,9 +93,15 @@ Gold-Template شامل ۱۷ طرح upstream به‌علاوهٔ طرح اختص�
   </tr>
 </table>
 
+| طرح سفارشی | جهت بصری |
+| --- | --- |
+| **Gold** | مشکی/سرمه‌ای، طلایی لوکس، گوشه‌های نرم، Smart Renewal CTA |
+| **Obsidian** | گرافیتی نزدیک به مشکی، accent برنزی، هندسهٔ معماری و جمع‌وجور |
+| **Swiss** | کنتراست بالا، شبکهٔ مربعی، accent قرمز و ظاهر ادیتوریال مینیمال |
+
 <sub>پیش نمایش ها با داده های نمونهٔ خود پروژه ساخته شده اند. پیش نمایش دسکتاپ و موبایل همهٔ طرح ها در <a href="https://iitzseridev.github.io/Row-Template/fa/templates/">گالری طرح ها</a> موجود است.</sub>
 
-طرح را هنگام یک نصب تعاملی تازه انتخاب کنید، برای نصب اسکریپتی `RT_TEMPLATE` را تنظیم کنید، یا بعداً آن را از مدیر تغییر دهید (**Reconfigure branding → Template**). به روزرسانی ها انتخاب شما را حفظ می کنند. مقدارهای `RT_TEMPLATE` عبارت اند از `row`، `editorial`، `canvas`، `prism`، `terminal`، `pulse`، `brutal`، `arcade`، `sketch`، `signature`، `saffron`، `pulsenova`، `prismnova`، `terminalnova`، `arcadenova`، `meter`، `notebook` و `gold`.
+طرح را هنگام یک نصب تعاملی تازه انتخاب کنید، برای نصب اسکریپتی `RT_TEMPLATE` را تنظیم کنید، یا بعداً آن را از مدیر تغییر دهید (**Reconfigure branding → Template**). به روزرسانی ها انتخاب شما را حفظ می کنند. مقدارهای `RT_TEMPLATE` عبارت اند از `row`، `editorial`، `canvas`، `prism`، `terminal`، `pulse`، `brutal`، `arcade`، `sketch`، `signature`، `saffron`، `pulsenova`، `prismnova`، `terminalnova`، `arcadenova`، `meter`، `notebook`، `gold`، `obsidian` و `swiss`.
 
 ## ویژگی ها
 
@@ -144,7 +152,7 @@ Gold-Template شامل ۱۷ طرح upstream به‌علاوهٔ طرح اختص�
 flowchart TB
   subgraph build ["Build and release"]
     direction LR
-    SRC["src/<br/>runtime, styles, locales,<br/>18 design layouts"] --> BUILD["tools/build.mjs"]
+    SRC["src/<br/>runtime, styles, locales,<br/>20 design layouts"] --> BUILD["tools/build.mjs"]
     BUILD --> ART["One self-contained<br/>HTML file per design,<br/>per panel"]
     ART --> REL["tools/make-release.sh<br/>tarball + SHA256SUMS"]
   end

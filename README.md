@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  A polished, self-contained subscription page for <a href="https://github.com/MHSanaei/3x-ui">3X-UI</a>, <a href="https://github.com/PasarGuard/panel">PasarGuard</a> and <a href="https://github.com/rebeccapanel/Rebecca">Rebecca</a> panels — eighteen designs (17 upstream + the GoldApp Gold design), each a single HTML file, fully white-label, with no third-party requests from the page your subscribers open.
+  A polished, self-contained subscription page for <a href="https://github.com/MHSanaei/3x-ui">3X-UI</a>, <a href="https://github.com/PasarGuard/panel">PasarGuard</a> and <a href="https://github.com/rebeccapanel/Rebecca">Rebecca</a> panels — twenty designs (17 upstream + 3 GoldApp custom designs), each a single HTML file, fully white-label, with no third-party requests from the page your subscribers open.
 </p>
 
 <p align="center">
@@ -37,10 +37,12 @@
 ## GoldApp custom layer
 
 - **Gold** — a dedicated black/navy + premium-gold design built on the proven Signature layout and RTL rules.
+- **Obsidian** — an architectural black/graphite design with restrained bronze accents and compact geometry.
+- **Swiss** — a sharp, grid-led high-contrast design with square geometry and a restrained red accent.
 - **Smart Renewal CTA** — using only local subscription facts, the support action becomes a renewal action at ≥85% traffic usage, within 3 calendar days of expiry, or after expiry/limit exhaustion. No telemetry or third-party request is added.
 - **GoldApp preset** — `RT_PRESET=goldapp` selects the Gold design, `GoldApp Online` service name and `https://go.goldapponline.ir` support/renewal destination; explicit `RT_*` values override individual defaults.
 - **Independent release channel** — Gold-Template installers and updates are prepared to follow this repository instead of silently pulling upstream releases.
-- **Upstream-friendly** — the original 17 designs remain core/byte-locked; Gold is an unlocked custom tier, so upstream updates can be merged with less friction.
+- **Upstream-friendly** — the original 17 designs remain core/byte-locked; Gold, Obsidian and Swiss are unlocked custom-tier designs, so upstream updates can be merged with less friction.
 - **CLI compatibility** — the existing `row-template` command and install paths are intentionally kept for now to avoid breaking deployed hosts.
 
 > Gold-Template is a derivative distribution. Original Row-Template authorship, licenses and bundled third-party licenses remain credited and must be preserved.
@@ -55,13 +57,13 @@ It ships as one self-contained HTML file per design, with every style, script, f
 
 - **Private by design.** The page your subscribers open makes no third-party requests. QR codes are generated on the page, and your branding is injected as text — never executed, never sent anywhere.
 - **Genuinely white-label.** Your service name, your support link, your logo. Nothing on the served page identifies Row-Template.
-- **Seventeen designs, one file each.** Pick the look that fits your service. Every design shares the same features, languages, and safety checks — on every supported panel.
+- **Twenty designs, one file each.** Pick the look that fits your service. Every design shares the same features, languages, and safety checks — on every supported panel.
 - **Made for your subscribers.** Live usage and expiry, one-tap import into popular apps, and a searchable list of individual configurations for adding a single server by hand.
 - **Safe to operate.** Checksum-verified releases, transactional activation that restores the panel exactly if any step fails, and one-command rollback. It never patches your panel: on 3X-UI it changes one setting (`subThemeDir`), on PasarGuard it adds one marked block to `.env`, and on Rebecca it sets two fields of its subscription settings.
 
 ## Designs
 
-Gold-Template currently carries the 17 upstream designs plus the custom **Gold** design. Row remains the compatibility default; use `RT_TEMPLATE=gold` for the GoldApp look.
+Gold-Template carries 17 frozen upstream designs plus three downstream custom designs: **Gold**, **Obsidian**, and **Swiss**. Row remains the compatibility default; use `RT_TEMPLATE=gold`, `RT_TEMPLATE=obsidian`, or `RT_TEMPLATE=swiss` to select a custom look.
 
 <table>
   <tr>
@@ -91,9 +93,15 @@ Gold-Template currently carries the 17 upstream designs plus the custom **Gold**
   </tr>
 </table>
 
+| Custom design | Visual direction |
+| --- | --- |
+| **Gold** | Black/navy, premium gold, rounded luxury-tech UI, Smart Renewal CTA |
+| **Obsidian** | Near-black graphite, bronze accent, compact architectural geometry |
+| **Swiss** | High contrast, square grid geometry, red accent, editorial restraint |
+
 <sub>Previews are rendered from the project's own placeholder data. Desktop and mobile previews of every design are in the <a href="https://iitzseridev.github.io/Row-Template/templates/">template gallery</a>.</sub>
 
-Choose a design during a fresh interactive install, set `RT_TEMPLATE` for a scripted one, or change it later from the manager (**Reconfigure branding → Template**). Updates keep your choice. The `RT_TEMPLATE` values are `row`, `editorial`, `canvas`, `prism`, `terminal`, `pulse`, `brutal`, `arcade`, `sketch`, `signature`, `saffron`, `pulsenova`, `prismnova`, `terminalnova`, `arcadenova`, `meter`, `notebook`, and `gold`.
+Choose a design during a fresh interactive install, set `RT_TEMPLATE` for a scripted one, or change it later from the manager (**Reconfigure branding → Template**). Updates keep your choice. The `RT_TEMPLATE` values are `row`, `editorial`, `canvas`, `prism`, `terminal`, `pulse`, `brutal`, `arcade`, `sketch`, `signature`, `saffron`, `pulsenova`, `prismnova`, `terminalnova`, `arcadenova`, `meter`, `notebook`, `gold`, `obsidian`, and `swiss`.
 
 ## Features
 
@@ -144,7 +152,7 @@ The three panels use three different template engines — Go `html/template`, Ji
 flowchart TB
   subgraph build ["Build and release"]
     direction LR
-    SRC["src/<br/>runtime, styles, locales,<br/>18 design layouts"] --> BUILD["tools/build.mjs"]
+    SRC["src/<br/>runtime, styles, locales,<br/>20 design layouts"] --> BUILD["tools/build.mjs"]
     BUILD --> ART["One self-contained<br/>HTML file per design,<br/>per panel"]
     ART --> REL["tools/make-release.sh<br/>tarball + SHA256SUMS"]
   end
