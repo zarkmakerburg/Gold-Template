@@ -5,7 +5,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { normalize, health, isOnline, traffic, expiry, dayIndex } from '../src/scripts/model.js';
+import { normalize, health, isOnline, traffic, expiry, dayIndex, renewalCue } from '../src/scripts/model.js';
 
 const GB = 1024 * 1024 * 1024;
 
@@ -209,6 +209,39 @@ test('today and tomorrow are calendar days, not twenty-four hour windows', () =>
   const later = expiryAt(local(2026, 0, 25, 9), evening);
   assert.equal(later.kind, 'future');
   assert.equal(later.days, 10);
+});
+
+test('renewal cue only fires on concrete low-traffic or near-expiry facts', () => {
+  const now = local(2026, 0, 15, 12);
+
+  assert.deepEqual(renewalCue(model({ enabled: '0' }), now), { renew: false, reason: 'disabled' });
+  assert.deepEqual(renewalCue(model({ totalByte: '0' }), now), { renew: false, reason: '' });
+  assert.deepEqual(renewalCue(model({ totalByte: '-1' }), now), { renew: false, reason: '' });
+  assert.deepEqual(renewalCue(model({ expire: '' }), now), { renew: false, reason: '' });
+
+  assert.deepEqual(
+    renewalCue(model({ downloadByte: String(85 * GB), uploadByte: '0', expire: '0' }), now),
+    { renew: true, reason: 'traffic-low' },
+  );
+  assert.deepEqual(
+    renewalCue(model({ downloadByte: String(84 * GB), uploadByte: '0', expire: '0' }), now),
+    { renew: false, reason: '' },
+  );
+
+  assert.deepEqual(
+    renewalCue(model({ expire: String(Math.floor(local(2026, 0, 18, 20) / 1000)), totalByte: '0' }), now),
+    { renew: true, reason: 'expiry-soon' },
+  );
+  assert.deepEqual(
+    renewalCue(model({ expire: String(Math.floor(local(2026, 0, 19, 20) / 1000)), totalByte: '0' }), now),
+    { renew: false, reason: '' },
+  );
+
+  assert.deepEqual(renewalCue(model({ expire: PAST }), now), { renew: true, reason: 'expired' });
+  assert.deepEqual(
+    renewalCue(model({ downloadByte: String(100 * GB), uploadByte: '0', expire: '0' }), now),
+    { renew: true, reason: 'limited' },
+  );
 });
 
 test('dayIndex counts local calendar days', () => {
