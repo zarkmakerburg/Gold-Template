@@ -1380,6 +1380,64 @@ test('a fresh non-interactive install honors RT_TEMPLATE and refuses an invalid 
   assert.match(invalid.out, /live-untouched/, 'nothing was activated');
 });
 
+
+test('RT_PRESET=goldapp selects GoldApp defaults while explicit RT_* values still win', () => {
+  const xuiStubs =
+    'rt_detect_xui(){ RT_XUI_UNIT="x-ui.service"; return 0; }\n' +
+    'rt_detect_xui_version(){ RT_XUI_VERSION="3.7.0"; printf "3.7.0"; }\n';
+
+  const preset = shRoot(
+    FLOW_STUBS + xuiStubs +
+    'rt_cmd_install "$RT_ROOT/payload" >/dev/null 2>&1\n' +
+    'printf "tpl=%s\\n" "$(rt_config_get_raw TEMPLATE)"\n' +
+    'printf "name=%s\\n" "$(rt_config_get_text SERVICE_NAME_B64)"\n' +
+    'printf "support=%s\\n" "$(rt_config_get_text SUPPORT_URL_B64)"\n' +
+    'grep -q ' + bq('data-template="gold"') + ' "$RT_LIVE" && echo "live=gold"\n',
+    { prepare: (root) => writePayload(root), env: { RT_PRESET: 'goldapp' } },
+  );
+  assert.equal(preset.code, 0, preset.err);
+  assert.match(preset.out, /tpl=gold/);
+  assert.match(preset.out, /name=GoldApp Online/);
+  assert.match(preset.out, /support=https:\/\/go\.goldapponline\.ir/);
+  assert.match(preset.out, /live=gold/);
+
+  const override = shRoot(
+    FLOW_STUBS + xuiStubs +
+    'rt_cmd_install "$RT_ROOT/payload" >/dev/null 2>&1\n' +
+    'printf "tpl=%s\\n" "$(rt_config_get_raw TEMPLATE)"\n' +
+    'printf "name=%s\\n" "$(rt_config_get_text SERVICE_NAME_B64)"\n' +
+    'printf "support=%s\\n" "$(rt_config_get_text SUPPORT_URL_B64)"\n',
+    {
+      prepare: (root) => writePayload(root),
+      env: {
+        RT_PRESET: 'goldapp',
+        RT_TEMPLATE: 'editorial',
+        RT_SERVICE_NAME: 'Custom Brand',
+        RT_SUPPORT_URL: 'https://example.com/support',
+      },
+    },
+  );
+  assert.equal(override.code, 0, override.err);
+  assert.match(override.out, /tpl=editorial/);
+  assert.match(override.out, /name=Custom Brand/);
+  assert.match(override.out, /support=https:\/\/example\.com\/support/);
+});
+
+test('an unknown RT_PRESET is refused before activation', () => {
+  const xuiStubs =
+    'rt_detect_xui(){ RT_XUI_UNIT="x-ui.service"; return 0; }\n' +
+    'rt_detect_xui_version(){ RT_XUI_VERSION="3.7.0"; printf "3.7.0"; }\n';
+  const r = shRoot(
+    FLOW_STUBS + xuiStubs +
+    'if ( rt_cmd_install "$RT_ROOT/payload" ) >/dev/null; then echo "INVALID-ACCEPTED"; else echo "preset-refused"; fi\n' +
+    '[ -f "$RT_LIVE" ] || echo "live-untouched"\n',
+    { prepare: (root) => writePayload(root), env: { RT_PRESET: 'unknown' } },
+  );
+  assert.match(r.out, /preset-refused/);
+  assert.match(r.err, /unknown RT_PRESET='unknown'/);
+  assert.match(r.out, /live-untouched/);
+});
+
 /* --- sanitizing fallback must reconcile the artifact (v1.2 regression) -----
    rt_config_write sanitizes an invalid stored selection to Row, but only the
    high-level branding boundaries (rt_cmd_config, rt_apply_branding) know a
