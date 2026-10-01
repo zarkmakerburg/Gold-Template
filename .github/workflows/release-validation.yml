@@ -1,4 +1,6 @@
 # The release validation, on Linux, exactly as the release checklist names it.
+# Gold-Template fork CI activation marker: this comment intentionally creates
+# a post-enable synchronize event so fork workflows can start running.
 #
 # WHY THIS EXISTS. `npm test` is the evidence behind "Supported": it renders the
 # shipped shells on the REAL template engines -- PasarGuard's Jinja2 and
