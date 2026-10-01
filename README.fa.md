@@ -171,12 +171,14 @@ flowchart TB
 
 ## نصب آمادهٔ GoldApp
 
-برای نصب از پیش شخصی‌سازی‌شدهٔ GoldApp:
+برای نصب از پیش شخصی‌سازی‌شدهٔ GoldApp از preset داخلی استفاده کنید:
 
 ```bash
-RT_TEMPLATE=gold RT_SERVICE_NAME="GoldApp Online" RT_SUPPORT_URL="https://go.goldapponline.ir" \
+RT_PRESET=goldapp \
   bash <(curl -fsSL https://github.com/zarkmakerburg/Gold-Template/releases/latest/download/install.sh)
 ```
+
+این preset به‌صورت پیش‌فرض طرح `gold`، نام سرویس `GoldApp Online` و لینک پشتیبانی `https://go.goldapponline.ir` را تنظیم می‌کند. هر مقدار صریح برای `RT_TEMPLATE`، `RT_SERVICE_NAME` یا `RT_SUPPORT_URL` فقط همان بخش preset را override می‌کند.
 
 نام CLI فعلاً برای سازگاری با نصب‌های قبلی `row-template` باقی مانده است.
 
