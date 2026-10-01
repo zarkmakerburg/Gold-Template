@@ -135,33 +135,6 @@ export function dayIndex(ms) {
   return Math.floor(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) / 86400000);
 }
 
-/* A renewal cue is intentionally conservative: only facts already shown on the
-   page can trigger it. No telemetry, heuristics about user behaviour, or remote
-   calls are involved. A disabled subscription is not treated as renewable,
-   because disabling can be an operator decision unrelated to billing. */
-export function renewalCue(m, now) {
-  const state = health(m, now);
-  if (state === 'expired' || state === 'limited') {
-    return { renew: true, reason: state };
-  }
-  if (state !== 'active') return { renew: false, reason: state };
-
-  const usage = traffic(m);
-  if (usage.pct !== null && usage.pct >= 85) {
-    return { renew: true, reason: 'traffic-low' };
-  }
-
-  const end = expiry(m, now);
-  if (end.kind === 'today' || end.kind === 'tomorrow') {
-    return { renew: true, reason: 'expiry-soon' };
-  }
-  if (end.kind === 'future' && end.days <= 3) {
-    return { renew: true, reason: 'expiry-soon' };
-  }
-
-  return { renew: false, reason: '' };
-}
-
 export function expiry(m, now) {
   if (m.expire === null) return { kind: 'unknown' };
   if (m.expire === 0) return { kind: 'never' };
