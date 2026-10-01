@@ -305,6 +305,40 @@ export const TEMPLATES = {
       ['src/templates/signature/rtl.css', 'templates/signature/rtl.css'],
     ],
   },
+  obsidian: {
+    id: 'obsidian',
+    name: 'Obsidian',
+    order: 201,
+    available: true,
+    emitDataTemplate: true,
+    layout: true,
+    tier: 'custom',
+    styles: [
+      ['src/templates/obsidian/tokens.css', 'templates/obsidian/tokens.css'],
+      ['src/templates/signature/base.css', 'templates/signature/base.css'],
+      ['src/templates/signature/layout.css', 'templates/signature/layout.css'],
+      ['src/templates/signature/components.css', 'templates/signature/components.css'],
+      ['src/templates/obsidian/overrides.css', 'templates/obsidian/overrides.css'],
+      ['src/templates/signature/rtl.css', 'templates/signature/rtl.css'],
+    ],
+  },
+  swiss: {
+    id: 'swiss',
+    name: 'Swiss',
+    order: 202,
+    available: true,
+    emitDataTemplate: true,
+    layout: true,
+    tier: 'custom',
+    styles: [
+      ['src/templates/swiss/tokens.css', 'templates/swiss/tokens.css'],
+      ['src/templates/signature/base.css', 'templates/signature/base.css'],
+      ['src/templates/signature/layout.css', 'templates/signature/layout.css'],
+      ['src/templates/signature/components.css', 'templates/signature/components.css'],
+      ['src/templates/swiss/overrides.css', 'templates/swiss/overrides.css'],
+      ['src/templates/signature/rtl.css', 'templates/signature/rtl.css'],
+    ],
+  },
 };
 
 /* Tier defaults.
