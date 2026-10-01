@@ -764,7 +764,7 @@ test('the gold-template alias shares the dispatcher but reports its own executab
 
 test('uninstall removes both owned CLI launchers but preserves an unrelated gold-template namesake', () => {
   const owned = shRoot(
-    'base="$(dirname "$RT_ROOT")"; RT_BIN="$base/row-template"; RT_GOLD_BIN="$base/gold-template"; ' +
+    'RT_BIN="$RT_ROOT.row-template"; RT_GOLD_BIN="$RT_ROOT.gold-template"; ' +
     'mkdir -p "$(dirname "$RT_DIST")"; printf "1.4.0\\n" > "$RT_VERSION_FILE"; : > "$RT_DIST"; ' +
     'printf "# row-template CLI launcher\\n" > "$RT_BIN"; printf "# row-template CLI launcher\\n" > "$RT_GOLD_BIN"; ' +
     'rt_uninstall_files; ' +
@@ -776,7 +776,7 @@ test('uninstall removes both owned CLI launchers but preserves an unrelated gold
   assert.match(owned.out, /gold-removed/);
 
   const namesake = shRoot(
-    'base="$(dirname "$RT_ROOT")"; RT_BIN="$base/row-template"; RT_GOLD_BIN="$base/gold-template"; ' +
+    'RT_BIN="$RT_ROOT.row-template"; RT_GOLD_BIN="$RT_ROOT.gold-template"; ' +
     'mkdir -p "$(dirname "$RT_DIST")"; printf "1.4.0\\n" > "$RT_VERSION_FILE"; : > "$RT_DIST"; ' +
     'printf "# row-template CLI launcher\\n" > "$RT_BIN"; printf "#!/bin/sh\\necho unrelated\\n" > "$RT_GOLD_BIN"; ' +
     'rt_uninstall_files; [ -f "$RT_GOLD_BIN" ] && echo namesake-kept; rm -f "$RT_GOLD_BIN"',
