@@ -845,6 +845,8 @@ const SKETCH_HTML = build(true, 'sketch').html;
 const SIGNATURE_HTML = build(true, 'signature').html;
 const SAFFRON_HTML = build(true, 'saffron').html;
 const GOLD_HTML = build(true, 'gold').html;
+const OBSIDIAN_HTML = build(true, 'obsidian').html;
+const SWISS_HTML = build(true, 'swiss').html;
 const ROW_SHA = createHash('sha256').update(ROW_HTML).digest('hex');
 const EDI_SHA = createHash('sha256').update(EDITORIAL_HTML).digest('hex');
 const CANVAS_SHA = createHash('sha256').update(CANVAS_HTML).digest('hex');
@@ -857,6 +859,8 @@ const SKETCH_SHA = createHash('sha256').update(SKETCH_HTML).digest('hex');
 const SIGNATURE_SHA = createHash('sha256').update(SIGNATURE_HTML).digest('hex');
 const SAFFRON_SHA = createHash('sha256').update(SAFFRON_HTML).digest('hex');
 const GOLD_SHA = createHash('sha256').update(GOLD_HTML).digest('hex');
+const OBSIDIAN_SHA = createHash('sha256').update(OBSIDIAN_HTML).digest('hex');
+const SWISS_SHA = createHash('sha256').update(SWISS_HTML).digest('hex');
 
 function writeArtifact(dir, html, sha) {
   mkdirSync(dir, { recursive: true });
@@ -935,6 +939,8 @@ function writePayload(root, { withStore = true } = {}) {
     writeArtifact(join(p, 'templates', 'signature'), SIGNATURE_HTML, SIGNATURE_SHA);
     writeArtifact(join(p, 'templates', 'saffron'), SAFFRON_HTML, SAFFRON_SHA);
     writeArtifact(join(p, 'templates', 'gold'), GOLD_HTML, GOLD_SHA);
+    writeArtifact(join(p, 'templates', 'obsidian'), OBSIDIAN_HTML, OBSIDIAN_SHA);
+    writeArtifact(join(p, 'templates', 'swiss'), SWISS_HTML, SWISS_SHA);
   }
 }
 
