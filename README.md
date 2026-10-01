@@ -59,7 +59,7 @@ It ships as one self-contained HTML file per design, with every style, script, f
 
 ## Designs
 
-Row-Template 1.4.0 ships seventeen designs. Row is the default.
+Gold-Template currently carries the 17 upstream designs plus the custom **Gold** design. Row remains the compatibility default; use `RT_TEMPLATE=gold` for the GoldApp look.
 
 <table>
   <tr>
@@ -91,7 +91,7 @@ Row-Template 1.4.0 ships seventeen designs. Row is the default.
 
 <sub>Previews are rendered from the project's own placeholder data. Desktop and mobile previews of every design are in the <a href="https://iitzseridev.github.io/Row-Template/templates/">template gallery</a>.</sub>
 
-Choose a design during a fresh interactive install, set `RT_TEMPLATE` for a scripted one, or change it later from the manager (**Reconfigure branding → Template**). Updates keep your choice. The `RT_TEMPLATE` values are `row`, `editorial`, `canvas`, `prism`, `terminal`, `pulse`, `brutal`, `arcade`, `sketch`, `signature`, `saffron`, `pulsenova`, `prismnova`, `terminalnova`, `arcadenova`, `meter`, and `notebook`.
+Choose a design during a fresh interactive install, set `RT_TEMPLATE` for a scripted one, or change it later from the manager (**Reconfigure branding → Template**). Updates keep your choice. The `RT_TEMPLATE` values are `row`, `editorial`, `canvas`, `prism`, `terminal`, `pulse`, `brutal`, `arcade`, `sketch`, `signature`, `saffron`, `pulsenova`, `prismnova`, `terminalnova`, `arcadenova`, `meter`, `notebook`, and `gold`.
 
 ## Features
 
@@ -142,7 +142,7 @@ The three panels use three different template engines — Go `html/template`, Ji
 flowchart TB
   subgraph build ["Build and release"]
     direction LR
-    SRC["src/<br/>runtime, styles, locales,<br/>17 design layouts"] --> BUILD["tools/build.mjs"]
+    SRC["src/<br/>runtime, styles, locales,<br/>18 design layouts"] --> BUILD["tools/build.mjs"]
     BUILD --> ART["One self-contained<br/>HTML file per design,<br/>per panel"]
     ART --> REL["tools/make-release.sh<br/>tarball + SHA256SUMS"]
   end
@@ -168,6 +168,17 @@ flowchart TB
 | `installer/` | `install.sh`, the `row-template` command, its management library, and one adapter per panel in `installer/panels/` |
 | `tests/` | The test suites |
 | `docs/` | The documentation site; design records in [`docs/design/`](docs/design/README.md) |
+
+## GoldApp preset
+
+For a GoldApp-branded install, use the Gold design and brand values explicitly:
+
+```bash
+RT_TEMPLATE=gold RT_SERVICE_NAME="GoldApp Online" RT_SUPPORT_URL="https://go.goldapponline.ir" \
+  bash <(curl -fsSL https://github.com/zarkmakerburg/Gold-Template/releases/latest/download/install.sh)
+```
+
+The legacy `row-template` CLI name is intentionally retained for compatibility.
 
 ## Installation
 
