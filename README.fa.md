@@ -53,13 +53,13 @@
 
 - **محرمانه از پایه.** صفحه ای که مشترکان شما باز می کنند هیچ درخواستی به شخص ثالث نمی فرستد. کدهای QR روی خود صفحه تولید می شوند و اطلاعات برندسازی شما به صورت متن تزریق می شود — هرگز اجرا نمی شود و هرگز به هیچ جایی فرستاده نمی شود.
 - **واقعاً وایت لیبل.** نام سرویس، پیوند پشتیبانی و لوگوی خودتان. هیچ چیزی روی صفحهٔ ارائه شده معرف Row-Template نیست.
-- **هفده طرح، هر کدام یک فایل.** ظاهری را انتخاب کنید که به سرویس شما می آید. همهٔ طرح ها ویژگی ها، زبان ها و بررسی های ایمنی یکسانی دارند — روی هر پنل پشتیبانی شده.
+- **هجده طرح، هر کدام یک فایل.** ظاهری را انتخاب کنید که به سرویس شما می آید. همهٔ طرح ها ویژگی ها، زبان ها و بررسی های ایمنی یکسانی دارند — روی هر پنل پشتیبانی شده.
 - **ساخته شده برای مشترکان شما.** نمای زندهٔ مصرف و انقضا، ورود (import) با یک لمس به برنامه های پرکاربرد، و فهرستی قابل جستجو از پیکربندی های جداگانه برای افزودن دستی یک سرور.
 - **ایمن برای بهره برداری.** نسخه هایی که مجموع کنترلی آن ها بررسی می شود، فعال سازی تراکنشی که اگر گامی شکست بخورد پنل را دقیقاً به حالت قبل برمی گرداند، و بازگردانی تک دستوری. هرگز پنل شما را وصله نمی کند: در 3X-UI یک تنظیم (`subThemeDir`) را تغییر می دهد، در PasarGuard یک بلوک نشان دار به `.env` می افزاید، و در Rebecca دو فیلد از تنظیمات اشتراک را مقدار می دهد.
 
 ## طرح ها
 
-Row-Template 1.4.0 با هفده طرح عرضه می شود. طرح پیش فرض Row است.
+Gold-Template شامل ۱۷ طرح upstream به‌علاوهٔ طرح اختصاصی **Gold** است. برای حفظ سازگاری، Row همچنان پیش‌فرض داخلی است؛ برای ظاهر GoldApp از `RT_TEMPLATE=gold` استفاده کنید.
 
 <table>
   <tr>
@@ -91,7 +91,7 @@ Row-Template 1.4.0 با هفده طرح عرضه می شود. طرح پیش فر
 
 <sub>پیش نمایش ها با داده های نمونهٔ خود پروژه ساخته شده اند. پیش نمایش دسکتاپ و موبایل همهٔ طرح ها در <a href="https://iitzseridev.github.io/Row-Template/fa/templates/">گالری طرح ها</a> موجود است.</sub>
 
-طرح را هنگام یک نصب تعاملی تازه انتخاب کنید، برای نصب اسکریپتی `RT_TEMPLATE` را تنظیم کنید، یا بعداً آن را از مدیر تغییر دهید (**Reconfigure branding → Template**). به روزرسانی ها انتخاب شما را حفظ می کنند. مقدارهای `RT_TEMPLATE` عبارت اند از `row`، `editorial`، `canvas`، `prism`، `terminal`، `pulse`، `brutal`، `arcade`، `sketch`، `signature`، `saffron`، `pulsenova`، `prismnova`، `terminalnova`، `arcadenova`، `meter` و `notebook`.
+طرح را هنگام یک نصب تعاملی تازه انتخاب کنید، برای نصب اسکریپتی `RT_TEMPLATE` را تنظیم کنید، یا بعداً آن را از مدیر تغییر دهید (**Reconfigure branding → Template**). به روزرسانی ها انتخاب شما را حفظ می کنند. مقدارهای `RT_TEMPLATE` عبارت اند از `row`، `editorial`، `canvas`، `prism`، `terminal`، `pulse`، `brutal`، `arcade`، `sketch`، `signature`، `saffron`، `pulsenova`، `prismnova`، `terminalnova`، `arcadenova`، `meter`، `notebook` و `gold`.
 
 ## ویژگی ها
 
@@ -142,7 +142,7 @@ Row-Template 1.4.0 با هفده طرح عرضه می شود. طرح پیش فر
 flowchart TB
   subgraph build ["Build and release"]
     direction LR
-    SRC["src/<br/>runtime, styles, locales,<br/>17 design layouts"] --> BUILD["tools/build.mjs"]
+    SRC["src/<br/>runtime, styles, locales,<br/>18 design layouts"] --> BUILD["tools/build.mjs"]
     BUILD --> ART["One self-contained<br/>HTML file per design,<br/>per panel"]
     ART --> REL["tools/make-release.sh<br/>tarball + SHA256SUMS"]
   end
@@ -168,6 +168,17 @@ flowchart TB
 | `installer/` | `install.sh`، دستور `row-template`، کتابخانهٔ مدیریتی آن و یک آداپتور برای هر پنل در `installer/panels/` |
 | `tests/` | مجموعه های آزمون |
 | `docs/` | سایت مستندات؛ سوابق طراحی در [`docs/design/`](docs/design/README.md) |
+
+## نصب آمادهٔ GoldApp
+
+برای نصب از پیش شخصی‌سازی‌شدهٔ GoldApp:
+
+```bash
+RT_TEMPLATE=gold RT_SERVICE_NAME="GoldApp Online" RT_SUPPORT_URL="https://go.goldapponline.ir" \
+  bash <(curl -fsSL https://github.com/zarkmakerburg/Gold-Template/releases/latest/download/install.sh)
+```
+
+نام CLI فعلاً برای سازگاری با نصب‌های قبلی `row-template` باقی مانده است.
 
 ## نصب
 
