@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-Row-Template follows semantic versioning. Security fixes are released against the
+Gold-Template follows semantic versioning. Security fixes are released against the
 latest stable version. Older versions are not maintained — update to the latest
 release before reporting an issue.
 
@@ -29,7 +29,7 @@ exploit details or sensitive data.
 
 ## What to include
 
-- Row-Template version (`row-template version`).
+- Gold-Template version (`row-template version`).
 - 3X-UI (Xray panel) version and operating system.
 - A clear description and reproduction steps.
 - Impact assessment, if you have one.
@@ -55,7 +55,7 @@ optional signed-tag path for publisher authenticity — see
 
 ## Scope
 
-Row-Template generates and serves a **static** subscription page from the
+Gold-Template generates and serves a **static** subscription page from the
 administrator's own server. It has no backend of its own, makes no third-party
 network requests from the served page, and never transmits subscriber data
 anywhere. Reports about the underlying 3X-UI panel or Xray-core belong to their

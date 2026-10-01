@@ -24,7 +24,7 @@ import { island as rebeccaIsland, onlineAtToMillis } from '../tools/adapters/reb
 import {
   extractIsland, validateIsland, normalizeIsland, readIsland, MODEL_FIELDS,
 } from '../tools/contract.mjs';
-import { templateIds } from '../tools/templates.mjs';
+import { templateIds, coreTemplateIds } from '../tools/templates.mjs';
 import { emitterFor, buildablePanelIds } from '../tools/panels.mjs';
 import { transpile } from '../tools/transpile.mjs';
 
@@ -319,7 +319,7 @@ test('the 17 frozen 3X-UI artifacts are byte-identical to their locks', async ()
     locked[id] = +m[1];
   }
   assert.equal(Object.keys(locked).length, 17);
-  for (const id of templateIds()) {
+  for (const id of coreTemplateIds()) {
     assert.equal(Buffer.byteLength(build(true, id).html, 'utf8'), locked[id], id + ' must not move');
   }
 });

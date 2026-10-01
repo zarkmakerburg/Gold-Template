@@ -30,7 +30,7 @@ import { island as pasarguardIsland } from '../tools/adapters/pasarguard.mjs';
 import {
   extractIsland, validateIsland, normalizeIsland, readIsland, validateModel, MODEL_FIELDS,
 } from '../tools/contract.mjs';
-import { templateIds } from '../tools/templates.mjs';
+import { templateIds, coreTemplateIds } from '../tools/templates.mjs';
 import { emitterFor } from '../tools/panels.mjs';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -307,7 +307,7 @@ test('the 17 frozen 3X-UI artifacts are byte-identical to their locks', async ()
     locked[id] = +m[1];
   }
   assert.equal(Object.keys(locked).length, 17);
-  for (const id of templateIds()) {
+  for (const id of coreTemplateIds()) {
     assert.equal(Buffer.byteLength(build(true, id).html, 'utf8'), locked[id], id + ' must not move');
   }
 });

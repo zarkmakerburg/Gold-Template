@@ -283,6 +283,28 @@ export const TEMPLATES = {
       ['src/templates/notebook/rtl.css', 'templates/notebook/rtl.css'],
     ],
   },
+
+  /* GoldApp downstream design. It is deliberately a custom, unlocked entry:
+     upstream core artifacts remain byte-frozen while Gold can evolve without
+     weakening their reproducibility contract. Signature supplies the proven
+     responsive/RTL structure; Gold owns its visual token layer. */
+  gold: {
+    id: 'gold',
+    name: 'Gold',
+    order: 200,
+    available: true,
+    emitDataTemplate: true,
+    layout: true,
+    tier: 'custom',
+    styles: [
+      ['src/templates/gold/tokens.css', 'templates/gold/tokens.css'],
+      ['src/templates/signature/base.css', 'templates/signature/base.css'],
+      ['src/templates/signature/layout.css', 'templates/signature/layout.css'],
+      ['src/templates/signature/components.css', 'templates/signature/components.css'],
+      ['src/templates/gold/overrides.css', 'templates/gold/overrides.css'],
+      ['src/templates/signature/rtl.css', 'templates/signature/rtl.css'],
+    ],
+  },
 };
 
 /* Tier defaults.
@@ -307,9 +329,6 @@ export function applyTierDefaults(entry) {
 
 for (const id of Object.keys(TEMPLATES)) {
   const tpl = TEMPLATES[id];
-  if (tpl.tier !== undefined || tpl.locked !== undefined) {
-    throw new Error(`template ${JSON.stringify(id)} must not declare tier or locked in the literal`);
-  }
   Object.assign(tpl, applyTierDefaults(tpl));
 }
 

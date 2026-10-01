@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
-# row-template CLI launcher — the installed management entry point.
+# row-template CLI launcher — installed as both gold-template and row-template.
 #
-# This thin dispatcher lives at /usr/local/bin/row-template. It sources the
-# management library from the Row-Template install root and hands off to the
-# rt_cmd_* functions. The exact string "row-template CLI launcher" above is the
-# signature the uninstaller matches before ever removing this file, so a
-# same-named script it did not install is never deleted.
+# This thin dispatcher sources the management library from the Gold-Template
+# install root and hands off to the rt_cmd_* functions. The exact string
+# "row-template CLI launcher" above is retained as the ownership marker the
+# uninstaller checks before removing either launcher.
 
 set -Eeuo pipefail
+
+RT_CLI_NAME="${0##*/}"
 
 # The install root is decided at install time by the panel: 3X-UI installs live
 # at /etc/3x-ui/sub_templates/row-template (every release), PasarGuard and
@@ -24,8 +25,8 @@ RT_ROOT="${RT_ROOT:-/etc/3x-ui/sub_templates/row-template}"
 RT_LIB="${RT_LIB_OVERRIDE:-$RT_ROOT/lib/row-template.sh}"
 
 if [ ! -r "$RT_LIB" ]; then
-  printf 'row-template: management library not found at %s\n' "$RT_LIB" >&2
-  printf 'row-template: the install may be damaged; re-run the installer.\n' >&2
+  printf '%s: management library not found at %s\n' "$RT_CLI_NAME" "$RT_LIB" >&2
+  printf '%s: the install may be damaged; re-run the installer.\n' "$RT_CLI_NAME" >&2
   exit 1
 fi
 

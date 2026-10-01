@@ -1,16 +1,15 @@
-<!-- هویت توسعه دهنده، نشانی مخزن، دستورها، مسیرها، شماره های نسخه و
-     نشانی های کیف پول را در این فایل دقیقاً بایت به بایت مانند فایل های
-     README ترجمه شده نگه دارید. -->
+<!-- README نسخهٔ پایین‌دستی Gold-Template. اعتبار و مجوزهای پروژهٔ اصلی حفظ شود. -->
 
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/branding/row-template-logo.png">
-    <img src="docs/assets/branding/row-template-wordmark-fa.png" alt="Row-Template" height="140">
-  </picture>
+<h1 align="center">Gold-Template</h1>
+<p align="center"><strong>نسخهٔ اختصاصی GoldApp Online</strong></p>
+<p align="center" dir="rtl">
+  توزیع اختصاصی GoldApp بر پایهٔ
+  <a href="https://github.com/iitzSeriZdev/Row-Template">Row-Template</a>؛
+  با حفظ سازگاری upstream و افزودن هویت بصری و قابلیت‌های اختصاصی GoldApp.
 </p>
 
 <p align="center">
-  یک صفحهٔ اشتراک شکیل و خودبسنده برای پنل های <a href="https://github.com/MHSanaei/3x-ui">3X-UI</a>، <a href="https://github.com/PasarGuard/panel">PasarGuard</a> و <a href="https://github.com/rebeccapanel/Rebecca">Rebecca</a> — هفده طرح که هر کدام یک فایل HTML است، کاملاً وایت لیبل، و بدون هیچ درخواستی به شخص ثالث از صفحه ای که مشترکان شما باز می کنند.
+  یک صفحهٔ اشتراک شکیل و خودبسنده برای پنل های <a href="https://github.com/MHSanaei/3x-ui">3X-UI</a>، <a href="https://github.com/PasarGuard/panel">PasarGuard</a> و <a href="https://github.com/rebeccapanel/Rebecca">Rebecca</a> — هجده طرح (۱۷ طرح اصلی + طرح اختصاصی Gold)، که هر کدام یک فایل HTML است، کاملاً وایت‌لیبل، و بدون هیچ درخواستی به شخص ثالث از صفحه ای که مشترکان شما باز می کنند.
 </p>
 
 <p align="center">
@@ -18,8 +17,8 @@
 </p>
 
 <p align="center">
-  <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/iitzSeriZdev/Row-Template"></a>
-  <a href="https://github.com/iitzSeriZdev/Row-Template/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/iitzSeriZdev/Row-Template?sort=semver"></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/zarkmakerburg/Gold-Template"></a>
+  <a href="https://github.com/zarkmakerburg/Gold-Template/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/zarkmakerburg/Gold-Template?sort=semver"></a>
   <img alt="Panels" src="https://img.shields.io/badge/panels-3X--UI%20%7C%20PasarGuard%20%7C%20Rebecca-informational">
   <img alt="Platform" src="https://img.shields.io/badge/platform-Linux-lightgrey">
   <a href="https://iitzseridev.github.io/Row-Template/"><img alt="Documentation" src="https://img.shields.io/badge/docs-GitHub%20Pages-blue"></a>
@@ -30,10 +29,21 @@
   <a href="#طرح-ها">طرح ها</a> ·
   <a href="https://iitzseridev.github.io/Row-Template/fa/">مستندات</a> ·
   <a href="CHANGELOG.md">تغییرات</a> ·
-  <a href="https://github.com/iitzSeriZdev/Row-Template/releases">نسخه ها</a>
+  <a href="https://github.com/zarkmakerburg/Gold-Template/releases">نسخه ها</a>
 </p>
 
 ---
+
+## لایهٔ اختصاصی GoldApp
+
+- **Gold** — تم اختصاصی مشکی/سرمه‌ای و طلایی با ساختار تست‌شدهٔ Signature و پشتیبانی کامل RTL.
+- **Smart Renewal CTA** — فقط با داده‌های محلی اشتراک، از ۸۵٪ مصرف به بالا، در ۳ روز پایانی اعتبار یا بعد از اتمام حجم/انقضا، دکمه پشتیبانی به CTA تمدید تبدیل می‌شود؛ بدون telemetry و بدون درخواست جدید به سرویس ثالث.
+- **GoldApp preset** — با `RT_PRESET=goldapp` طرح Gold، نام `GoldApp Online` و مقصد پشتیبانی/تمدید `https://go.goldapponline.ir` به‌صورت پیش‌فرض تنظیم می‌شوند و هر `RT_*` صریح فقط همان مقدار را override می‌کند.
+- **کانال انتشار مستقل** — installer و update برای دنبال‌کردن releaseهای همین مخزن آماده شده‌اند و دیگر قرار نیست بی‌صدا از releaseهای upstream نصب کنند.
+- **سازگار با upstream** — ۱۷ طرح اصلی به‌صورت core و byte-locked باقی مانده‌اند؛ طرح Gold در tier سفارشی و unlocked است تا دریافت تغییرات upstream کم‌ریسک‌تر باشد.
+- **سازگاری CLI** — فعلاً فرمان `row-template` و مسیرهای نصب قبلی حفظ شده‌اند تا سرورهای نصب‌شده نشکنند.
+
+> Gold-Template یک توزیع مشتق‌شده است. اعتبار نویسندهٔ Row-Template، مجوز MIT و مجوزهای اجزای جانبی باید حفظ شوند.
 
 ## Row-Template چیست؟
 
@@ -45,13 +55,13 @@
 
 - **محرمانه از پایه.** صفحه ای که مشترکان شما باز می کنند هیچ درخواستی به شخص ثالث نمی فرستد. کدهای QR روی خود صفحه تولید می شوند و اطلاعات برندسازی شما به صورت متن تزریق می شود — هرگز اجرا نمی شود و هرگز به هیچ جایی فرستاده نمی شود.
 - **واقعاً وایت لیبل.** نام سرویس، پیوند پشتیبانی و لوگوی خودتان. هیچ چیزی روی صفحهٔ ارائه شده معرف Row-Template نیست.
-- **هفده طرح، هر کدام یک فایل.** ظاهری را انتخاب کنید که به سرویس شما می آید. همهٔ طرح ها ویژگی ها، زبان ها و بررسی های ایمنی یکسانی دارند — روی هر پنل پشتیبانی شده.
+- **هجده طرح، هر کدام یک فایل.** ظاهری را انتخاب کنید که به سرویس شما می آید. همهٔ طرح ها ویژگی ها، زبان ها و بررسی های ایمنی یکسانی دارند — روی هر پنل پشتیبانی شده.
 - **ساخته شده برای مشترکان شما.** نمای زندهٔ مصرف و انقضا، ورود (import) با یک لمس به برنامه های پرکاربرد، و فهرستی قابل جستجو از پیکربندی های جداگانه برای افزودن دستی یک سرور.
 - **ایمن برای بهره برداری.** نسخه هایی که مجموع کنترلی آن ها بررسی می شود، فعال سازی تراکنشی که اگر گامی شکست بخورد پنل را دقیقاً به حالت قبل برمی گرداند، و بازگردانی تک دستوری. هرگز پنل شما را وصله نمی کند: در 3X-UI یک تنظیم (`subThemeDir`) را تغییر می دهد، در PasarGuard یک بلوک نشان دار به `.env` می افزاید، و در Rebecca دو فیلد از تنظیمات اشتراک را مقدار می دهد.
 
 ## طرح ها
 
-Row-Template 1.4.0 با هفده طرح عرضه می شود. طرح پیش فرض Row است.
+Gold-Template شامل ۱۷ طرح upstream به‌علاوهٔ طرح اختصاصی **Gold** است. برای حفظ سازگاری، Row همچنان پیش‌فرض داخلی است؛ برای ظاهر GoldApp از `RT_TEMPLATE=gold` استفاده کنید.
 
 <table>
   <tr>
@@ -83,7 +93,7 @@ Row-Template 1.4.0 با هفده طرح عرضه می شود. طرح پیش فر
 
 <sub>پیش نمایش ها با داده های نمونهٔ خود پروژه ساخته شده اند. پیش نمایش دسکتاپ و موبایل همهٔ طرح ها در <a href="https://iitzseridev.github.io/Row-Template/fa/templates/">گالری طرح ها</a> موجود است.</sub>
 
-طرح را هنگام یک نصب تعاملی تازه انتخاب کنید، برای نصب اسکریپتی `RT_TEMPLATE` را تنظیم کنید، یا بعداً آن را از مدیر تغییر دهید (**Reconfigure branding → Template**). به روزرسانی ها انتخاب شما را حفظ می کنند. مقدارهای `RT_TEMPLATE` عبارت اند از `row`، `editorial`، `canvas`، `prism`، `terminal`، `pulse`، `brutal`، `arcade`، `sketch`، `signature`، `saffron`، `pulsenova`، `prismnova`، `terminalnova`، `arcadenova`، `meter` و `notebook`.
+طرح را هنگام یک نصب تعاملی تازه انتخاب کنید، برای نصب اسکریپتی `RT_TEMPLATE` را تنظیم کنید، یا بعداً آن را از مدیر تغییر دهید (**Reconfigure branding → Template**). به روزرسانی ها انتخاب شما را حفظ می کنند. مقدارهای `RT_TEMPLATE` عبارت اند از `row`، `editorial`، `canvas`، `prism`، `terminal`، `pulse`، `brutal`، `arcade`، `sketch`، `signature`، `saffron`، `pulsenova`، `prismnova`، `terminalnova`، `arcadenova`، `meter`، `notebook` و `gold`.
 
 ## ویژگی ها
 
@@ -134,7 +144,7 @@ Row-Template 1.4.0 با هفده طرح عرضه می شود. طرح پیش فر
 flowchart TB
   subgraph build ["Build and release"]
     direction LR
-    SRC["src/<br/>runtime, styles, locales,<br/>17 design layouts"] --> BUILD["tools/build.mjs"]
+    SRC["src/<br/>runtime, styles, locales,<br/>18 design layouts"] --> BUILD["tools/build.mjs"]
     BUILD --> ART["One self-contained<br/>HTML file per design,<br/>per panel"]
     ART --> REL["tools/make-release.sh<br/>tarball + SHA256SUMS"]
   end
@@ -161,6 +171,19 @@ flowchart TB
 | `tests/` | مجموعه های آزمون |
 | `docs/` | سایت مستندات؛ سوابق طراحی در [`docs/design/`](docs/design/README.md) |
 
+## نصب آمادهٔ GoldApp
+
+برای نصب از پیش شخصی‌سازی‌شدهٔ GoldApp از preset داخلی استفاده کنید:
+
+```bash
+RT_PRESET=goldapp \
+  bash <(curl -fsSL https://github.com/zarkmakerburg/Gold-Template/releases/latest/download/install.sh)
+```
+
+این preset به‌صورت پیش‌فرض طرح `gold`، نام سرویس `GoldApp Online` و لینک پشتیبانی `https://go.goldapponline.ir` را تنظیم می‌کند. هر مقدار صریح برای `RT_TEMPLATE`، `RT_SERVICE_NAME` یا `RT_SUPPORT_URL` فقط همان بخش preset را override می‌کند.
+
+فرمان پیشنهادی مدیریت `gold-template` است؛ فرمان قدیمی `row-template` نیز برای سازگاری با نصب‌های قبلی در کنار آن نصب می‌شود.
+
 ## نصب
 
 > **سیستم عامل پیشنهادی: Ubuntu 24.04 LTS (x86_64).** دیگر توزیع های امروزی لینوکس نیز ممکن است کار کنند، اما پوشش اعتبارسنجی یکسانی نداشته اند.
@@ -170,7 +193,7 @@ flowchart TB
 با کاربر **root** روی سروری که پنل شما را میزبانی می کند اجرا کنید:
 
 ```bash
-bash <(curl -fsSL https://github.com/iitzSeriZdev/Row-Template/releases/latest/download/install.sh)
+bash <(curl -fsSL https://github.com/zarkmakerburg/Gold-Template/releases/latest/download/install.sh)
 ```
 
 نصب کننده:
@@ -185,13 +208,13 @@ bash <(curl -fsSL https://github.com/iitzSeriZdev/Row-Template/releases/latest/d
 برای انتخاب طرح بدون انتخابگر، برای نمونه در یک اسکریپت:
 
 ```bash
-RT_TEMPLATE=editorial bash <(curl -fsSL https://github.com/iitzSeriZdev/Row-Template/releases/latest/download/install.sh)
+RT_TEMPLATE=editorial bash <(curl -fsSL https://github.com/zarkmakerburg/Gold-Template/releases/latest/download/install.sh)
 ```
 
 روی سروری که بیش از یک پنل پشتیبانی شده دارد، نصب کننده می پرسد کدام را سرویس دهد. یک نصب تازهٔ اسکریپتی (غیرتعاملی) روی چنین سروری **باید** پنل را با `RT_PANEL` (`3xui`، `pasarguard` یا `rebecca`) مشخص کند؛ بدون آن، نصب کننده پیش از هر تغییری متوقف می شود:
 
 ```bash
-RT_PANEL=pasarguard bash <(curl -fsSL https://github.com/iitzSeriZdev/Row-Template/releases/latest/download/install.sh)
+RT_PANEL=pasarguard bash <(curl -fsSL https://github.com/zarkmakerburg/Gold-Template/releases/latest/download/install.sh)
 ```
 
 `RT_PANEL` باید پنلی را نام ببرد که روی همان سرور نصب است. اجرای دوباره یا به روزرسانی، پنلی را که Row-Template برای آن نصب شده حفظ می کند.
@@ -199,10 +222,10 @@ RT_PANEL=pasarguard bash <(curl -fsSL https://github.com/iitzSeriZdev/Row-Templa
 در PasarGuard و Rebecca، نصب تازه نام سرویس و لینک پشتیبانی ای را هم که از قبل در تنظیمات اشتراک خود پنل تنظیم شده پیشنهاد می دهد. برای برداشتن آن ها در یک اسکریپت، `RT_PANEL_BRANDING=1` را تنظیم کنید (`RT_PANEL_BRANDING=0` هرگز آن ها را پیشنهاد نمی دهد، و `RT_SERVICE_NAME` و `RT_SUPPORT_URL` همیشه اولویت دارند):
 
 ```bash
-RT_PANEL_BRANDING=1 bash <(curl -fsSL https://github.com/iitzSeriZdev/Row-Template/releases/latest/download/install.sh)
+RT_PANEL_BRANDING=1 bash <(curl -fsSL https://github.com/zarkmakerburg/Gold-Template/releases/latest/download/install.sh)
 ```
 
-اگر ترجیح می دهید از طریق شبکه به صورت pipe عمل نکنید، چهار فایل نسخه (`install.sh`، `manifest.txt`، `SHA256SUMS` و `row-template-<version>.tar.gz`) را از [صفحهٔ Releases](https://github.com/iitzSeriZdev/Row-Template/releases/latest) در یک پوشه دانلود کنید، مجموع کنترلی را خودتان همان گونه که در [PROVENANCE.md](PROVENANCE.md) توضیح داده شده بررسی کنید و نصب کننده را به آن پوشه ارجاع دهید:
+اگر ترجیح می دهید از طریق شبکه به صورت pipe عمل نکنید، چهار فایل نسخه (`install.sh`، `manifest.txt`، `SHA256SUMS` و `row-template-<version>.tar.gz`) را از [صفحهٔ Releases](https://github.com/zarkmakerburg/Gold-Template/releases/latest) در یک پوشه دانلود کنید، مجموع کنترلی را خودتان همان گونه که در [PROVENANCE.md](PROVENANCE.md) توضیح داده شده بررسی کنید و نصب کننده را به آن پوشه ارجاع دهید:
 
 ```bash
 RT_RELEASE_DIR=/root/row-template-release bash /root/row-template-release/install.sh

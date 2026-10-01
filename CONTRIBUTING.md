@@ -1,12 +1,12 @@
-# Contributing to Row-Template
+# Contributing to Gold-Template
 
-Thanks for your interest in improving Row-Template. This is a small project, so
+Thanks for your interest in improving Gold-Template. This is a small project, so
 the process is intentionally lightweight. Everyone taking part is expected to
 follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Ways to help
 
-- **Report bugs** using the issue template. Include your Row-Template version,
+- **Report bugs** using the issue template. Include your Gold-Template version,
   3X-UI version, operating system, and clear reproduction steps.
 - **Improve translations.** The interface ships in English, Persian, Arabic,
   Russian, and Chinese. Corrections and refinements from native speakers are

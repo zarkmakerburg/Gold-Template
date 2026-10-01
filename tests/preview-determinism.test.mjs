@@ -232,9 +232,9 @@ test('the pinned instant reproduces the baseline caption as well as the date', (
 
 /* --- the freshness invariant, executed ----------------------------------- */
 
-test('an all-template build produces seventeen fresh artifacts', () => {
+test('an all-template build produces eighteen fresh artifacts', () => {
   const ids = read('tools', 'templates.mjs').match(/^\s{2}(\w+):\s*\{/gm) || [];
-  assert.ok(ids.length >= 17, 'expected at least 17 templates in the registry');
+  assert.equal(ids.length, 18, 'Gold-Template should expose 17 upstream templates plus Gold');
 
   const r = spawnSync('node', [join('tools', 'build.mjs'), '--all', '--quiet'], {
     cwd: ROOT, encoding: 'utf8',
@@ -260,7 +260,7 @@ test('an all-template build produces seventeen fresh artifacts', () => {
       .map((e) => join(ROOT, 'dist', 'templates', e.name, 'template.html')),
   ];
 
-  assert.equal(served.length, 17, `the preview server should see 17 artifacts, saw ${served.length}`);
+  assert.equal(served.length, 18, `the preview server should see 18 artifacts, saw ${served.length}`);
   for (const p of served) {
     assert.ok(existsSync(p), `${p} should exist after an --all build`);
     assert.ok(statSync(p).mtimeMs >= srcNewest,
@@ -312,10 +312,11 @@ const MODES = ['desktop', 'mobile'];
 const sha256 = (buf) => createHash('sha256').update(buf).digest('hex');
 const entryName = (e) => `${e.id}-${e.mode}.webp`;
 
-/* The registry is the source of truth for which ids exist; the manifest has to
-   cover exactly it, not merely a plausible-looking 34 files. */
-const { templateIds } = await import(pathToFileURL(join(ROOT, 'tools', 'templates.mjs')).href);
-const REGISTRY = templateIds();
+/* The committed screenshot manifest is the frozen upstream preview baseline.
+   Gold has no committed screenshot pair yet, so this gate deliberately tracks
+   the 17 core ids rather than every downstream-selectable template. */
+const { coreTemplateIds } = await import(pathToFileURL(join(ROOT, 'tools', 'templates.mjs')).href);
+const REGISTRY = coreTemplateIds();
 
 /* Every .webp actually on disk, hashed once. */
 const ON_DISK = new Map(
@@ -326,7 +327,7 @@ const ON_DISK = new Map(
 
 test('the preview registry and the manifest agree on size', () => {
   assert.equal(REGISTRY.length, 17,
-    `the registry should list exactly 17 templates, listed ${REGISTRY.length}`);
+    `the frozen preview manifest should list exactly 17 upstream templates, listed ${REGISTRY.length}`);
   assert.equal(MANIFEST.total, 34, `manifest.total should be 34, is ${MANIFEST.total}`);
   assert.equal(MANIFEST.entries.length, 34,
     `the manifest should carry 34 entries, carries ${MANIFEST.entries.length}`);

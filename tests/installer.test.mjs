@@ -546,7 +546,7 @@ test('the default release source is the public GitHub stable channel over https'
     'printf "KIND=%s\\nBASE=%s\\n" "$RT_SRC_KIND" "$RT_SRC_BASE"');
   assert.match(r.out, /KIND=url/, 'no env => a url source');
   assert.match(r.out,
-    /BASE=https:\/\/github\.com\/iitzSeriZdev\/Row-Template\/releases\/latest\/download/,
+    /BASE=https:\/\/github\.com\/zarkmakerburg\/Gold-Template\/releases\/latest\/download/,
     'defaults to the GitHub releases/latest/download channel');
 });
 
@@ -577,7 +577,7 @@ test('render smoke classifies a large served page as pass, not a SIGPIPE miss',
   /* Regression: the classifier used `printf %s "$body" | grep -q PAT`. Under
      `set -o pipefail` grep -q exits on the first hit, printf dies with SIGPIPE
      (141) writing the long tail, and pipefail promotes 141 to the pipeline
-     status — so the real ~160 KB Row-Template page (early `id="sub-data"`
+     status — so the real ~160 KB Gold-Template page (early `id="sub-data"`
      match) was misread as 'fallback'. Drive the SHIPPED function through a
      file:// URL with a >64 KB body whose marker is at the very top. */
   const big =
@@ -621,7 +621,7 @@ test('the live check after config, update or rollback finds the panel database i
     'rt_render_report',
   ].join('\n'));
   assert.equal(r.code, 0, r.err);
-  assert.match(r.out, /Live check: a browser request renders Row-Template\./);
+  assert.match(r.out, /Live check: a browser request renders Gold-Template\./);
   assert.doesNotMatch(r.out, /skipped/);
 });
 
@@ -714,11 +714,11 @@ test('rt_status labels map every token to a human string', () => {
   assert.match(sh('rt_status_label unknown').out, /unverified/i);
   assert.match(sh('rt_status_label damaged').out, /damaged/i);
   assert.match(sh('rt_status_label notinstalled').out, /Not installed/);
-  assert.match(sh('rt_status_theme_label active').out, /Row-Template \(active\)/);
+  assert.match(sh('rt_status_theme_label active').out, /Gold-Template \(active\)/);
 });
 test('the UI header carries the project identity and emits no ANSI when not a TTY', () => {
   const h = sh('rt_ui_header');
-  assert.match(h.out, /Row-Template/, 'project name shown');
+  assert.match(h.out, /Gold-Template/, 'project name shown');
   assert.match(h.out, /iitzSeriZdev/, 'developer shown');
   assert.ok(!/\x1b\[/.test(h.out), 'no ANSI escapes on a non-terminal stdout');
   assert.ok(!/\x1b\[/.test(sh('NO_COLOR=1 rt_ui_header').out), 'NO_COLOR also yields plain text');
@@ -726,8 +726,9 @@ test('the UI header carries the project identity and emits no ANSI when not a TT
 
 test('help advertises the identity, the interactive manager and the menu command', () => {
   const h = sh('rt_print_help');
-  assert.match(h.out, /github\.com\/iitzSeriZdev\/Row-Template/, 'GitHub URL present');
-  assert.match(h.out, /by iitzSeriZdev/, 'developer credited');
+  assert.match(h.out, /github\.com\/zarkmakerburg\/Gold-Template/, 'GitHub URL present');
+  assert.match(h.out, /by GoldApp Online/, 'GoldApp maintainer credited');
+  assert.match(h.out, /upstream iitzSeriZdev/, 'upstream author remains credited');
   assert.match(h.out, /^\s*menu\b/m, 'the explicit menu command is documented');
   assert.match(h.out, /interactive manager/i, 'the no-arg interactive behaviour is documented');
 });
@@ -741,6 +742,48 @@ test('the CLI dispatcher routes no-arg non-TTY to help and never blocks', () => 
   assert.equal(help.code, 0);
   assert.match(help.out, /iitzSeriZdev/);
   assert.equal(sh(`${bin} not-a-command </dev/null`).code, 2, 'an unknown command exits 2');
+});
+
+test('the gold-template alias shares the dispatcher but reports its own executable name', () => {
+  const okAlias = sh(
+    'd="$(mktemp -d)"; ln -s "$PWD/installer/bin/row-template" "$d/gold-template"; ' +
+    'RT_LIB_OVERRIDE="$PWD/installer/lib/row-template.sh" bash "$d/gold-template" help </dev/null; ' +
+    'rc=$?; rm -rf "$d"; exit "$rc"',
+  );
+  assert.equal(okAlias.code, 0);
+  assert.match(okAlias.out, /Gold-Template/);
+
+  const missing = sh(
+    'd="$(mktemp -d)"; ln -s "$PWD/installer/bin/row-template" "$d/gold-template"; ' +
+    'RT_LIB_OVERRIDE="$d/missing.sh" bash "$d/gold-template" help </dev/null; ' +
+    'rc=$?; rm -rf "$d"; exit "$rc"',
+  );
+  assert.equal(missing.code, 1);
+  assert.match(missing.err, /^gold-template: management library not found/m);
+});
+
+test('uninstall removes both owned CLI launchers but preserves an unrelated gold-template namesake', () => {
+  const owned = shRoot(
+    'RT_BIN="$RT_ROOT.row-template"; RT_GOLD_BIN="$RT_ROOT.gold-template"; ' +
+    'mkdir -p "$(dirname "$RT_DIST")"; printf "1.4.0\\n" > "$RT_VERSION_FILE"; : > "$RT_DIST"; ' +
+    'printf "# row-template CLI launcher\\n" > "$RT_BIN"; printf "# row-template CLI launcher\\n" > "$RT_GOLD_BIN"; ' +
+    'rt_uninstall_files; ' +
+    '[ ! -e "$RT_BIN" ] && echo compat-removed; [ ! -e "$RT_GOLD_BIN" ] && echo gold-removed',
+    { prepare: () => {} },
+  );
+  assert.equal(owned.code, 0, owned.err);
+  assert.match(owned.out, /compat-removed/);
+  assert.match(owned.out, /gold-removed/);
+
+  const namesake = shRoot(
+    'RT_BIN="$RT_ROOT.row-template"; RT_GOLD_BIN="$RT_ROOT.gold-template"; ' +
+    'mkdir -p "$(dirname "$RT_DIST")"; printf "1.4.0\\n" > "$RT_VERSION_FILE"; : > "$RT_DIST"; ' +
+    'printf "# row-template CLI launcher\\n" > "$RT_BIN"; printf "#!/bin/sh\\necho unrelated\\n" > "$RT_GOLD_BIN"; ' +
+    'rt_uninstall_files; [ -f "$RT_GOLD_BIN" ] && echo namesake-kept; rm -f "$RT_GOLD_BIN"',
+    { prepare: () => {} },
+  );
+  assert.equal(namesake.code, 0, namesake.err);
+  assert.match(namesake.out, /namesake-kept/);
 });
 
 test('the existing-install re-run menu maps each choice to one stable token', () => {
@@ -801,6 +844,7 @@ const ARCADE_HTML = build(true, 'arcade').html;
 const SKETCH_HTML = build(true, 'sketch').html;
 const SIGNATURE_HTML = build(true, 'signature').html;
 const SAFFRON_HTML = build(true, 'saffron').html;
+const GOLD_HTML = build(true, 'gold').html;
 const ROW_SHA = createHash('sha256').update(ROW_HTML).digest('hex');
 const EDI_SHA = createHash('sha256').update(EDITORIAL_HTML).digest('hex');
 const CANVAS_SHA = createHash('sha256').update(CANVAS_HTML).digest('hex');
@@ -812,6 +856,7 @@ const ARCADE_SHA = createHash('sha256').update(ARCADE_HTML).digest('hex');
 const SKETCH_SHA = createHash('sha256').update(SKETCH_HTML).digest('hex');
 const SIGNATURE_SHA = createHash('sha256').update(SIGNATURE_HTML).digest('hex');
 const SAFFRON_SHA = createHash('sha256').update(SAFFRON_HTML).digest('hex');
+const GOLD_SHA = createHash('sha256').update(GOLD_HTML).digest('hex');
 
 function writeArtifact(dir, html, sha) {
   mkdirSync(dir, { recursive: true });
@@ -889,6 +934,7 @@ function writePayload(root, { withStore = true } = {}) {
     writeArtifact(join(p, 'templates', 'sketch'), SKETCH_HTML, SKETCH_SHA);
     writeArtifact(join(p, 'templates', 'signature'), SIGNATURE_HTML, SIGNATURE_SHA);
     writeArtifact(join(p, 'templates', 'saffron'), SAFFRON_HTML, SAFFRON_SHA);
+    writeArtifact(join(p, 'templates', 'gold'), GOLD_HTML, GOLD_SHA);
   }
 }
 
@@ -968,7 +1014,7 @@ test('rt_stage_template_store stages verified artifacts, skips hostile names, an
     { prepare: (root) => writePayload(root) },
   );
   assert.equal(good.code, 0, good.err);
-  assert.equal(good.out, 'ids=arcade,brutal,canvas,editorial,prism,pulse,row,saffron,signature,sketch,terminal,\nbyte-exact');
+  assert.equal(good.out, 'ids=arcade,brutal,canvas,editorial,gold,prism,pulse,row,saffron,signature,sketch,terminal,\nbyte-exact');
 
   const tampered = shRoot(
     'if rt_stage_template_store "$RT_ROOT/payload" 2>/dev/null; then echo "TAMPER-STAGED"; else echo "TAMPER-REFUSED"; fi\n' +
@@ -991,7 +1037,7 @@ test('rt_stage_template_store stages verified artifacts, skips hostile names, an
       writeFileSync(join(root, 'payload', 'templates', 'Evil', 'template.html'), 'x');
     } },
   );
-  assert.equal(hostile.out, 'ids=arcade,brutal,canvas,editorial,prism,pulse,row,saffron,signature,sketch,terminal,', 'a non-lowercase directory name is skipped');
+  assert.equal(hostile.out, 'ids=arcade,brutal,canvas,editorial,gold,prism,pulse,row,saffron,signature,sketch,terminal,', 'a non-lowercase directory name is skipped');
 });
 
 test('rt_switch_template moves Row -> Editorial -> Row with branding intact, and refuses bad moves', () => {
@@ -1270,7 +1316,7 @@ test('an update keeps an available selection live across the release', () => {
   assert.match(r.out, /name=Test VPN/, 'branding survives the update');
   assert.match(r.out, /ver=1.2.0/);
   assert.match(r.out, /live=editorial/, 'the updated install serves the selected design');
-  assert.match(r.out, /store=arcade,brutal,canvas,editorial,prism,pulse,row,saffron,signature,sketch,terminal/, 'the release store was staged');
+  assert.match(r.out, /store=arcade,brutal,canvas,editorial,gold,prism,pulse,row,saffron,signature,sketch,terminal/, 'the release store was staged');
 });
 
 test('an update against a payload without a store degrades to Row and keeps the invariant', () => {
@@ -1377,6 +1423,64 @@ test('a fresh non-interactive install honors RT_TEMPLATE and refuses an invalid 
   assert.match(invalid.out, /invalid-refused/, 'explicit invalid input fails the install');
   assert.match(invalid.err, /not a template this release offers/);
   assert.match(invalid.out, /live-untouched/, 'nothing was activated');
+});
+
+
+test('RT_PRESET=goldapp selects GoldApp defaults while explicit RT_* values still win', () => {
+  const xuiStubs =
+    'rt_detect_xui(){ RT_XUI_UNIT="x-ui.service"; return 0; }\n' +
+    'rt_detect_xui_version(){ RT_XUI_VERSION="3.7.0"; printf "3.7.0"; }\n';
+
+  const preset = shRoot(
+    FLOW_STUBS + xuiStubs +
+    'rt_cmd_install "$RT_ROOT/payload" >/dev/null 2>&1\n' +
+    'printf "tpl=%s\\n" "$(rt_config_get_raw TEMPLATE)"\n' +
+    'printf "name=%s\\n" "$(rt_config_get_text SERVICE_NAME_B64)"\n' +
+    'printf "support=%s\\n" "$(rt_config_get_text SUPPORT_URL_B64)"\n' +
+    'grep -q ' + bq('data-template="gold"') + ' "$RT_LIVE" && echo "live=gold"\n',
+    { prepare: (root) => writePayload(root), env: { RT_PRESET: 'goldapp' } },
+  );
+  assert.equal(preset.code, 0, preset.err);
+  assert.match(preset.out, /tpl=gold/);
+  assert.match(preset.out, /name=GoldApp Online/);
+  assert.match(preset.out, /support=https:\/\/go\.goldapponline\.ir/);
+  assert.match(preset.out, /live=gold/);
+
+  const override = shRoot(
+    FLOW_STUBS + xuiStubs +
+    'rt_cmd_install "$RT_ROOT/payload" >/dev/null 2>&1\n' +
+    'printf "tpl=%s\\n" "$(rt_config_get_raw TEMPLATE)"\n' +
+    'printf "name=%s\\n" "$(rt_config_get_text SERVICE_NAME_B64)"\n' +
+    'printf "support=%s\\n" "$(rt_config_get_text SUPPORT_URL_B64)"\n',
+    {
+      prepare: (root) => writePayload(root),
+      env: {
+        RT_PRESET: 'goldapp',
+        RT_TEMPLATE: 'editorial',
+        RT_SERVICE_NAME: 'Custom Brand',
+        RT_SUPPORT_URL: 'https://example.com/support',
+      },
+    },
+  );
+  assert.equal(override.code, 0, override.err);
+  assert.match(override.out, /tpl=editorial/);
+  assert.match(override.out, /name=Custom Brand/);
+  assert.match(override.out, /support=https:\/\/example\.com\/support/);
+});
+
+test('an unknown RT_PRESET is refused before activation', () => {
+  const xuiStubs =
+    'rt_detect_xui(){ RT_XUI_UNIT="x-ui.service"; return 0; }\n' +
+    'rt_detect_xui_version(){ RT_XUI_VERSION="3.7.0"; printf "3.7.0"; }\n';
+  const r = shRoot(
+    FLOW_STUBS + xuiStubs +
+    'if ( rt_cmd_install "$RT_ROOT/payload" ) >/dev/null; then echo "INVALID-ACCEPTED"; else echo "preset-refused"; fi\n' +
+    '[ -f "$RT_LIVE" ] || echo "live-untouched"\n',
+    { prepare: (root) => writePayload(root), env: { RT_PRESET: 'unknown' } },
+  );
+  assert.match(r.out, /preset-refused/);
+  assert.match(r.err, /unknown RT_PRESET='unknown'/);
+  assert.match(r.out, /live-untouched/);
 });
 
 /* --- sanitizing fallback must reconcile the artifact (v1.2 regression) -----

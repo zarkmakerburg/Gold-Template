@@ -377,15 +377,15 @@ test('install, verify, rebrand, switch design, roll back and uninstall on a Pasa
     let r = run([ENV, 'rt_cmd_install "$PAYLOAD" </dev/null']);
     assert.equal(r.code, 0, `install\n${r.out}\n${r.err}`);
     assert.match(r.out, /Panel:\s+PasarGuard/);
-    assert.match(r.out, /PasarGuard now serves the Row-Template page/);
+    assert.match(r.out, /PasarGuard now serves the Gold-Template page/);
     assert.equal(readFileSync(join(rt, 'PANEL'), 'utf8'), 'pasarguard\n');
     assert.ok(readFileSync(page(host), 'utf8').includes('Aurora Net'), 'the placed page carries the branding');
     assert.equal(restarts(host), 1);
 
     r = run('rt_cmd_verify');
     assert.equal(r.code, 0, `verify\n${r.out}\n${r.err}`);
-    assert.match(r.out, /PasarGuard selects the Row-Template page, and the placed page is current/);
-    assert.match(r.out, /the running PasarGuard uses the Row-Template page/);
+    assert.match(r.out, /PasarGuard selects the Gold-Template page, and the placed page is current/);
+    assert.match(r.out, /the running PasarGuard uses the Gold-Template page/);
 
     r = run(['export RT_ASSUME_NONINTERACTIVE=1 RT_SERVICE_NAME="Borealis" RT_SUPPORT_URL="https://t.me/help"', 'rt_cmd_config </dev/null']);
     assert.equal(r.code, 0, `config\n${r.err}`);
@@ -406,7 +406,7 @@ test('install, verify, rebrand, switch design, roll back and uninstall on a Pasa
 
     r = run('RT_ASSUME_YES=1 rt_cmd_uninstall');
     assert.equal(r.code, 0, `uninstall\n${r.out}\n${r.err}`);
-    assert.match(r.out, /PasarGuard is back on the subscription page it had before Row-Template/);
+    assert.match(r.out, /PasarGuard is back on the subscription page it had before Gold-Template/);
     assert.equal(sha256(readFileSync(host.envFile)), sha256(envBefore), '.env is back byte for byte');
     assert.equal(existsSync(join(host.dataDir, 'templates')), false);
     assert.equal(existsSync(rt), false, 'the install root is gone');

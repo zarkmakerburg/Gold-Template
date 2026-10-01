@@ -181,6 +181,15 @@ test('every template carries a tier and a lock, and the defaults are core + lock
   assert.deepEqual(lockedTemplateIds(), core, 'every core template is locked');
 });
 
+test('Gold is an unlocked downstream custom template and never enters the frozen upstream set', () => {
+  assert.equal(TEMPLATES.gold.tier, 'custom');
+  assert.equal(TEMPLATES.gold.locked, false);
+  assert.equal(TEMPLATES.gold.available, true);
+  assert.equal(TEMPLATES.gold.order, 200);
+  assert.ok(!coreTemplateIds().includes('gold'));
+  assert.ok(!lockedTemplateIds().includes('gold'));
+});
+
 test('core templates keep order 1..17 and a custom template must use order >= 200', () => {
   const coreOrders = coreTemplateIds()
     .map((id) => TEMPLATES[id].order)

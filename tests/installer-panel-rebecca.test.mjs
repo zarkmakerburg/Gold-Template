@@ -498,14 +498,14 @@ test('install, verify, rebrand, switch design, roll back and uninstall on a Rebe
     let r = run(['export RT_ASSUME_NONINTERACTIVE=1 RT_SERVICE_NAME="Aurora Net" RT_SUPPORT_URL="" RT_LOGO_REMOVE=1',
       'rt_cmd_install "$PAYLOAD" </dev/null']);
     assert.equal(r.code, 0, `install\n${r.out}\n${r.err}`);
-    assert.match(r.out, /Rebecca now serves the Row-Template page/);
+    assert.match(r.out, /Rebecca now serves the Gold-Template page/);
     assert.equal(readFileSync(join(rt, 'PANEL'), 'utf8'), 'rebecca\n');
     assert.ok(readFileSync(page(tpl), 'utf8').includes('Aurora Net'));
     assert.equal(last(host)[1], 'row-template/index.html');
 
     r = run('rt_cmd_verify');
     assert.equal(r.code, 0, `verify\n${r.out}\n${r.err}`);
-    assert.match(r.out, /Rebecca selects the Row-Template page, and the placed page is current/);
+    assert.match(r.out, /Rebecca selects the Gold-Template page, and the placed page is current/);
 
     r = run(['export RT_ASSUME_NONINTERACTIVE=1 RT_SERVICE_NAME="Borealis"', 'rt_cmd_config </dev/null']);
     assert.equal(r.code, 0, `config\n${r.err}`);
@@ -521,7 +521,7 @@ test('install, verify, rebrand, switch design, roll back and uninstall on a Rebe
 
     r = run('RT_ASSUME_YES=1 rt_cmd_uninstall');
     assert.equal(r.code, 0, `uninstall\n${r.out}\n${r.err}`);
-    assert.match(r.out, /Rebecca is back on the subscription page it had before Row-Template/);
+    assert.match(r.out, /Rebecca is back on the subscription page it had before Gold-Template/);
     assert.deepEqual(last(host), rowBefore, 'the settings row is exactly as it was');
     assert.equal(existsSync(tpl), false);
     assert.equal(existsSync(rt), false);

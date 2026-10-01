@@ -1,9 +1,13 @@
 # Release provenance and verification
 
-This document explains how Row-Template releases are published, what each
+This document explains how Gold-Template releases are published, what each
 release contains, and how to verify that what you install is exactly what the
 maintainer built. It states plainly what each check does and does not prove, so
 you can decide how much to trust a download.
+
+Gold-Template is a downstream distribution of [Row-Template](https://github.com/iitzSeriZdev/Row-Template).
+Upstream source attribution and licenses are preserved; Gold-Template release provenance,
+checksums and tags are owned by this repository.
 
 ## What a release contains
 
@@ -76,7 +80,7 @@ Two things contribute to publisher trust here, and neither is the checksum:
 - **HTTPS/TLS** authenticates the GitHub host and encrypts the transfer, so you
   know you reached GitHub and not a machine on the path.
 - **GitHub account and repository control** determine who is allowed to publish
-  a release under `iitzSeriZdev/Row-Template`.
+  a release under `zarkmakerburg/Gold-Template`. The upstream project remains credited as `iitzSeriZdev/Row-Template`.
 
 Do not read "checksum verified" as "signed by the author." They are different
 guarantees.
@@ -90,8 +94,8 @@ public key you already trust — that is authenticity, not just integrity.
 To verify a signed tag, when a signature is published:
 
 ```bash
-git clone https://github.com/iitzSeriZdev/Row-Template
-cd Row-Template
+git clone https://github.com/zarkmakerburg/Gold-Template
+cd Gold-Template
 git tag -v v<version>
 ```
 

@@ -1,0 +1,136 @@
+/* GoldApp Online — premium black/navy + gold theme.
+   This custom template intentionally reuses Signature's battle-tested layout,
+   components and RTL rules while owning only its visual tokens. */
+
+:root {
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+          Arial, sans-serif;
+  --font-arabic: Vazirmatn, "Segoe UI", Tahoma, "Noto Naskh Arabic",
+                 "Geeza Pro", sans-serif;
+
+  --fs-display: 2.5rem;
+  --fs-title: 1.0625rem;
+  --fs-section: 0.75rem;
+  --fs-body: 1rem;
+  --fs-caption: 0.875rem;
+  --fs-micro: 0.75rem;
+
+  --lh-display: 1.1;
+  --lh-tight: 1.4;
+  --lh-body: 1.7;
+  --measure: 60ch;
+
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 32px;
+  --sp-8: 40px;
+
+  --r-panel: 16px;
+  --r-control: 12px;
+  --r-mark: 7px;
+  --r-pill: 999px;
+
+  --dur-fast: 100ms;
+  --dur: 180ms;
+  --dur-slow: 280ms;
+  --ease: cubic-bezier(0.22, 0.7, 0.2, 1);
+
+  --page-max: 920px;
+  --tap: 44px;
+  --header-h: 64px;
+  --mark: 38px;
+  --card-pad: var(--sp-5);
+  --btn-h: 48px;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #07090D;
+  --surface: #0D1118;
+  --surface-2: #131923;
+  --track: #1D2633;
+
+  --hairline: #202936;
+  --border: #2A3544;
+  --border-strong: #46566A;
+  --control-border: #65758A;
+
+  --text: #F6F1E7;
+  --muted: #B8AE9B;
+  --subtle: #8F887C;
+
+  --accent: #E2C26B;
+  --accent-solid: #D4AF37;
+  --accent-hover: #F0D98A;
+  --accent-soft: #2A2415;
+  --info-surface: #101620;
+  --info-border: #2A3544;
+  --on-accent: #111006;
+
+  --success: #58B889;
+  --warning: #E2B85E;
+  --danger: #E37368;
+  --focus: #F0D98A;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #F7F5EF;
+  --surface: #FFFFFF;
+  --surface-2: #F1EEE5;
+  --track: #E4DDCD;
+
+  --hairline: #E8E1D2;
+  --border: #D8CFBD;
+  --border-strong: #B9AA8B;
+  --control-border: #8E7A54;
+
+  --text: #17140E;
+  --muted: #665E50;
+  --subtle: #817765;
+
+  --accent: #8B6809;
+  --accent-solid: #9D760B;
+  --accent-hover: #6F5206;
+  --accent-soft: #F3E8C6;
+  --info-surface: #F6F2E8;
+  --info-border: #E2D8C2;
+  --on-accent: #FFFFFF;
+
+  --success: #1E7A52;
+  --warning: #8D620A;
+  --danger: #B33F32;
+  --focus: #8B6809;
+}
+
+@media (min-width: 480px) {
+  :root { --card-pad: var(--sp-5); }
+}
+
+@media (min-width: 760px) {
+  :root { --fs-display: 2.875rem; }
+}
+
+/* row:font-face */
+@font-face {
+  font-family: Vazirmatn;
+  src: url("data:font/woff2;base64,__FONT_BASE64__") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+200C-200F, U+2066-2069, U+FB50-FDFF,
+                 U+FE70-FEFF;
+}
+/* row:font-face end */
+
+[lang="fa"],
+[lang="ar"] {
+  --font: var(--font-arabic);
+  --lh-body: 1.85;
+}
