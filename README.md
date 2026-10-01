@@ -1,16 +1,15 @@
-<!-- Keep the developer identity, repository URL, commands, paths, version
-     numbers, and wallet addresses in this file byte-for-byte identical to the
-     translated READMEs. -->
+<!-- Gold-Template downstream README. Preserve upstream attribution and licenses. -->
 
+<h1 align="center">Gold-Template</h1>
+<p align="center"><strong>GoldApp Online Edition</strong></p>
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/branding/Row-Template Logo 2 ( ENG ).png">
-    <img src="docs/assets/branding/row-template-wordmark-en.png" alt="Row-Template" height="140">
-  </picture>
+  A GoldApp-maintained downstream distribution of
+  <a href="https://github.com/iitzSeriZdev/Row-Template">Row-Template</a>,
+  keeping upstream compatibility while adding GoldApp branding and custom designs.
 </p>
 
 <p align="center">
-  A polished, self-contained subscription page for <a href="https://github.com/MHSanaei/3x-ui">3X-UI</a>, <a href="https://github.com/PasarGuard/panel">PasarGuard</a> and <a href="https://github.com/rebeccapanel/Rebecca">Rebecca</a> panels — seventeen designs, each a single HTML file, fully white-label, with no third-party requests from the page your subscribers open.
+  A polished, self-contained subscription page for <a href="https://github.com/MHSanaei/3x-ui">3X-UI</a>, <a href="https://github.com/PasarGuard/panel">PasarGuard</a> and <a href="https://github.com/rebeccapanel/Rebecca">Rebecca</a> panels — eighteen designs (17 upstream + the GoldApp Gold design), each a single HTML file, fully white-label, with no third-party requests from the page your subscribers open.
 </p>
 
 <p align="center">
@@ -18,8 +17,8 @@
 </p>
 
 <p align="center">
-  <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/iitzSeriZdev/Row-Template"></a>
-  <a href="https://github.com/iitzSeriZdev/Row-Template/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/iitzSeriZdev/Row-Template?sort=semver"></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/zarkmakerburg/Gold-Template"></a>
+  <a href="https://github.com/zarkmakerburg/Gold-Template/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/zarkmakerburg/Gold-Template?sort=semver"></a>
   <img alt="Panels" src="https://img.shields.io/badge/panels-3X--UI%20%7C%20PasarGuard%20%7C%20Rebecca-informational">
   <img alt="Platform" src="https://img.shields.io/badge/platform-Linux-lightgrey">
   <a href="https://iitzseridev.github.io/Row-Template/"><img alt="Documentation" src="https://img.shields.io/badge/docs-GitHub%20Pages-blue"></a>
@@ -30,10 +29,19 @@
   <a href="#designs">Designs</a> ·
   <a href="https://iitzseridev.github.io/Row-Template/">Documentation</a> ·
   <a href="CHANGELOG.md">Changelog</a> ·
-  <a href="https://github.com/iitzSeriZdev/Row-Template/releases">Releases</a>
+  <a href="https://github.com/zarkmakerburg/Gold-Template/releases">Releases</a>
 </p>
 
 ---
+
+## GoldApp custom layer
+
+- **Gold** — a dedicated black/navy + premium-gold design built on the proven Signature layout and RTL rules.
+- **Independent release channel** — Gold-Template installers and updates are prepared to follow this repository instead of silently pulling upstream releases.
+- **Upstream-friendly** — the original 17 designs remain core/byte-locked; Gold is an unlocked custom tier, so upstream updates can be merged with less friction.
+- **CLI compatibility** — the existing `row-template` command and install paths are intentionally kept for now to avoid breaking deployed hosts.
+
+> Gold-Template is a derivative distribution. Original Row-Template authorship, licenses and bundled third-party licenses remain credited and must be preserved.
 
 ## What it is
 
@@ -170,7 +178,7 @@ flowchart TB
 Run as **root** on the server that hosts your panel:
 
 ```bash
-bash <(curl -fsSL https://github.com/iitzSeriZdev/Row-Template/releases/latest/download/install.sh)
+bash <(curl -fsSL https://github.com/zarkmakerburg/Gold-Template/releases/latest/download/install.sh)
 ```
 
 The installer:
@@ -185,13 +193,13 @@ The installer:
 To choose a design without the chooser, for example in a script:
 
 ```bash
-RT_TEMPLATE=editorial bash <(curl -fsSL https://github.com/iitzSeriZdev/Row-Template/releases/latest/download/install.sh)
+RT_TEMPLATE=editorial bash <(curl -fsSL https://github.com/zarkmakerburg/Gold-Template/releases/latest/download/install.sh)
 ```
 
 On a server that runs more than one supported panel, the installer asks which one to serve. A scripted (non-interactive) fresh install on such a server **must** name it with `RT_PANEL` (`3xui`, `pasarguard` or `rebecca`); without it, the installer stops before changing anything:
 
 ```bash
-RT_PANEL=pasarguard bash <(curl -fsSL https://github.com/iitzSeriZdev/Row-Template/releases/latest/download/install.sh)
+RT_PANEL=pasarguard bash <(curl -fsSL https://github.com/zarkmakerburg/Gold-Template/releases/latest/download/install.sh)
 ```
 
 `RT_PANEL` must name a panel that is installed on that server. A re-run or an update keeps the panel Row-Template was installed for.
@@ -199,10 +207,10 @@ RT_PANEL=pasarguard bash <(curl -fsSL https://github.com/iitzSeriZdev/Row-Templa
 On PasarGuard and Rebecca, a fresh install also offers the service name and support link already set in the panel's own subscription settings. To take them in a script, set `RT_PANEL_BRANDING=1` (`RT_PANEL_BRANDING=0` never offers them, and `RT_SERVICE_NAME` and `RT_SUPPORT_URL` always win):
 
 ```bash
-RT_PANEL_BRANDING=1 bash <(curl -fsSL https://github.com/iitzSeriZdev/Row-Template/releases/latest/download/install.sh)
+RT_PANEL_BRANDING=1 bash <(curl -fsSL https://github.com/zarkmakerburg/Gold-Template/releases/latest/download/install.sh)
 ```
 
-If you prefer not to pipe from the network, download the four release assets (`install.sh`, `manifest.txt`, `SHA256SUMS`, and `row-template-<version>.tar.gz`) from the [Releases page](https://github.com/iitzSeriZdev/Row-Template/releases/latest) into one folder, verify the checksum yourself as described in [PROVENANCE.md](PROVENANCE.md), and point the installer at that folder:
+If you prefer not to pipe from the network, download the four release assets (`install.sh`, `manifest.txt`, `SHA256SUMS`, and `row-template-<version>.tar.gz`) from the [Releases page](https://github.com/zarkmakerburg/Gold-Template/releases/latest) into one folder, verify the checksum yourself as described in [PROVENANCE.md](PROVENANCE.md), and point the installer at that folder:
 
 ```bash
 RT_RELEASE_DIR=/root/row-template-release bash /root/row-template-release/install.sh
