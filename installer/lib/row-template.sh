@@ -59,7 +59,7 @@ RT_XUI_DB_DEFAULTS=(/etc/x-ui/x-ui.db /usr/local/x-ui/x-ui.db /etc/3x-ui/x-ui.db
 # Installation Info screen and help — never on the served subscription page.
 RT_PROJECT_NAME="Gold-Template"
 RT_DEVELOPER="GoldApp Online · upstream iitzSeriZdev"
-RT_GITHUB="https://github.com/iitzSeriZdev/Gold-Template"
+RT_GITHUB="https://github.com/zarkmakerburg/Gold-Template"
 
 # Public release channel. GitHub resolves releases/latest/download/<name> to the
 # newest published (non-draft, non-prerelease) release's asset, over https, with
@@ -3800,7 +3800,7 @@ rt_cmd_rollback() {
 rt_print_help() {
   cat <<'EOF'
 Gold-Template — custom subscription page manager for 3X-UI, PasarGuard and Rebecca
-by iitzSeriZdev — https://github.com/iitzSeriZdev/Gold-Template
+by GoldApp Online · upstream iitzSeriZdev — https://github.com/zarkmakerburg/Gold-Template
 
 Usage:
   row-template                Open the interactive manager (when run in a terminal)
@@ -3844,7 +3844,7 @@ rt_ui_rule() {
 }
 
 rt_ui_header() {
-  # "Gold-Template / by iitzSeriZdev" — the tool's own identity, colour-optional.
+  # "Gold-Template / by GoldApp Online" — the tool's own identity; upstream credit is retained in RT_DEVELOPER.
   printf '\n  %s%s%s %s/ by %s%s\n' \
     "$RT_C_BLD" "$RT_PROJECT_NAME" "$RT_C_RST" "$RT_C_DIM" "$RT_DEVELOPER" "$RT_C_RST"
   rt_ui_rule
