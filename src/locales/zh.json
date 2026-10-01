@@ -96,7 +96,5 @@
   "platform.appletv": "Apple TV",
   "client.recommended": "推荐",
   "client.download_for": "下载 {name}",
-  "announce.open": "打开链接",
-  "support.renew": "续订订阅",
-  "support.renew_newtab": "续订订阅，将在新标签页中打开"
+  "announce.open": "打开链接"
 }
