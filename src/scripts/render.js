@@ -7,7 +7,7 @@
  * left alone. Every write goes through setText/setAttr, which compare first, so
  * a poll that changes nothing does not disturb the accessibility tree. */
 
-import { health, isOnline, traffic, expiry } from './model.js';
+import { health, isOnline, traffic, expiry, renewalCue } from './model.js';
 import { bytesText, percentText, barWidth, barLevel, relativeParts } from './format.js';
 import { safe, runs, SUPPORT_SCHEMES, LINK_SCHEMES } from './url.js';
 
@@ -467,7 +467,7 @@ function renderAnnounce(el, model, i18n, url) {
    one a browser should be asked to open. The panel field wins over the value
    built into the artifact, because the operator can change it without a
    reinstall. */
-function renderSupport(el, model, branding, i18n) {
+function renderSupport(el, model, branding, i18n, now) {
   const slot = el.supportSlot;
   if (!slot) return;
   const doc = el.doc;
@@ -501,11 +501,21 @@ function renderSupport(el, model, branding, i18n) {
     slot._rowHref = href;
   }
 
+  /* The same verified destination doubles as the renewal path when the local
+     subscription facts show a clear renewal need. The cue changes only copy and
+     presentation; it never changes the URL or sends usage data anywhere. */
+  const cue = renewalCue(model, now);
+  const supportLink = doc.getElementById('support-link');
+  if (supportLink) {
+    if (cue.renew) supportLink.setAttribute('data-renew', cue.reason || '1');
+    else supportLink.removeAttribute('data-renew');
+  }
+
   /* The arrow glyph is decorative, so the new-tab cue a sighted reader gets from it
      has to be spelled out in the accessible name. It keeps the visible label as its
      prefix, which is what WCAG's label-in-name rule asks for. */
-  setText(doc.getElementById('support-label'), i18n.t('support.contact'));
-  setAttr(doc.getElementById('support-link'), 'aria-label', i18n.t('support.newtab'));
+  setText(doc.getElementById('support-label'), i18n.t(cue.renew ? 'support.renew' : 'support.contact'));
+  setAttr(supportLink, 'aria-label', i18n.t(cue.renew ? 'support.renew_newtab' : 'support.newtab'));
 }
 
 /* The subscription address. An operator can leave the panel field empty, and in
@@ -565,7 +575,7 @@ export function render(el, model, i18n, now, branding, announceUrl) {
   renderTraffic(el, model, i18n);
   renderExpiry(el, model, i18n, now);
   renderAnnounce(el, model, i18n, announceUrl);
-  renderSupport(el, model, branding, i18n);
+  renderSupport(el, model, branding, i18n, now);
   return state;
 }
 
