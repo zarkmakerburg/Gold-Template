@@ -16,7 +16,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { templateIds } from '../tools/templates.mjs';
+import { templateIds, coreTemplateIds } from '../tools/templates.mjs';
 import { build } from '../tools/build.mjs';
 import { normalize, readDocument } from '../src/scripts/model.js';
 import { extractIsland, validateModel, validateIsland, MODEL_FIELDS } from '../tools/contract.mjs';
@@ -199,7 +199,7 @@ test('the 17 artifacts are byte-identical to their committed locks', () => {
     locked[id] = +m[1];
   }
   assert.equal(Object.keys(locked).length, 17);
-  for (const id of templateIds()) {
+  for (const id of coreTemplateIds()) {
     assert.equal(Buffer.byteLength(ARTIFACTS[id], 'utf8'), locked[id], id + ' must not move');
   }
 });
