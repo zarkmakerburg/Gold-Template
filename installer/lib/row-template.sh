@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Row-Template management library.
+# Gold-Template management library.
 #
 # Sourced by installer/install.sh (bootstrap) and by the installed CLI at
 # /usr/local/bin/row-template. It carries every operation the administration
@@ -12,7 +12,7 @@
 #   - Administrator-supplied text (service name, support URL) is treated as
 #     DATA, never as shell. It is stored base64-encoded and injected into the
 #     template as JSON string literals. config.env is never sourced/eval'd.
-#   - The panel's own subscription source tree is never written to; Row-Template
+#   - The panel's own subscription source tree is never written to; Gold-Template
 #     lives under its own external root. 3x-ui source is never patched.
 #   - Every production file replacement is staged, validated, then swapped with
 #     an atomic rename. A failed step never truncates the working install.
@@ -24,7 +24,7 @@
 
 RT_NAME="row-template"
 
-# The Row-Template install root, per panel:
+# The Gold-Template install root, per panel:
 #
 #   3X-UI              /etc/3x-ui/sub_templates/row-template (every release)
 #   PasarGuard/Rebecca /etc/row-template                      (1.3.0+)
@@ -57,9 +57,9 @@ RT_XUI_DB_DEFAULTS=(/etc/x-ui/x-ui.db /usr/local/x-ui/x-ui.db /etc/3x-ui/x-ui.db
 # tool itself (distinct from the operator's white-label service branding, which
 # lives in config.env). Shown on the installer welcome, the manager header, the
 # Installation Info screen and help — never on the served subscription page.
-RT_PROJECT_NAME="Row-Template"
-RT_DEVELOPER="iitzSeriZdev"
-RT_GITHUB="https://github.com/iitzSeriZdev/Row-Template"
+RT_PROJECT_NAME="Gold-Template"
+RT_DEVELOPER="GoldApp Online · upstream iitzSeriZdev"
+RT_GITHUB="https://github.com/iitzSeriZdev/Gold-Template"
 
 # Public release channel. GitHub resolves releases/latest/download/<name> to the
 # newest published (non-draft, non-prerelease) release's asset, over https, with
@@ -296,7 +296,7 @@ rt_config_write() {
   dir="$(dirname "$RT_CONFIG")"
   tmp="$(mktemp "$dir/.config.XXXXXX")" || return 1
   {
-    printf '# Row-Template configuration — generated file. Do NOT source this.\n'
+    printf '# Gold-Template configuration — generated file. Do NOT source this.\n'
     printf '# Values are base64 data, read with grep+base64 and never executed.\n'
     printf 'RT_CONFIG_VERSION=1\n'
     printf 'TEMPLATE=%s\n' "$template"
@@ -318,7 +318,7 @@ rt_config_write() {
 
 # The selectable ids of this release, in catalogue order. Row is first and is
 # the default.
-RT_TEMPLATES_AVAILABLE="row editorial canvas prism terminal pulse brutal arcade sketch signature saffron pulsenova prismnova terminalnova arcadenova meter notebook"
+RT_TEMPLATES_AVAILABLE="row editorial canvas prism terminal pulse brutal arcade sketch signature saffron pulsenova prismnova terminalnova arcadenova meter notebook gold"
 
 rt_template_allowed() {
   local id
@@ -347,6 +347,7 @@ rt_template_display_name() {
     arcadenova) printf 'Arcade Nova' ;;
     meter)     printf 'Meter' ;;
     notebook)  printf 'Notebook' ;;
+    gold)      printf 'Gold' ;;
     *)         printf '%s' "$1" ;;
   esac
 }
@@ -680,7 +681,7 @@ rt_repair_template_store() {
       rt_ok "Template store: moved $moved design(s) from $src to $RT_TEMPLATE_STORE."
     fi
     if [ -e "$src" ] && [ "$warned" -eq 0 ]; then
-      rt_warn "left $src in place: it holds files Row-Template does not recognise."
+      rt_warn "left $src in place: it holds files Gold-Template does not recognise."
     fi
   done
 
@@ -954,7 +955,7 @@ rt_realpath_m() {
 
 rt_is_within() {
   # succeed when PATH resolves STRICTLY INSIDE BASE (both normalized). Guards
-  # every recursive delete so nothing outside Row-Template's own tree is ever
+  # every recursive delete so nothing outside Gold-Template's own tree is ever
   # removed.
   #
   # STRICT means the base itself is NOT within itself. The previous version
@@ -1363,7 +1364,7 @@ rt_backup_panel_selection() {
 }
 
 rt_backup_panel_files() {
-  # echo the PLACED-FILE LIST recorded for PANEL: the relative paths Row-Template
+  # echo the PLACED-FILE LIST recorded for PANEL: the relative paths Gold-Template
   # created inside that panel's managed root, one per line, in the order stored.
   # Empty output when the panel was not touched, or was touched but placed
   # nothing (3X-UI).
@@ -1574,7 +1575,7 @@ rt_backup_panel_write() {
   #   place-file   zero or more relative paths we placed inside the panel's
   #                managed root; each validated by rt_backup_relpath_ok
   #
-  # PLACED FILES. The trailing arguments are the files Row-Template created
+  # PLACED FILES. The trailing arguments are the files Gold-Template created
   # inside the panel's own directory — a Jinja2 shell under PasarGuard's
   # custom_templates_directory, a pongo2 shell inside Rebecca's. A rollback
   # removes exactly these and never the containing directory, because the
@@ -1793,7 +1794,7 @@ rt_backup_create_v2() {
     waited=$((waited + 1))
   done
 
-  # 4. the Row-Template state — exactly what the format-1 writer captures
+  # 4. the Gold-Template state — exactly what the format-1 writer captures
   cp -- "$RT_DIST" "$tmp/template.html" || { rt_safe_rmdir "$tmp"; return 1; }
   rt_sha256 "$tmp/template.html" > "$tmp/template.html.sha256" \
     || { rt_safe_rmdir "$tmp"; return 1; }
@@ -1854,9 +1855,9 @@ rt_backup_create_v2() {
 }
 
 # --- 3x-ui discovery ---------------------------------------------------------
-# The panel and Row-Template are deliberately independent. Discovery locates the
+# The panel and Gold-Template are deliberately independent. Discovery locates the
 # panel binary, its systemd unit and (only if present) its database; it never
-# infers the Row-Template root from the panel, or vice versa.
+# infers the Gold-Template root from the panel, or vice versa.
 
 rt_require_root() {
   if [ "$(id -u)" -ne 0 ]; then
@@ -1967,7 +1968,7 @@ rt_service_stop() {
   systemctl stop "$RT_XUI_UNIT"
 }
 
-# --- subThemeDir: point the panel at Row-Template ----------------------------
+# --- subThemeDir: point the panel at Gold-Template ----------------------------
 # Upstream exposes no CLI or config-file mechanism for subThemeDir (confirmed
 # against 3x-ui primary source: the `x-ui setting` subcommand covers port/user/
 # pass/webBasePath/cert/tgbot/listen/2FA only). So the choices are: mutate the
@@ -2056,7 +2057,7 @@ rt_xui_just_started() {
 }
 
 rt_render_smoke() {
-  # classify what a browser request receives: pass (Row-Template served),
+  # classify what a browser request receives: pass (Gold-Template served),
   # fallback (built-in default served — our template not active), skip (no test
   # URL could be built), error (endpoint unreachable). Returns 0 always; the
   # caller maps the class to PASS/WARN/FAIL.
@@ -2084,7 +2085,7 @@ rt_render_smoke() {
   # Pure-bash substring test on purpose. `printf %s "$big" | grep -q PAT` under
   # `set -o pipefail` misreports a match as failure: grep -q exits on the first
   # hit, printf then dies with SIGPIPE (141) while writing the long tail, and
-  # pipefail promotes 141 to the pipeline status. The served Row-Template page
+  # pipefail promotes 141 to the pipeline status. The served Gold-Template page
   # is ~160 KB with an early `id="sub-data"` match, so the pipe form classifies
   # a correctly-served page as 'fallback'. `[[ == *..* ]]` has no pipe.
   if [[ "$body" == *'id="sub-data"'* ]]; then printf 'pass'; else printf 'fallback'; fi
@@ -2112,7 +2113,7 @@ rt_render_smoke_vpn() {
 # --- install tree + activation ----------------------------------------------
 
 rt_layout_ensure() {
-  # create the Row-Template tree with conservative permissions. Idempotent.
+  # create the Gold-Template tree with conservative permissions. Idempotent.
   mkdir -p "$RT_ROOT" "$(dirname "$RT_DIST")" "$RT_TEMPLATE_STORE" "$RT_LIB_DIR" "$RT_BACKUPS" || return 1
   chmod 755 "$RT_ROOT" 2>/dev/null || true
   chmod 700 "$RT_BACKUPS" 2>/dev/null || true
@@ -2189,7 +2190,7 @@ rt_installer_complete() {
 
 rt_set_dist() {
   # install SRC as the pristine canonical artifact and record its checksum.
-  # SRC must already be a structurally valid Row-Template artifact.
+  # SRC must already be a structurally valid Gold-Template artifact.
   local src="$1"
   rt_validate_template "$src" || { rt_err "refusing to install an invalid artifact"; return 1; }
   rt_artifact_fits_panel "$src" \
@@ -2434,9 +2435,9 @@ rt_render_report() {
     # strongest evidence is the running panel's own view of its settings.
     rt_panel_verify "$panel" live >/dev/null 2>&1 || rc=$?
     case "$rc" in
-      0) rt_ok "Live check: the running $(rt_panel_label "$panel") uses the Row-Template page." ;;
+      0) rt_ok "Live check: the running $(rt_panel_label "$panel") uses the Gold-Template page." ;;
       2) rt_info "Live check skipped (set RT_SMOKE_URL to a subscription URL to check the served page)." ;;
-      *) rt_warn "Live check: the running $(rt_panel_label "$panel") does not use the Row-Template page yet; run 'row-template verify'." ;;
+      *) rt_warn "Live check: the running $(rt_panel_label "$panel") does not use the Gold-Template page yet; run 'row-template verify'." ;;
     esac
     return 0
   fi
@@ -2446,7 +2447,7 @@ rt_render_report() {
   [ -n "${RT_XUI_DB:-}" ] || rt_detect_xui_db >/dev/null 2>&1 || true
   r="$(rt_render_smoke)"
   case "$r" in
-    pass)     rt_ok   "Live check: a browser request renders Row-Template." ;;
+    pass)     rt_ok   "Live check: a browser request renders Gold-Template." ;;
     fallback) rt_warn "Live check: the panel served its built-in page. If you just set the theme dir, restart the panel; otherwise run 'row-template verify'." ;;
     skip)     rt_info "Live check skipped (no test URL: it needs sqlite3, the panel database and a client with a subscription ID)." ;;
     error)    rt_warn "Live check could not reach the subscription endpoint." ;;
@@ -2463,13 +2464,13 @@ rt_render_report() {
 rt_print_activation_note() {
   # $1 = auto | manual | skipped | failed
   local panel; panel="$(rt_panel_current)"
-  rt_section "Row-Template installed successfully."
+  rt_section "Gold-Template installed successfully."
   rt_info "Panel:              $(rt_panel_label "$panel")"
   rt_info "Template directory: $RT_ROOT"
   rt_info "Generated page:     $RT_LIVE"
   if [ "$panel" != "3xui" ]; then
     case "$1" in
-      auto)   rt_ok "$(rt_panel_label "$panel") now serves the Row-Template page." ;;
+      auto)   rt_ok "$(rt_panel_label "$panel") now serves the Gold-Template page." ;;
       manual) rt_section "One manual step remains"; rt_panel_manual_steps ;;
       failed) rt_warn "Activation did not complete and was rolled back; run 'row-template' and choose Activate to retry." ;;
       *)      rt_info "Not activated yet: run 'row-template' and choose Activate when you are ready." ;;
@@ -2490,7 +2491,7 @@ rt_cmd_version() {
   local rtv xuiv panel
   rtv="$(cat "$RT_VERSION_FILE" 2>/dev/null || true)"; [ -n "$rtv" ] || rtv="unknown"
   panel="$(rt_installed_panel)"
-  printf 'Row-Template %s\n' "$rtv"
+  printf 'Gold-Template %s\n' "$rtv"
   [ -n "$panel" ] && printf 'Panel: %s\n' "$(rt_panel_label "$panel")"
   if [ -z "$panel" ] || [ "$panel" = "3xui" ]; then
     rt_detect_xui >/dev/null 2>&1 || true
@@ -2672,7 +2673,7 @@ rt_complete_install() {
     rt_warn "this installation is incomplete and its version is unknown; run 'row-template update' to repair it."
     return 1
   fi
-  rt_info "Completing the Row-Template $ver installation (designs and installer files)..."
+  rt_info "Completing the Gold-Template $ver installation (designs and installer files)..."
   work="$(rt_mktemp_dir)" || return 1
   RT_TMP_TO_CLEAN+=("$work")   # register in THIS shell (see rt_mktemp_dir)
   if [ -n "${RT_RELEASE_DIR:-}" ] || [ -n "${RT_RELEASE_URL:-}" ]; then
@@ -2682,7 +2683,7 @@ rt_complete_install() {
   fi
   if [ -z "$payload" ]; then
     rm -rf -- "$work"
-    rt_warn "could not download Row-Template $ver to complete the installation. It will be retried the next time the manager opens; 'row-template update' also completes it."
+    rt_warn "could not download Gold-Template $ver to complete the installation. It will be retried the next time the manager opens; 'row-template update' also completes it."
     return 1
   fi
   pver="$(rt_trim "$(cat "$payload/VERSION" 2>/dev/null || true)")"
@@ -2789,7 +2790,7 @@ rt_subtheme_clear_sqlite() {
 }
 
 # --- panels: which panel an install serves (1.3.0) ---------------------------
-# Row-Template installs onto exactly one panel per host. The panel decides
+# Gold-Template installs onto exactly one panel per host. The panel decides
 # three things and nothing else:
 #
 #   the ARTIFACT   a Go template for 3X-UI, a Jinja2 page for PasarGuard, a
@@ -2879,7 +2880,7 @@ rt_existing_root() {
   for r in "$RT_ROOT_3XUI" "$RT_ROOT_SHARED"; do
     [ -f "$r/VERSION" ] || continue
     if [ -n "$found" ]; then
-      rt_err "Row-Template is installed twice ($found and $r); remove one with 'row-template uninstall' before continuing."
+      rt_err "Gold-Template is installed twice ($found and $r); remove one with 'row-template uninstall' before continuing."
       return 1
     fi
     found="$r"
@@ -2903,7 +2904,7 @@ rt_panel_choose() {
     [ -n "$RT_ROOT_EXPLICIT" ] || rt_root_set "$root"
     panel="$(rt_installed_panel)"
     if [ -n "${RT_PANEL:-}" ] && [ "${RT_PANEL}" != "$panel" ]; then
-      rt_err "Row-Template is installed for $(rt_panel_label "$panel") at $RT_ROOT; uninstall it before installing for $(rt_panel_label "$RT_PANEL")."
+      rt_err "Gold-Template is installed for $(rt_panel_label "$panel") at $RT_ROOT; uninstall it before installing for $(rt_panel_label "$RT_PANEL")."
       return 1
     fi
     RT_ACTIVE_PANEL="$panel"
@@ -2911,7 +2912,7 @@ rt_panel_choose() {
   fi
 
   if [ -n "${RT_PANEL:-}" ]; then
-    rt_panel_id_ok "$RT_PANEL" || { rt_err "RT_PANEL='$RT_PANEL' is not a panel Row-Template supports (3xui, pasarguard, rebecca)."; return 1; }
+    rt_panel_id_ok "$RT_PANEL" || { rt_err "RT_PANEL='$RT_PANEL' is not a panel Gold-Template supports (3xui, pasarguard, rebecca)."; return 1; }
     if ! rt_panel_on_host "$RT_PANEL"; then
       if [ "$RT_PANEL" = "3xui" ]; then rt_err "no 3x-ui installation was detected on this host."
       else rt_err "RT_PANEL=$RT_PANEL, but $(rt_panel_label "$RT_PANEL") was not detected on this host."; fi
@@ -2987,9 +2988,9 @@ rt_artifact_fits_panel() {
 }
 
 rt_panel_activation_record() {
-  # remember SNAPSHOT as the state before Row-Template took over the panel, for
+  # remember SNAPSHOT as the state before Gold-Template took over the panel, for
   # uninstall to go back to -- unless the panel was ALREADY showing
-  # Row-Template when it was taken (a re-apply), in which case the earlier
+  # Gold-Template when it was taken (a re-apply), in which case the earlier
   # record is the true "before" and is kept.
   local snap="$1" panel="$2" st v
   [ -n "$snap" ] || return 0
@@ -3030,7 +3031,7 @@ rt_panel_activate() {
   fi
   # The engine claims ROLLED_BACK only when its post-restore static check
   # passes, and that check asks the INSTALL question ("does the panel serve
-  # Row-Template?"), whose honest answer after a rollback is no -- so a clean
+  # Gold-Template?"), whose honest answer after a rollback is no -- so a clean
   # restore is reported as a failed one. Whether the restore was exact is
   # decided here instead, by capturing the panel's state again and comparing it
   # with the snapshot the transaction took before it changed anything.
@@ -3237,23 +3238,23 @@ rt_cmd_install() {
   # generate + validate + atomically swap the live template.
   rt_activate || rt_die "the template failed to generate/validate; the panel was not changed."
 
-  # point the panel at Row-Template. NON-INTERACTIVE: activate exactly as
+  # point the panel at Gold-Template. NON-INTERACTIVE: activate exactly as
   # before. INTERACTIVE: show what will change and ASK first.
   local sub_outcome
   if [ "$panel" != "3xui" ]; then
     sub_outcome="$(rt_install_activate_panel "$interactive")"
   elif [ "$interactive" -eq 1 ]; then
-    rt_ui_section "Activate Row-Template as the subscription theme"
+    rt_ui_section "Activate Gold-Template as the subscription theme"
     local sub_rc=0 sub_cur
     sub_cur="$(rt_subtheme_get_sqlite 2>/dev/null)" || sub_rc=$?
     if [ "$sub_rc" -ne 0 ]; then
       rt_ui_info "Automatic activation is unavailable here (sqlite3 is not installed)."
-      rt_ui_info "Row-Template itself is installed successfully."
+      rt_ui_info "Gold-Template itself is installed successfully."
       sub_outcome="manual"
     else
       rt_ui_kv "Current theme dir" "${sub_cur:-Not configured}"
-      rt_ui_kv "Row-Template dir"  "$RT_ROOT"
-      if rt_ui_confirm "Make Row-Template the active 3X-UI subscription theme now?" yes; then
+      rt_ui_kv "Gold-Template dir"  "$RT_ROOT"
+      if rt_ui_confirm "Make Gold-Template the active 3X-UI subscription theme now?" yes; then
         if sub_outcome="$(rt_subtheme_configure)"; then :; else
           rt_service_active || rt_service_start || true
           sub_outcome="manual"
@@ -3287,11 +3288,11 @@ rt_install_activate_panel() {
   panel="$(rt_panel_current)"
   if [ "$interactive" -eq 1 ]; then
     {
-      rt_ui_section "Activate Row-Template on $(rt_panel_label "$panel")"
+      rt_ui_section "Activate Gold-Template on $(rt_panel_label "$panel")"
       case "$panel" in
         pasarguard)
           rt_ui_info "This places the page in PasarGuard's templates directory, adds a"
-          rt_ui_info "Row-Template block to ${RT_PG_APP_DIR:-/opt/pasarguard}/.env selecting it, and"
+          rt_ui_info "Gold-Template block to ${RT_PG_APP_DIR:-/opt/pasarguard}/.env selecting it, and"
           rt_ui_info "restarts PasarGuard once. Your users, nodes and settings are not touched."
           rt_ui_info "Uninstalling removes the block again." ;;
         rebecca)
@@ -3300,7 +3301,7 @@ rt_install_activate_panel() {
           rt_ui_info "nodes and other settings are not touched." ;;
       esac
     } >&2
-    if ! rt_ui_confirm "Make Row-Template the active $(rt_panel_label "$panel") subscription page now?" yes; then
+    if ! rt_ui_confirm "Make Gold-Template the active $(rt_panel_label "$panel") subscription page now?" yes; then
       printf 'skipped'
       return 0
     fi
@@ -3324,7 +3325,7 @@ rt_install_activate_panel() {
 
 rt_cmd_config() {
   rt_require_root
-  [ -f "$RT_DIST" ] || rt_die "Row-Template is not installed (run the installer first)."
+  [ -f "$RT_DIST" ] || rt_die "Gold-Template is not installed (run the installer first)."
   rt_detect_xui || true
   # A branding write reconciles the selection against the template store, so an
   # install left without one (v1.1.0's updater) is completed first.
@@ -3336,7 +3337,7 @@ rt_cmd_config() {
   fi
   distbak="$(mktemp)" && cp -- "$RT_DIST" "$distbak"
   [ -f "$RT_DIST_SUM" ] && sumbak="$(mktemp)" && cp -- "$RT_DIST_SUM" "$sumbak"
-  rt_section "Reconfigure Row-Template"
+  rt_section "Reconfigure Gold-Template"
   if ! rt_config_interactive; then
     rt_restore_snapshot "$saved" "$distbak" "$sumbak"
     rm -f "$saved" "$distbak" "$sumbak"
@@ -3366,7 +3367,7 @@ rt_cmd_config() {
 
 rt_cmd_verify() {
   local fails=0 warns=0 perm cur rc r rv sel_id store_n
-  rt_section "Row-Template verification"
+  rt_section "Gold-Template verification"
 
   if [ -d "$RT_ROOT" ] && [ ! -L "$RT_ROOT" ]; then rt_ok "Install root present: $RT_ROOT"
   else rt_err "install root missing or is a symlink: $RT_ROOT"; fails=$((fails + 1)); fi
@@ -3479,9 +3480,9 @@ rt_cmd_verify() {
     rt_detect_xui_db || true
     rc=0; cur="$(rt_subtheme_get_sqlite)" || rc=$?
     if [ "$rc" -eq 0 ]; then
-      if [ "$cur" = "$RT_ROOT" ]; then rt_ok "Panel subThemeDir points at Row-Template."
+      if [ "$cur" = "$RT_ROOT" ]; then rt_ok "Panel subThemeDir points at Gold-Template."
       elif [ -z "$cur" ]; then rt_warn "panel subThemeDir is empty; set it to $RT_ROOT."; warns=$((warns + 1))
-      else rt_warn "panel subThemeDir does not point at Row-Template."; warns=$((warns + 1)); fi
+      else rt_warn "panel subThemeDir does not point at Gold-Template."; warns=$((warns + 1)); fi
     else rt_info "subThemeDir not checked (sqlite3/DB unavailable)."; fi
   else
     rt_verify_panel "$vpanel" || fails=$((fails + 1))
@@ -3502,7 +3503,7 @@ rt_cmd_verify() {
     r="$(rt_render_smoke)"
   fi
   case "$r" in
-    pass)     rt_ok   "Live render check: a browser receives Row-Template." ;;
+    pass)     rt_ok   "Live render check: a browser receives Gold-Template." ;;
     fallback) rt_warn "live render check: the panel served its built-in page."; warns=$((warns + 1)) ;;
     error)    rt_warn "live render check: the subscription endpoint was unreachable."; warns=$((warns + 1)) ;;
     skip)     rt_info "Live render check skipped (no test URL available)." ;;
@@ -3540,20 +3541,20 @@ rt_verify_panel() {
     active)
       rt_panel_verify "$panel" static || rc=$?
       if [ "$rc" -eq 0 ]; then
-        rt_ok "$(rt_panel_label "$panel") selects the Row-Template page, and the placed page is current."
+        rt_ok "$(rt_panel_label "$panel") selects the Gold-Template page, and the placed page is current."
       else
-        rt_err "$(rt_panel_label "$panel")'s Row-Template page is out of step (see above); re-apply it from the manager (Activate)."
+        rt_err "$(rt_panel_label "$panel")'s Gold-Template page is out of step (see above); re-apply it from the manager (Activate)."
         return 1
       fi
       rc=0; rt_panel_verify "$panel" live || rc=$?
       case "$rc" in
-        0) rt_ok "Live check: the running $(rt_panel_label "$panel") uses the Row-Template page." ;;
+        0) rt_ok "Live check: the running $(rt_panel_label "$panel") uses the Gold-Template page." ;;
         2) rt_info "Live check skipped (not available for this panel layout)." ;;
-        *) rt_warn "the running $(rt_panel_label "$panel") does not use the Row-Template page yet; restart the panel."
+        *) rt_warn "the running $(rt_panel_label "$panel") does not use the Gold-Template page yet; restart the panel."
            RT_VERIFY_PANEL_WARNS=$((RT_VERIFY_PANEL_WARNS + 1)) ;;
       esac ;;
     inactive)
-      rt_warn "$(rt_panel_label "$panel") does not select the Row-Template page; activate it from the manager."
+      rt_warn "$(rt_panel_label "$panel") does not select the Gold-Template page; activate it from the manager."
       RT_VERIFY_PANEL_WARNS=$((RT_VERIFY_PANEL_WARNS + 1)) ;;
     manual)
       rt_info "Panel selection not checked (activation is manual here: $(rt_panel_label "$panel")'s database cannot be read)." ;;
@@ -3566,15 +3567,15 @@ rt_verify_panel() {
 
 # --- high-level flow: uninstall ----------------------------------------------
 # Conservative by construction: the install root is positively identified as
-# Row-Template's own before any recursive delete, and only files Row-Template
+# Gold-Template's own before any recursive delete, and only files Gold-Template
 # created are removed. 3x-ui, its database, inbounds, clients and certificates
 # are never touched.
 
 rt_uninstall_files() {
   rt_assert_not_symlink "$RT_ROOT" || return 1
-  # positively identify this as Row-Template's own root before deleting it.
+  # positively identify this as Gold-Template's own root before deleting it.
   if [ ! -f "$RT_VERSION_FILE" ] || { [ ! -f "$RT_DIST" ] && [ ! -f "$RT_LIB_DIR/row-template.sh" ]; }; then
-    rt_err "refusing to delete $RT_ROOT: it does not look like a Row-Template install root."; return 1
+    rt_err "refusing to delete $RT_ROOT: it does not look like a Gold-Template install root."; return 1
   fi
   case "$RT_ROOT" in
     ""|/|/etc|/usr|/usr/local|/var|/root|/home|/bin|/sbin|/lib|/opt|/etc/3x-ui|/etc/x-ui|/usr/local/x-ui)
@@ -3590,8 +3591,8 @@ rt_uninstall_files() {
 }
 
 rt_uninstall_panel() {
-  # Put PasarGuard or Rebecca back to the page it had before Row-Template, and
-  # remove the page Row-Template placed. Returns non-zero only when the revert
+  # Put PasarGuard or Rebecca back to the page it had before Gold-Template, and
+  # remove the page Gold-Template placed. Returns non-zero only when the revert
   # FAILED; "nothing to revert" and "must be reverted by hand" are reported and
   # let the uninstall continue.
   local panel="$1" rc=0
@@ -3601,8 +3602,8 @@ rt_uninstall_panel() {
   fi
   rt_panel_uninstall_template "$panel" || rc=$?
   case "$rc" in
-    0) rt_ok "$(rt_panel_label "$panel") is back on the subscription page it had before Row-Template." ;;
-    3) rt_info "$(rt_panel_label "$panel") was not using Row-Template; its selection was left as it is." ;;
+    0) rt_ok "$(rt_panel_label "$panel") is back on the subscription page it had before Gold-Template." ;;
+    3) rt_info "$(rt_panel_label "$panel") was not using Gold-Template; its selection was left as it is." ;;
     2)
       rt_warn "$(rt_panel_label "$panel")'s selection cannot be changed automatically here."
       case "$panel" in
@@ -3616,10 +3617,10 @@ rt_uninstall_panel() {
 
 rt_cmd_uninstall() {
   rt_require_root
-  [ -f "$RT_VERSION_FILE" ] || rt_die "Row-Template does not appear to be installed at $RT_ROOT."
+  [ -f "$RT_VERSION_FILE" ] || rt_die "Gold-Template does not appear to be installed at $RT_ROOT."
   if [ -z "${RT_ASSUME_YES:-}" ]; then
     if [ -t 0 ]; then
-      printf '  Remove Row-Template from %s and revert the panel to its built-in page? [y/N]: ' "$RT_ROOT" >&2
+      printf '  Remove Gold-Template from %s and revert the panel to its built-in page? [y/N]: ' "$RT_ROOT" >&2
       local a; IFS= read -r a || a=""
       case "$a" in y|Y|yes|YES) : ;; *) rt_info "Uninstall cancelled."; return 0 ;; esac
     else
@@ -3632,9 +3633,9 @@ rt_cmd_uninstall() {
   local upanel
   upanel="$(rt_panel_current)"
   if [ "$upanel" != "3xui" ]; then
-    rt_uninstall_panel "$upanel" || rt_die "uninstall stopped before removing anything; the panel and Row-Template are unchanged."
+    rt_uninstall_panel "$upanel" || rt_die "uninstall stopped before removing anything; the panel and Gold-Template are unchanged."
     if rt_uninstall_files; then
-      rt_ok "Removed Row-Template files from $RT_ROOT."
+      rt_ok "Removed Gold-Template files from $RT_ROOT."
       rt_info "$(rt_panel_label "$upanel")'s users, nodes, settings and database were left untouched."
     else
       rt_die "uninstall could not complete safely; see the message above. No forced deletion was performed."
@@ -3657,7 +3658,7 @@ rt_cmd_uninstall() {
   fi
 
   if rt_uninstall_files; then
-    rt_ok "Removed Row-Template files from $RT_ROOT."
+    rt_ok "Removed Gold-Template files from $RT_ROOT."
     rt_info "3x-ui, its database, inbounds, clients and certificates were left untouched."
   else
     rt_die "uninstall could not complete safely; see the message above. No forced deletion was performed."
@@ -3672,7 +3673,7 @@ rt_cmd_uninstall() {
 
 rt_cmd_update() {
   rt_require_root
-  [ -f "$RT_DIST" ] || rt_die "Row-Template is not installed; run the installer first."
+  [ -f "$RT_DIST" ] || rt_die "Gold-Template is not installed; run the installer first."
   rt_detect_xui || true; rt_detect_xui_version >/dev/null 2>&1 || true
   local work payload newver curver w backup picked source
   work="$(rt_mktemp_dir)" || rt_die "cannot create a work directory."
@@ -3715,7 +3716,7 @@ rt_cmd_update() {
 
   newver="$(rt_trim "$(cat "$payload/VERSION" 2>/dev/null || true)")"
   curver="$(rt_trim "$(cat "$RT_VERSION_FILE" 2>/dev/null || true)")"
-  rt_info "Updating Row-Template ${curver:-unknown} -> ${newver:-unknown}"
+  rt_info "Updating Gold-Template ${curver:-unknown} -> ${newver:-unknown}"
 
   backup="$(rt_backup_create)" || rt_die "could not back up the current install; aborting."
 
@@ -3759,7 +3760,7 @@ rt_cmd_update() {
 
 rt_cmd_rollback() {
   rt_require_root
-  [ -f "$RT_DIST" ] || rt_die "Row-Template is not installed."
+  [ -f "$RT_DIST" ] || rt_die "Gold-Template is not installed."
   rt_detect_xui || true
   local mode="${1:-}" target="" safety
   case "$mode" in
@@ -3798,8 +3799,8 @@ rt_cmd_rollback() {
 
 rt_print_help() {
   cat <<'EOF'
-Row-Template — custom subscription page manager for 3X-UI, PasarGuard and Rebecca
-by iitzSeriZdev — https://github.com/iitzSeriZdev/Row-Template
+Gold-Template — custom subscription page manager for 3X-UI, PasarGuard and Rebecca
+by iitzSeriZdev — https://github.com/iitzSeriZdev/Gold-Template
 
 Usage:
   row-template                Open the interactive manager (when run in a terminal)
@@ -3812,7 +3813,7 @@ Commands:
   verify      Check the install, panel wiring and live render (as root, also
               restores missing or misplaced designs)
   version     Show the installed version and panel (and, on 3X-UI, its version)
-  uninstall   Remove Row-Template and revert the panel to its built-in page
+  uninstall   Remove Gold-Template and revert the panel to its built-in page
   menu        Open the interactive manager explicitly
   help        Show this help
 
@@ -3843,7 +3844,7 @@ rt_ui_rule() {
 }
 
 rt_ui_header() {
-  # "Row-Template / by iitzSeriZdev" — the tool's own identity, colour-optional.
+  # "Gold-Template / by iitzSeriZdev" — the tool's own identity, colour-optional.
   printf '\n  %s%s%s %s/ by %s%s\n' \
     "$RT_C_BLD" "$RT_PROJECT_NAME" "$RT_C_RST" "$RT_C_DIM" "$RT_DEVELOPER" "$RT_C_RST"
   rt_ui_rule
@@ -3956,16 +3957,16 @@ rt_status_service_label() {
 
 rt_status_theme_label() {
   case "$1" in
-    active)   printf 'Row-Template (active)' ;;
-    inactive) printf 'Row-Template (installed, not the active theme)' ;;
+    active)   printf 'Gold-Template (active)' ;;
+    inactive) printf 'Gold-Template (installed, not the active theme)' ;;
     unknown)
       if [ "$(rt_panel_current)" = "3xui" ]; then
-        printf 'Row-Template (installed; activation not verifiable without sqlite3)'
+        printf 'Gold-Template (installed; activation not verifiable without sqlite3)'
       else
-        printf 'Row-Template (installed; activation not verifiable here)'
+        printf 'Gold-Template (installed; activation not verifiable here)'
       fi ;;
-    damaged)  printf 'Row-Template (files incomplete — run Verify/Repair)' ;;
-    *)        printf 'Row-Template (not installed)' ;;
+    damaged)  printf 'Gold-Template (files incomplete — run Verify/Repair)' ;;
+    *)        printf 'Gold-Template (not installed)' ;;
   esac
 }
 
@@ -4016,7 +4017,7 @@ rt_manager_update() {
       rt_ui_warn "This installation is incomplete: some installer components are missing, as after an update from 1.1.0."
       rt_ui_confirm "Re-install $avail now to complete it?" yes || return 0
     elif [ -n "$cur" ] && rt_semver_ge "$cur" "$avail"; then
-      rt_ui_success "Row-Template is up to date."
+      rt_ui_success "Gold-Template is up to date."
       rt_ui_confirm "Re-install $avail anyway?" no || return 0
     else
       rt_ui_info "A newer version is available."
@@ -4044,26 +4045,26 @@ rt_manager_activate() {
   cur="$(rt_subtheme_get_sqlite 2>/dev/null)" || rc=$?
   if [ "$rc" -ne 0 ]; then
     rt_ui_warn "Automatic activation is unavailable here (sqlite3 is not installed)."
-    rt_ui_info "Row-Template is installed. Activate it from the panel:"
+    rt_ui_info "Gold-Template is installed. Activate it from the panel:"
     rt_ui_info "  Panel Settings -> Subscription -> Profile -> Sub Theme Directory"
     rt_ui_kv "Enter exactly" "$RT_ROOT"
     return 0
   fi
   if [ "$cur" = "$RT_ROOT" ]; then
-    rt_ui_success "Row-Template is already the active subscription theme."
+    rt_ui_success "Gold-Template is already the active subscription theme."
     rt_ui_confirm "Re-apply and verify anyway?" no || return 0
   elif [ -n "$cur" ]; then
     rt_ui_kv "Current theme dir" "$cur"
-    rt_ui_kv "Row-Template dir"  "$RT_ROOT"
-    rt_ui_confirm "Point the panel at Row-Template now?" yes || { rt_ui_info "Left unchanged."; return 0; }
+    rt_ui_kv "Gold-Template dir"  "$RT_ROOT"
+    rt_ui_confirm "Point the panel at Gold-Template now?" yes || { rt_ui_info "Left unchanged."; return 0; }
   else
     rt_ui_info "The panel has no subscription theme configured."
-    rt_ui_kv "Row-Template dir" "$RT_ROOT"
-    rt_ui_confirm "Make Row-Template the active theme now?" yes || { rt_ui_info "Left unchanged."; return 0; }
+    rt_ui_kv "Gold-Template dir" "$RT_ROOT"
+    rt_ui_confirm "Make Gold-Template the active theme now?" yes || { rt_ui_info "Left unchanged."; return 0; }
   fi
   local outcome
   if outcome="$(rt_subtheme_configure)" && [ "$outcome" = "auto" ]; then
-    rt_ui_success "Row-Template is active."
+    rt_ui_success "Gold-Template is active."
     rt_render_report
   else
     rt_service_active 2>/dev/null || rt_service_start 2>/dev/null || true
@@ -4080,12 +4081,12 @@ rt_manager_activate_panel() {
   st="$(rt_panel_status "$panel")"
   case "$st" in
     active)
-      rt_ui_success "Row-Template is already the active $(rt_panel_label "$panel") subscription page."
+      rt_ui_success "Gold-Template is already the active $(rt_panel_label "$panel") subscription page."
       rt_ui_confirm "Re-apply and verify anyway?" no || return 0 ;;
     manual)
       rt_ui_warn "Automatic activation is unavailable here; the page will be placed for you to select." ;;
     *)
-      rt_ui_confirm "Make Row-Template the active $(rt_panel_label "$panel") subscription page now?" yes \
+      rt_ui_confirm "Make Gold-Template the active $(rt_panel_label "$panel") subscription page now?" yes \
         || { rt_ui_info "Left unchanged."; return 0; } ;;
   esac
   rt_activate || { rt_ui_error "the page could not be generated; nothing was changed."; return 0; }
@@ -4093,7 +4094,7 @@ rt_manager_activate_panel() {
     if [ "$outcome" = "manual" ]; then
       rt_panel_manual_steps
     else
-      rt_ui_success "Row-Template is active on $(rt_panel_label "$panel")."
+      rt_ui_success "Gold-Template is active on $(rt_panel_label "$panel")."
       rt_render_report
     fi
   else
@@ -4142,7 +4143,7 @@ rt_apply_branding() {
   # the canonical artifact is reconciled to the effective template before
   # activation — config and artifact must never be left disagreeing.
   local name="$1" url="$2" mime="$3" logo="$4" saved="" distbak="" sumbak=""
-  [ -f "$RT_DIST" ] || { rt_err "Row-Template is not installed."; return 1; }
+  [ -f "$RT_DIST" ] || { rt_err "Gold-Template is not installed."; return 1; }
   if [ -f "$RT_CONFIG" ]; then saved="$(mktemp)" && cp -- "$RT_CONFIG" "$saved"; fi
   distbak="$(mktemp)" && cp -- "$RT_DIST" "$distbak"
   [ -f "$RT_DIST_SUM" ] && sumbak="$(mktemp)" && cp -- "$RT_DIST_SUM" "$sumbak"
@@ -4322,7 +4323,7 @@ rt_reconfig_from_panel() {
 
 rt_reconfig_reset() {
   rt_ui_warn "This clears custom branding (service name, support URL, logo) and"
-  rt_ui_info "returns Row-Template to its default look. It does NOT remove Row-Template."
+  rt_ui_info "returns Gold-Template to its default look. It does NOT remove Gold-Template."
   rt_ui_confirm "Reset branding to defaults?" no || { rt_ui_info "Reset cancelled."; return 0; }
   if rt_apply_branding "" "" "" ""; then rt_ui_success "Branding reset to defaults."; fi
 }
@@ -4366,7 +4367,7 @@ rt_manager_main() {
   # reads real state each iteration. In a non-interactive context the menu
   # selector returns 0 (Exit) on EOF, so this never blocks automation.
   rt_require_root
-  [ -f "$RT_VERSION_FILE" ] || rt_die "Row-Template is not installed at $RT_ROOT; run the installer first."
+  [ -f "$RT_VERSION_FILE" ] || rt_die "Gold-Template is not installed at $RT_ROOT; run the installer first."
   rt_detect_xui >/dev/null 2>&1 || true
   rt_detect_xui_version >/dev/null 2>&1 || true
   rt_detect_xui_db >/dev/null 2>&1 || true
@@ -4385,7 +4386,7 @@ rt_manager_main() {
       5) rt_manager_activate ;;
       6) rt_manager_info ;;
       7) rt_run_action rt_cmd_uninstall
-         [ -f "$RT_VERSION_FILE" ] || { rt_ui_info "Row-Template has been removed. Goodbye."; return 0; } ;;
+         [ -f "$RT_VERSION_FILE" ] || { rt_ui_info "Gold-Template has been removed. Goodbye."; return 0; } ;;
       0) rt_ui_info "Goodbye."; return 0 ;;
     esac
     rt_ui_pause
@@ -4401,7 +4402,7 @@ rt_install_welcome() {
   # proceed, 1 to abort.
   local panel="${1:-3xui}"
   rt_ui_header
-  rt_ui_info "Welcome to the Row-Template installer."
+  rt_ui_info "Welcome to the Gold-Template installer."
   if [ "$panel" = "3xui" ]; then
     rt_ui_kv "Detected panel" "3X-UI ${2:-(version unknown)}"
     rt_ui_info "Your panel data is safe: inbounds, clients, users and the panel"
@@ -4426,7 +4427,7 @@ rt_install_pick_template() {
   done < <(rt_template_offered)
   if [ "${#list[@]}" -eq 0 ]; then printf 'row'; return 0; fi
 
-  { rt_ui_section "Choose your Row-Template design"; } >&2
+  { rt_ui_section "Choose your Gold-Template design"; } >&2
   for id in "${list[@]}"; do
     i=$((i + 1))
     printf '  %s%d%s  %s\n' "$RT_C_BLD" "$i" "$RT_C_RST" "$(rt_template_display_name "$id")" >&2
@@ -4471,7 +4472,7 @@ rt_existing_install_menu() {
   local rtv choice
   rtv="$(rt_trim "$(cat "$RT_VERSION_FILE" 2>/dev/null || true)")"; [ -n "$rtv" ] || rtv="unknown"
   rt_ui_header >&2
-  rt_ui_info "Row-Template $rtv is already installed at $RT_ROOT." >&2
+  rt_ui_info "Gold-Template $rtv is already installed at $RT_ROOT." >&2
   {
     printf '  %s1%s  Open the manager\n'   "$RT_C_BLD" "$RT_C_RST"
     printf '  %s2%s  Reconfigure branding\n' "$RT_C_BLD" "$RT_C_RST"
