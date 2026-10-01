@@ -546,7 +546,7 @@ test('the default release source is the public GitHub stable channel over https'
     'printf "KIND=%s\\nBASE=%s\\n" "$RT_SRC_KIND" "$RT_SRC_BASE"');
   assert.match(r.out, /KIND=url/, 'no env => a url source');
   assert.match(r.out,
-    /BASE=https:\/\/github\.com\/iitzSeriZdev\/Row-Template\/releases\/latest\/download/,
+    /BASE=https:\/\/github\.com\/iitzSeriZdev\/Gold-Template\/releases\/latest\/download/,
     'defaults to the GitHub releases/latest/download channel');
 });
 
@@ -577,7 +577,7 @@ test('render smoke classifies a large served page as pass, not a SIGPIPE miss',
   /* Regression: the classifier used `printf %s "$body" | grep -q PAT`. Under
      `set -o pipefail` grep -q exits on the first hit, printf dies with SIGPIPE
      (141) writing the long tail, and pipefail promotes 141 to the pipeline
-     status — so the real ~160 KB Row-Template page (early `id="sub-data"`
+     status — so the real ~160 KB Gold-Template page (early `id="sub-data"`
      match) was misread as 'fallback'. Drive the SHIPPED function through a
      file:// URL with a >64 KB body whose marker is at the very top. */
   const big =
@@ -621,7 +621,7 @@ test('the live check after config, update or rollback finds the panel database i
     'rt_render_report',
   ].join('\n'));
   assert.equal(r.code, 0, r.err);
-  assert.match(r.out, /Live check: a browser request renders Row-Template\./);
+  assert.match(r.out, /Live check: a browser request renders Gold-Template\./);
   assert.doesNotMatch(r.out, /skipped/);
 });
 
@@ -714,11 +714,11 @@ test('rt_status labels map every token to a human string', () => {
   assert.match(sh('rt_status_label unknown').out, /unverified/i);
   assert.match(sh('rt_status_label damaged').out, /damaged/i);
   assert.match(sh('rt_status_label notinstalled').out, /Not installed/);
-  assert.match(sh('rt_status_theme_label active').out, /Row-Template \(active\)/);
+  assert.match(sh('rt_status_theme_label active').out, /Gold-Template \(active\)/);
 });
 test('the UI header carries the project identity and emits no ANSI when not a TTY', () => {
   const h = sh('rt_ui_header');
-  assert.match(h.out, /Row-Template/, 'project name shown');
+  assert.match(h.out, /Gold-Template/, 'project name shown');
   assert.match(h.out, /iitzSeriZdev/, 'developer shown');
   assert.ok(!/\x1b\[/.test(h.out), 'no ANSI escapes on a non-terminal stdout');
   assert.ok(!/\x1b\[/.test(sh('NO_COLOR=1 rt_ui_header').out), 'NO_COLOR also yields plain text');
@@ -726,8 +726,9 @@ test('the UI header carries the project identity and emits no ANSI when not a TT
 
 test('help advertises the identity, the interactive manager and the menu command', () => {
   const h = sh('rt_print_help');
-  assert.match(h.out, /github\.com\/iitzSeriZdev\/Row-Template/, 'GitHub URL present');
-  assert.match(h.out, /by iitzSeriZdev/, 'developer credited');
+  assert.match(h.out, /github\.com\/iitzSeriZdev\/Gold-Template/, 'GitHub URL present');
+  assert.match(h.out, /by GoldApp Online/, 'GoldApp maintainer credited');
+  assert.match(h.out, /upstream iitzSeriZdev/, 'upstream author remains credited');
   assert.match(h.out, /^\s*menu\b/m, 'the explicit menu command is documented');
   assert.match(h.out, /interactive manager/i, 'the no-arg interactive behaviour is documented');
 });
