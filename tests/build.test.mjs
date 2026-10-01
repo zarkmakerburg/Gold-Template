@@ -173,7 +173,7 @@ test('the editorial build is deterministic, whole and inside the budget', () => 
   assert.ok(html.trimEnd().endsWith('</html>'));
   assert.equal(html.match(/\/\*__[A-Z][A-Z0-9_]*__\*\//), null);
   assert.equal((html.match(/<style>/g) || []).length, 2, 'the head stylesheet and the flag face');
-  assert.equal((html.match(/<script(?: |>)/g) || []).length, 3);
+  assert.equal((html.match(/<script(?: |>)/g) || []).length, 4, 'shared three scripts plus the Gold renewal layer');
   assert.equal((html.match(/\/\* row:branding \*\//g) || []).length, 1);
   assert.ok(bytes <= 280 * 1024, `${(bytes / 1024).toFixed(1)} KiB exceeds the 280 KiB refusal point`);
 });
@@ -639,7 +639,9 @@ test('Gold uses the Signature layout contract, names itself, and shares the Row 
 
   const signatureLayout = readFileSync(join(ROOT, 'src', 'templates', 'signature', 'layout.html'), 'utf8');
   const goldLayout = readFileSync(join(ROOT, 'src', 'templates', 'gold', 'layout.html'), 'utf8');
-  assert.equal(goldLayout, signatureLayout, 'Gold keeps the proven Signature DOM contract');
+  assert.ok(!signatureLayout.includes('data-gold-renewal'), 'upstream Signature stays untouched');
+  assert.ok(goldLayout.includes('data-gold-renewal'), 'Gold owns the renewal enhancement');
+  assert.ok(goldLayout.includes('p>=85'), 'the Gold-only renewal threshold is pinned at 85%');
 });
 
 /* Saffron is the eleventh design: same guarantees, its own budget line. */
