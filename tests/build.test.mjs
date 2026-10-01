@@ -634,6 +634,8 @@ test('Gold uses the Signature layout contract, names itself, and shares the Row 
     'boot and app scripts must be shared byte for byte');
   assert.equal(islandOf(gold.html), islandOf(withFont.html),
     'the locale island must be shared byte for byte');
+  assert.match(gold.html, /\.support-cta\[data-renew\]/,
+    'the Gold artifact carries its renewal CTA refinement');
 
   const signatureLayout = readFileSync(join(ROOT, 'src', 'templates', 'signature', 'layout.html'), 'utf8');
   const goldLayout = readFileSync(join(ROOT, 'src', 'templates', 'gold', 'layout.html'), 'utf8');
