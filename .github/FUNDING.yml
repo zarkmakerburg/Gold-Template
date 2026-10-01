@@ -1,4 +1,4 @@
-# Shows a "Sponsor" button on the repository. The crypto wallet addresses are
-# listed in the README's "Support the project" section.
+# Upstream support link retained intentionally. Gold-Template is a downstream
+# distribution and does not redirect the original author's funding to GoldApp.
 custom:
   - https://nowpayments.io/donation/iitzSeriZ
