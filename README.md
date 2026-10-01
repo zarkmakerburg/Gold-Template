@@ -171,12 +171,14 @@ flowchart TB
 
 ## GoldApp preset
 
-For a GoldApp-branded install, use the Gold design and brand values explicitly:
+For a GoldApp-branded install, use the built-in preset:
 
 ```bash
-RT_TEMPLATE=gold RT_SERVICE_NAME="GoldApp Online" RT_SUPPORT_URL="https://go.goldapponline.ir" \
+RT_PRESET=goldapp \
   bash <(curl -fsSL https://github.com/zarkmakerburg/Gold-Template/releases/latest/download/install.sh)
 ```
+
+The preset defaults to the `gold` design, service name `GoldApp Online`, and support URL `https://go.goldapponline.ir`. Any explicit `RT_TEMPLATE`, `RT_SERVICE_NAME`, or `RT_SUPPORT_URL` value overrides only that preset field.
 
 The legacy `row-template` CLI name is intentionally retained for compatibility.
 
