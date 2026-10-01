@@ -35,5 +35,8 @@
     "fixtures:all": "node tools/fixtures-all.mjs",
     "preview": "go -C tools/fixtures run . -serve 127.0.0.1:8787"
   },
-  "upstream": "https://github.com/iitzSeriZdev/Row-Template"
+  "upstream": "https://github.com/iitzSeriZdev/Row-Template",
+  "contributors": [
+    "iitzSeriZdev (upstream Row-Template author)"
+  ]
 }
