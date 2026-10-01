@@ -1,16 +1,16 @@
 {
-  "name": "row-template",
+  "name": "gold-template",
   "type": "module",
-  "description": "Custom subscription page template for 3x-ui panels",
+  "description": "GoldApp Online branded, multilingual subscription page distribution for 3X-UI, PasarGuard and Rebecca",
   "license": "MIT",
-  "author": "iitzSeriZdev",
-  "homepage": "https://github.com/iitzSeriZdev/Row-Template#readme",
+  "author": "GoldApp Online",
+  "homepage": "https://github.com/zarkmakerburg/Gold-Template#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iitzSeriZdev/Row-Template.git"
+    "url": "git+https://github.com/zarkmakerburg/Gold-Template.git"
   },
   "bugs": {
-    "url": "https://github.com/iitzSeriZdev/Row-Template/issues"
+    "url": "https://github.com/zarkmakerburg/Gold-Template/issues"
   },
   "keywords": [
     "3x-ui",
@@ -18,7 +18,11 @@
     "subscription",
     "subscription-page",
     "template",
-    "self-hosted"
+    "self-hosted",
+    "goldapp",
+    "gold-template",
+    "multilingual",
+    "rtl"
   ],
   "scripts": {
     "build": "node tools/build.mjs",
@@ -30,5 +34,6 @@
     "fixtures": "go -C tools/fixtures run .",
     "fixtures:all": "node tools/fixtures-all.mjs",
     "preview": "go -C tools/fixtures run . -serve 127.0.0.1:8787"
-  }
+  },
+  "upstream": "https://github.com/iitzSeriZdev/Row-Template"
 }
