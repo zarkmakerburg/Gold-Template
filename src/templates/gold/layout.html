@@ -185,5 +185,6 @@
 
 <script type="application/json" id="i18n-data">/*__LOCALES__*/</script>
 <script>/*__APP__*/</script>
+<script data-gold-renewal>(function(){var d=document,g=d.getElementById.bind(d),a=g("support-link"),l=g("support-label"),t=g("state-pill"),e=g("expiry-value"),n={en:"Renew subscription",fa:"تمدید اشتراک",ar:"تجديد الاشتراك",ru:"Продлить подписку",zh:"续订订阅"};if(!a||!l)return;function s(k,v){if(a.getAttribute(k)!==v)a.setAttribute(k,v)}function u(){var x=n[d.documentElement.lang]||n.en,c=l.textContent,q=a.getAttribute("aria-label")||c;if(c!==x){a._b=c;a._q=q}var f=d.querySelector("#bar-slot .bar-fill"),p=f?parseFloat(f.style.inlineSize)||0:0,r=t&&t.getAttribute("data-state"),y=r!="disabled"&&(r=="expired"||r=="limited"||p>=85||e&&e.getAttribute("data-level")=="warn");if(y){var b=a._b||c,z=x+((a._q||q).indexOf(b)==0?(a._q||q).slice(b.length):"");s("data-renew","1");if(c!==x)l.textContent=x;s("aria-label",z)}else{if(a.hasAttribute("data-renew"))a.removeAttribute("data-renew");if(a._b&&c!==a._b)l.textContent=a._b;if(a._q)s("aria-label",a._q)}}new MutationObserver(u).observe(g("main"),{subtree:1,childList:1,attributeFilter:["data-state","data-level","style"]});u()})();</script>
 </body>
 </html>
