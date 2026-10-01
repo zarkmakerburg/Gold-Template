@@ -598,6 +598,48 @@ test('the signature artifact names its own design, satisfies the hook contract, 
     'the locale island must be shared byte for byte');
 });
 
+/* Gold is the downstream GoldApp design. It deliberately reuses Signature's
+   layout contract and runtime, but owns its visual tokens and is not byte-locked. */
+const gold = build(true, 'gold');
+
+test('the Gold build is deterministic, whole and inside the release budget', () => {
+  const html = gold.html;
+  const bytes = Buffer.byteLength(html, 'utf8');
+
+  assert.equal(build(true, 'gold').html, html, 'same sources must produce the same bytes');
+  assert.ok(html.startsWith('<!doctype html>'));
+  assert.ok(html.trimEnd().endsWith('</html>'));
+  assert.equal(html.match(/\/\*__[A-Z][A-Z0-9_]*__\*\//), null);
+  assert.equal((html.match(/<style>/g) || []).length, 2, 'the head stylesheet and the flag face');
+  assert.equal((html.match(/<script(?: |>)/g) || []).length, 3);
+  assert.equal((html.match(/\/\* row:branding \*\//g) || []).length, 1);
+  assert.ok(bytes <= 280 * 1024, `${(bytes / 1024).toFixed(1)} KiB exceeds the 280 KiB refusal point`);
+});
+
+test('Gold uses the Signature layout contract, names itself, and shares the Row runtime', () => {
+  assert.equal((gold.html.match(/data-template="gold"/g) || []).length, 1);
+  assert.equal(gold.dataTemplate, 'gold');
+
+  for (const hook of REQUIRED_HOOKS) {
+    assert.equal(gold.html.split(`id="${hook}"`).length - 1, 1,
+      `hook id="${hook}" must appear exactly once`);
+  }
+
+  const scriptBodies = (html) =>
+    [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map((m) => m[1]);
+  const islandOf = (html) =>
+    html.match(/<script type="application\/json" id="i18n-data">([\s\S]*?)<\/script>/)[1];
+
+  assert.deepEqual(scriptBodies(gold.html), scriptBodies(withFont.html),
+    'boot and app scripts must be shared byte for byte');
+  assert.equal(islandOf(gold.html), islandOf(withFont.html),
+    'the locale island must be shared byte for byte');
+
+  const signatureLayout = readFileSync(join(ROOT, 'src', 'templates', 'signature', 'layout.html'), 'utf8');
+  const goldLayout = readFileSync(join(ROOT, 'src', 'templates', 'gold', 'layout.html'), 'utf8');
+  assert.equal(goldLayout, signatureLayout, 'Gold keeps the proven Signature DOM contract');
+});
+
 /* Saffron is the eleventh design: same guarantees, its own budget line. */
 const saffron = build(true, 'saffron');
 
