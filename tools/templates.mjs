@@ -301,6 +301,7 @@ export const TEMPLATES = {
       ['src/templates/signature/base.css', 'templates/signature/base.css'],
       ['src/templates/signature/layout.css', 'templates/signature/layout.css'],
       ['src/templates/signature/components.css', 'templates/signature/components.css'],
+      ['src/templates/gold/overrides.css', 'templates/gold/overrides.css'],
       ['src/templates/signature/rtl.css', 'templates/signature/rtl.css'],
     ],
   },
