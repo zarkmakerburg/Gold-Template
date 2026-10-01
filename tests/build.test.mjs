@@ -173,7 +173,7 @@ test('the editorial build is deterministic, whole and inside the budget', () => 
   assert.ok(html.trimEnd().endsWith('</html>'));
   assert.equal(html.match(/\/\*__[A-Z][A-Z0-9_]*__\*\//), null);
   assert.equal((html.match(/<style>/g) || []).length, 2, 'the head stylesheet and the flag face');
-  assert.equal((html.match(/<script(?: |>)/g) || []).length, 4, 'shared three scripts plus the Gold renewal layer');
+  assert.equal((html.match(/<script(?: |>)/g) || []).length, 3);
   assert.equal((html.match(/\/\* row:branding \*\//g) || []).length, 1);
   assert.ok(bytes <= 280 * 1024, `${(bytes / 1024).toFixed(1)} KiB exceeds the 280 KiB refusal point`);
 });
@@ -611,7 +611,7 @@ test('the Gold build is deterministic, whole and inside the release budget', () 
   assert.ok(html.trimEnd().endsWith('</html>'));
   assert.equal(html.match(/\/\*__[A-Z][A-Z0-9_]*__\*\//), null);
   assert.equal((html.match(/<style>/g) || []).length, 2, 'the head stylesheet and the flag face');
-  assert.equal((html.match(/<script(?: |>)/g) || []).length, 3);
+  assert.equal((html.match(/<script(?: |>)/g) || []).length, 4, 'shared three scripts plus the Gold renewal layer');
   assert.equal((html.match(/\/\* row:branding \*\//g) || []).length, 1);
   assert.ok(bytes <= 280 * 1024, `${(bytes / 1024).toFixed(1)} KiB exceeds the 280 KiB refusal point`);
 });
