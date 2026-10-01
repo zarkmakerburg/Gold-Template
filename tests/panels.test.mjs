@@ -16,7 +16,7 @@ import { readFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { templateIds } from '../tools/templates.mjs';
+import { templateIds, coreTemplateIds } from '../tools/templates.mjs';
 import { transpile, assertGoIdentity, segments, classify } from '../tools/transpile.mjs';
 import {
   PANELS, EMITTERS, ADAPTER_INTERFACE, panelIds, referencePanel, buildablePanelIds,
@@ -103,8 +103,10 @@ test('G2: all 17 artifacts are byte-identical to their committed locks', () => {
     locked[id] = +m[1];
   }
 
-  assert.equal(Object.keys(locked).length, 17, 'all 17 templates must carry a byte lock');
-  for (const id of templateIds()) {
+  const core = coreTemplateIds();
+  assert.equal(core.length, 17, 'the frozen upstream core remains exactly 17 templates');
+  assert.equal(Object.keys(locked).length, 17, 'all 17 core templates must carry a byte lock');
+  for (const id of core) {
     const bytes = Buffer.byteLength(build(true, id).html, 'utf8');
     assert.equal(bytes, locked[id], id + ' must not move');
   }
@@ -113,11 +115,13 @@ test('G2: all 17 artifacts are byte-identical to their committed locks', () => {
 test('G2: no layout source has been modified by this phase', () => {
   /* The layouts are read, never written. If one ever changes, this phase has
      overstepped — the count and the shared lines are the cheap tripwire. */
-  assert.equal(Object.keys(LAYOUTS).length, 17);
-  for (const id of templateIds()) {
+  const core = coreTemplateIds();
+  assert.equal(core.length, 17);
+  for (const id of core) {
     assert.ok(LAYOUTS[id].startsWith('<!doctype html>'), id + ' must be a whole document');
     assert.ok(LAYOUTS[id].includes('id="sub-data"'), id + ' must carry the island hook');
   }
+  assert.ok(LAYOUTS.gold.startsWith('<!doctype html>'), 'Gold is a separate downstream whole-document layout');
 });
 
 /* --- G3 — the panel path is faithful ------------------------------------ */
