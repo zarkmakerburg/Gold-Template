@@ -1,4 +1,4 @@
-// Astro + Starlight configuration for the Row-Template documentation site.
+// Astro + Starlight configuration for the Gold-Template documentation site.
 //
 // This file belongs to the documentation workspace only. It reads nothing from the
 // product and writes only under docs/dist/.
@@ -16,8 +16,8 @@ import starlight from "@astrojs/starlight";
 import { satteri } from "@astrojs/markdown-satteri";
 import baseLinks from "./plugins/base-links.mjs";
 
-const SITE = "https://iitzseridev.github.io";
-const BASE = "/Row-Template";
+const SITE = "https://zarkmakerburg.github.io";
+const BASE = "/Gold-Template";
 
 export default defineConfig({
   site: SITE,
@@ -27,13 +27,13 @@ export default defineConfig({
   },
   integrations: [
     starlight({
-      title: "Row-Template",
-      description: "Documentation for the Row-Template subscription page.",
+      title: "Gold-Template",
+      description: "Documentation for the GoldApp-maintained Gold-Template subscription page.",
       social: [
-        { icon: "github", label: "GitHub", href: "https://github.com/iitzSeriZdev/Row-Template" },
+        { icon: "github", label: "GitHub", href: "https://github.com/zarkmakerburg/Gold-Template" },
       ],
       editLink: {
-        baseUrl: "https://github.com/iitzSeriZdev/Row-Template/edit/main/docs/",
+        baseUrl: "https://github.com/zarkmakerburg/Gold-Template/edit/main/docs/",
       },
       // The design system's tokens, applied over Starlight's own variables.
       customCss: ["./src/styles/tokens.css"],
