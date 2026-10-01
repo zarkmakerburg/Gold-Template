@@ -37,6 +37,8 @@
 ## GoldApp custom layer
 
 - **Gold** — a dedicated black/navy + premium-gold design built on the proven Signature layout and RTL rules.
+- **Smart Renewal CTA** — using only local subscription facts, the support action becomes a renewal action at ≥85% traffic usage, within 3 calendar days of expiry, or after expiry/limit exhaustion. No telemetry or third-party request is added.
+- **GoldApp preset** — `RT_PRESET=goldapp` selects the Gold design, `GoldApp Online` service name and `https://go.goldapponline.ir` support/renewal destination; explicit `RT_*` values override individual defaults.
 - **Independent release channel** — Gold-Template installers and updates are prepared to follow this repository instead of silently pulling upstream releases.
 - **Upstream-friendly** — the original 17 designs remain core/byte-locked; Gold is an unlocked custom tier, so upstream updates can be merged with less friction.
 - **CLI compatibility** — the existing `row-template` command and install paths are intentionally kept for now to avoid breaking deployed hosts.
@@ -180,7 +182,7 @@ RT_PRESET=goldapp \
 
 The preset defaults to the `gold` design, service name `GoldApp Online`, and support URL `https://go.goldapponline.ir`. Any explicit `RT_TEMPLATE`, `RT_SERVICE_NAME`, or `RT_SUPPORT_URL` value overrides only that preset field.
 
-The legacy `row-template` CLI name is intentionally retained for compatibility.
+The recommended management command is `gold-template`. The legacy `row-template` command is installed alongside it for backwards compatibility.
 
 ## Installation
 
