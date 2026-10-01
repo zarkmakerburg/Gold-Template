@@ -546,7 +546,7 @@ test('the default release source is the public GitHub stable channel over https'
     'printf "KIND=%s\\nBASE=%s\\n" "$RT_SRC_KIND" "$RT_SRC_BASE"');
   assert.match(r.out, /KIND=url/, 'no env => a url source');
   assert.match(r.out,
-    /BASE=https:\/\/github\.com\/iitzSeriZdev\/Gold-Template\/releases\/latest\/download/,
+    /BASE=https:\/\/github\.com\/zarkmakerburg\/Gold-Template\/releases\/latest\/download/,
     'defaults to the GitHub releases/latest/download channel');
 });
 
@@ -726,7 +726,7 @@ test('the UI header carries the project identity and emits no ANSI when not a TT
 
 test('help advertises the identity, the interactive manager and the menu command', () => {
   const h = sh('rt_print_help');
-  assert.match(h.out, /github\.com\/iitzSeriZdev\/Gold-Template/, 'GitHub URL present');
+  assert.match(h.out, /github\.com\/zarkmakerburg\/Gold-Template/, 'GitHub URL present');
   assert.match(h.out, /by GoldApp Online/, 'GoldApp maintainer credited');
   assert.match(h.out, /upstream iitzSeriZdev/, 'upstream author remains credited');
   assert.match(h.out, /^\s*menu\b/m, 'the explicit menu command is documented');
