@@ -1014,7 +1014,7 @@ test('rt_stage_template_store stages verified artifacts, skips hostile names, an
     { prepare: (root) => writePayload(root) },
   );
   assert.equal(good.code, 0, good.err);
-  assert.equal(good.out, 'ids=arcade,brutal,canvas,editorial,prism,pulse,row,saffron,signature,sketch,terminal,\nbyte-exact');
+  assert.equal(good.out, 'ids=arcade,brutal,canvas,editorial,gold,prism,pulse,row,saffron,signature,sketch,terminal,\nbyte-exact');
 
   const tampered = shRoot(
     'if rt_stage_template_store "$RT_ROOT/payload" 2>/dev/null; then echo "TAMPER-STAGED"; else echo "TAMPER-REFUSED"; fi\n' +
@@ -1037,7 +1037,7 @@ test('rt_stage_template_store stages verified artifacts, skips hostile names, an
       writeFileSync(join(root, 'payload', 'templates', 'Evil', 'template.html'), 'x');
     } },
   );
-  assert.equal(hostile.out, 'ids=arcade,brutal,canvas,editorial,prism,pulse,row,saffron,signature,sketch,terminal,', 'a non-lowercase directory name is skipped');
+  assert.equal(hostile.out, 'ids=arcade,brutal,canvas,editorial,gold,prism,pulse,row,saffron,signature,sketch,terminal,', 'a non-lowercase directory name is skipped');
 });
 
 test('rt_switch_template moves Row -> Editorial -> Row with branding intact, and refuses bad moves', () => {
@@ -1316,7 +1316,7 @@ test('an update keeps an available selection live across the release', () => {
   assert.match(r.out, /name=Test VPN/, 'branding survives the update');
   assert.match(r.out, /ver=1.2.0/);
   assert.match(r.out, /live=editorial/, 'the updated install serves the selected design');
-  assert.match(r.out, /store=arcade,brutal,canvas,editorial,prism,pulse,row,saffron,signature,sketch,terminal/, 'the release store was staged');
+  assert.match(r.out, /store=arcade,brutal,canvas,editorial,gold,prism,pulse,row,saffron,signature,sketch,terminal/, 'the release store was staged');
 });
 
 test('an update against a payload without a store degrades to Row and keeps the invariant', () => {
