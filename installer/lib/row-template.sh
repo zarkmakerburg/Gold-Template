@@ -2322,6 +2322,25 @@ rt_prompt_text() {
   printf '%s' "$reply"
 }
 
+rt_apply_preset_defaults() {
+  # Downstream convenience presets set defaults only. Explicit RT_* variables
+  # always win, so automation can override one field without losing the rest.
+  local preset="${RT_PRESET:-}"
+  [ -n "$preset" ] || return 0
+
+  case "$preset" in
+    goldapp)
+      [ -n "${RT_TEMPLATE+x}" ] || RT_TEMPLATE="gold"
+      [ -n "${RT_SERVICE_NAME+x}" ] || RT_SERVICE_NAME="GoldApp Online"
+      [ -n "${RT_SUPPORT_URL+x}" ] || RT_SUPPORT_URL="https://go.goldapponline.ir"
+      ;;
+    *)
+      rt_err "unknown RT_PRESET='$preset' (supported: goldapp)"
+      return 1
+      ;;
+  esac
+}
+
 rt_config_interactive() {
   # gather branding (existing config supplies the defaults) and write config.env.
   # `offer` (a fresh install) also offers the panel's own name and support link.
@@ -3096,6 +3115,7 @@ rt_cmd_install() {
   rt_require_root
   [ -n "$payload" ] && [ -d "$payload" ] || rt_die "internal: install payload directory missing."
   [ -f "$payload/template.html" ] || rt_die "install payload has no template.html."
+  rt_apply_preset_defaults || rt_die "the requested install preset is invalid."
 
   # payload integrity (defence in depth on top of the release tarball checksum)
   if [ -f "$payload/SHA256SUMS" ]; then
