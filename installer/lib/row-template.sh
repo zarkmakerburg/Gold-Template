@@ -45,6 +45,7 @@ RT_ROOT_SHARED="/etc/row-template"
 if [ -n "${RT_ROOT:-}" ]; then RT_ROOT_EXPLICIT=1; else RT_ROOT_EXPLICIT=""; fi
 : "${RT_ROOT:=$RT_ROOT_3XUI}"
 : "${RT_BIN:=/usr/local/bin/row-template}"
+: "${RT_GOLD_BIN:=$(dirname "$RT_BIN")/gold-template}"
 RT_MIN_XUI="3.6.0"
 
 # Where the panel database is looked for when XUI_DB_FOLDER does not name one,
@@ -3196,7 +3197,11 @@ rt_cmd_install() {
     || rt_warn "could not install the management library's companions; run 'row-template update' to retry."
   if [ -f "$payload/bin/row-template" ]; then
     rt_atomic_install "$payload/bin/row-template" "$RT_BIN" 755 \
-      || rt_warn "could not install the row-template CLI to $RT_BIN."
+      || rt_warn "could not install the compatibility row-template CLI to $RT_BIN."
+    if [ "$RT_GOLD_BIN" != "$RT_BIN" ]; then
+      rt_atomic_install "$payload/bin/row-template" "$RT_GOLD_BIN" 755 \
+        || rt_warn "could not install the gold-template CLI alias to $RT_GOLD_BIN."
+    fi
   fi
 
   # template store: every design this release ships for this panel, verified
@@ -3484,8 +3489,12 @@ rt_cmd_verify() {
     rt_warn "installer components are missing (lib/transaction.sh, panels/), as after an update from 1.1.0; run 'row-template update' to complete the installation."
     warns=$((warns + 1))
   fi
-  [ -x "$RT_BIN" ] && rt_ok "CLI present: $RT_BIN" \
-    || { rt_warn "CLI not found or not executable at $RT_BIN."; warns=$((warns + 1)); }
+  [ -x "$RT_BIN" ] && rt_ok "Compatibility CLI present: $RT_BIN" \
+    || { rt_warn "compatibility CLI not found or not executable at $RT_BIN."; warns=$((warns + 1)); }
+  if [ "$RT_GOLD_BIN" != "$RT_BIN" ]; then
+    [ -x "$RT_GOLD_BIN" ] && rt_ok "Gold CLI present: $RT_GOLD_BIN" \
+      || { rt_warn "gold-template CLI alias not found or not executable at $RT_GOLD_BIN."; warns=$((warns + 1)); }
+  fi
 
   local vpanel
   vpanel="$(rt_panel_current)"
@@ -3606,6 +3615,10 @@ rt_uninstall_files() {
   if [ -f "$RT_BIN" ] && [ ! -L "$RT_BIN" ] \
      && LC_ALL=C grep -q 'row-template CLI launcher' "$RT_BIN" 2>/dev/null; then
     rm -f -- "$RT_BIN"
+  fi
+  if [ "$RT_GOLD_BIN" != "$RT_BIN" ] && [ -f "$RT_GOLD_BIN" ] && [ ! -L "$RT_GOLD_BIN" ] \
+     && LC_ALL=C grep -q 'row-template CLI launcher' "$RT_GOLD_BIN" 2>/dev/null; then
+    rm -f -- "$RT_GOLD_BIN"
   fi
   return 0
 }
@@ -3751,7 +3764,11 @@ rt_cmd_update() {
     || rt_warn "could not update the management library's companions; run 'row-template update' to retry."
   if [ -f "$payload/bin/row-template" ]; then
     rt_atomic_install "$payload/bin/row-template" "$RT_BIN" 755 \
-      || rt_warn "could not update the row-template CLI."
+      || rt_warn "could not update the compatibility row-template CLI."
+    if [ "$RT_GOLD_BIN" != "$RT_BIN" ]; then
+      rt_atomic_install "$payload/bin/row-template" "$RT_GOLD_BIN" 755 \
+        || rt_warn "could not update the gold-template CLI alias."
+    fi
   fi
 
   # persist the (possibly fallen-back) selection before activation, so the
@@ -3823,7 +3840,9 @@ Gold-Template — custom subscription page manager for 3X-UI, PasarGuard and Reb
 by GoldApp Online · upstream iitzSeriZdev — https://github.com/zarkmakerburg/Gold-Template
 
 Usage:
-  row-template                Open the interactive manager (when run in a terminal)
+  gold-template               Open the interactive manager (recommended)
+  gold-template <command> [options]
+  row-template                Compatibility alias for existing installs
   row-template <command> [options]
 
 Commands:
@@ -4531,7 +4550,7 @@ rt_install_success_screen() {
   rt_ui_kv "Template" "$tpl"
   rt_ui_kv "Install dir" "$RT_ROOT"
   rt_ui_kv "Theme"    "$theme"
-  rt_ui_kv "Manage"   "run: row-template"
+  rt_ui_kv "Manage"   "run: gold-template  (row-template also supported)"
   rt_ui_kv "GitHub"   "$RT_GITHUB"
   rt_ui_kv "Developer" "$RT_DEVELOPER"
   rt_ui_rule
