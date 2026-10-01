@@ -1,0 +1,20 @@
+/* GoldApp-only refinements layered after Signature's shared components. */
+
+.support-cta[data-renew] {
+  background: var(--accent-solid);
+  border-color: var(--accent-solid);
+  color: var(--on-accent);
+  font-weight: 700;
+}
+
+.support-cta[data-renew]:focus-visible {
+  outline-color: var(--focus);
+}
+
+@media (hover: hover) {
+  .support-cta[data-renew]:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    color: var(--on-accent);
+  }
+}
