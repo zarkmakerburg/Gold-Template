@@ -96,7 +96,5 @@
   "platform.appletv": "Apple TV",
   "client.recommended": "موصى به",
   "client.download_for": "تنزيل {name}",
-  "announce.open": "فتح الرابط",
-  "support.renew": "تجديد الاشتراك",
-  "support.renew_newtab": "تجديد الاشتراك، يفتح في علامة تبويب جديدة"
+  "announce.open": "فتح الرابط"
 }
