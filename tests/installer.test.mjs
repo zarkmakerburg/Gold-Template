@@ -744,6 +744,48 @@ test('the CLI dispatcher routes no-arg non-TTY to help and never blocks', () => 
   assert.equal(sh(`${bin} not-a-command </dev/null`).code, 2, 'an unknown command exits 2');
 });
 
+test('the gold-template alias shares the dispatcher but reports its own executable name', () => {
+  const okAlias = sh(
+    'd="$(mktemp -d)"; ln -s "$PWD/installer/bin/row-template" "$d/gold-template"; ' +
+    'RT_LIB_OVERRIDE="$PWD/installer/lib/row-template.sh" bash "$d/gold-template" help </dev/null; ' +
+    'rc=$?; rm -rf "$d"; exit "$rc"',
+  );
+  assert.equal(okAlias.code, 0);
+  assert.match(okAlias.out, /Gold-Template/);
+
+  const missing = sh(
+    'd="$(mktemp -d)"; ln -s "$PWD/installer/bin/row-template" "$d/gold-template"; ' +
+    'RT_LIB_OVERRIDE="$d/missing.sh" bash "$d/gold-template" help </dev/null; ' +
+    'rc=$?; rm -rf "$d"; exit "$rc"',
+  );
+  assert.equal(missing.code, 1);
+  assert.match(missing.err, /^gold-template: management library not found/m);
+});
+
+test('uninstall removes both owned CLI launchers but preserves an unrelated gold-template namesake', () => {
+  const owned = shRoot(
+    'base="$(dirname "$RT_ROOT")"; RT_BIN="$base/row-template"; RT_GOLD_BIN="$base/gold-template"; ' +
+    'mkdir -p "$(dirname "$RT_DIST")"; printf "1.4.0\\n" > "$RT_VERSION_FILE"; : > "$RT_DIST"; ' +
+    'printf "# row-template CLI launcher\\n" > "$RT_BIN"; printf "# row-template CLI launcher\\n" > "$RT_GOLD_BIN"; ' +
+    'rt_uninstall_files; ' +
+    '[ ! -e "$RT_BIN" ] && echo compat-removed; [ ! -e "$RT_GOLD_BIN" ] && echo gold-removed',
+    { prepare: () => {} },
+  );
+  assert.equal(owned.code, 0, owned.err);
+  assert.match(owned.out, /compat-removed/);
+  assert.match(owned.out, /gold-removed/);
+
+  const namesake = shRoot(
+    'base="$(dirname "$RT_ROOT")"; RT_BIN="$base/row-template"; RT_GOLD_BIN="$base/gold-template"; ' +
+    'mkdir -p "$(dirname "$RT_DIST")"; printf "1.4.0\\n" > "$RT_VERSION_FILE"; : > "$RT_DIST"; ' +
+    'printf "# row-template CLI launcher\\n" > "$RT_BIN"; printf "#!/bin/sh\\necho unrelated\\n" > "$RT_GOLD_BIN"; ' +
+    'rt_uninstall_files; [ -f "$RT_GOLD_BIN" ] && echo namesake-kept; rm -f "$RT_GOLD_BIN"',
+    { prepare: () => {} },
+  );
+  assert.equal(namesake.code, 0, namesake.err);
+  assert.match(namesake.out, /namesake-kept/);
+});
+
 test('the existing-install re-run menu maps each choice to one stable token', () => {
   const setup = 'printf "0.9.0-dev\\n" > "$RT_VERSION_FILE"; ';
   assert.equal(sh(setup + 'rt_existing_install_menu </dev/null').out, 'exit', 'EOF => exit (no changes)');
