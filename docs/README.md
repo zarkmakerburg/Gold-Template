@@ -1,4 +1,4 @@
-# Row-Template documentation workspace
+# Gold-Template documentation workspace
 
 This directory is the documentation site. It is **separate from the product**.
 
@@ -49,9 +49,9 @@ consistent with the product's promise that the artifact fetches nothing from any
 `.github/workflows/docs.yml` builds this site on every pull request that touches
 `docs/`, and publishes it to GitHub Pages on every push to `main` that does:
 
-<https://iitzseridev.github.io/Row-Template/>
+<https://zarkmakerburg.github.io/Gold-Template/>
 
-The site is served under `/Row-Template/`, which `astro.config.mjs` sets as its
+The site is served under `/Gold-Template/`, which `astro.config.mjs` sets as its
 `base`. Write links in content as root-relative paths (`/installation/`,
 `/fa/branding/`) and reference files in `public/` the same way;
 `plugins/base-links.mjs` and the components add the base at build time,
