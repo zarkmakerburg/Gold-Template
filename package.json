@@ -1,5 +1,6 @@
 {
   "name": "gold-template",
+  "version": "1.5.0",
   "type": "module",
   "description": "GoldApp Online branded, multilingual subscription page distribution for 3X-UI, PasarGuard and Rebecca",
   "license": "MIT",
