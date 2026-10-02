@@ -22,6 +22,10 @@ on:
     paths:
       - "docs/**"
       - ".github/workflows/docs.yml"
+      - "src/templates/**"
+      - "tools/templates.mjs"
+      - "tools/build.mjs"
+      - "tools/fixtures/**"
   workflow_dispatch:
 
 permissions:
