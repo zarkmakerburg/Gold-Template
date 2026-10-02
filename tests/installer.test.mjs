@@ -852,6 +852,11 @@ const IVORY_HTML = build(true, 'ivory').html;
 const CARBON_HTML = build(true, 'carbon').html;
 const FROST_HTML = build(true, 'frost').html;
 const ORBIT_HTML = build(true, 'orbit').html;
+const GLASS_HTML = build(true, 'glass').html;
+const NEOBRUTAL_HTML = build(true, 'neobrutal').html;
+const OLED_HTML = build(true, 'oled').html;
+const MINIMAL_HTML = build(true, 'minimal').html;
+const DASHBOARDPRO_HTML = build(true, 'dashboardpro').html;
 const ROW_SHA = createHash('sha256').update(ROW_HTML).digest('hex');
 const EDI_SHA = createHash('sha256').update(EDITORIAL_HTML).digest('hex');
 const CANVAS_SHA = createHash('sha256').update(CANVAS_HTML).digest('hex');
@@ -871,6 +876,11 @@ const IVORY_SHA = createHash('sha256').update(IVORY_HTML).digest('hex');
 const CARBON_SHA = createHash('sha256').update(CARBON_HTML).digest('hex');
 const FROST_SHA = createHash('sha256').update(FROST_HTML).digest('hex');
 const ORBIT_SHA = createHash('sha256').update(ORBIT_HTML).digest('hex');
+const GLASS_SHA = createHash('sha256').update(GLASS_HTML).digest('hex');
+const NEOBRUTAL_SHA = createHash('sha256').update(NEOBRUTAL_HTML).digest('hex');
+const OLED_SHA = createHash('sha256').update(OLED_HTML).digest('hex');
+const MINIMAL_SHA = createHash('sha256').update(MINIMAL_HTML).digest('hex');
+const DASHBOARDPRO_SHA = createHash('sha256').update(DASHBOARDPRO_HTML).digest('hex');
 
 function writeArtifact(dir, html, sha) {
   mkdirSync(dir, { recursive: true });
@@ -956,6 +966,11 @@ function writePayload(root, { withStore = true } = {}) {
     writeArtifact(join(p, 'templates', 'carbon'), CARBON_HTML, CARBON_SHA);
     writeArtifact(join(p, 'templates', 'frost'), FROST_HTML, FROST_SHA);
     writeArtifact(join(p, 'templates', 'orbit'), ORBIT_HTML, ORBIT_SHA);
+    writeArtifact(join(p, 'templates', 'glass'), GLASS_HTML, GLASS_SHA);
+    writeArtifact(join(p, 'templates', 'neobrutal'), NEOBRUTAL_HTML, NEOBRUTAL_SHA);
+    writeArtifact(join(p, 'templates', 'oled'), OLED_HTML, OLED_SHA);
+    writeArtifact(join(p, 'templates', 'minimal'), MINIMAL_HTML, MINIMAL_SHA);
+    writeArtifact(join(p, 'templates', 'dashboardpro'), DASHBOARDPRO_HTML, DASHBOARDPRO_SHA);
   }
 }
 
@@ -1035,7 +1050,7 @@ test('rt_stage_template_store stages verified artifacts, skips hostile names, an
     { prepare: (root) => writePayload(root) },
   );
   assert.equal(good.code, 0, good.err);
-  assert.equal(good.out, 'ids=arcade,brutal,canvas,carbon,cobalt,editorial,frost,gold,ivory,obsidian,orbit,prism,pulse,row,saffron,signature,sketch,swiss,terminal,\nbyte-exact');
+  assert.equal(good.out, 'ids=arcade,brutal,canvas,carbon,cobalt,dashboardpro,editorial,frost,glass,gold,ivory,minimal,neobrutal,obsidian,oled,orbit,prism,pulse,row,saffron,signature,sketch,swiss,terminal,\nbyte-exact');
 
   const tampered = shRoot(
     'if rt_stage_template_store "$RT_ROOT/payload" 2>/dev/null; then echo "TAMPER-STAGED"; else echo "TAMPER-REFUSED"; fi\n' +
@@ -1058,7 +1073,7 @@ test('rt_stage_template_store stages verified artifacts, skips hostile names, an
       writeFileSync(join(root, 'payload', 'templates', 'Evil', 'template.html'), 'x');
     } },
   );
-  assert.equal(hostile.out, 'ids=arcade,brutal,canvas,carbon,cobalt,editorial,frost,gold,ivory,obsidian,orbit,prism,pulse,row,saffron,signature,sketch,swiss,terminal,', 'a non-lowercase directory name is skipped');
+  assert.equal(hostile.out, 'ids=arcade,brutal,canvas,carbon,cobalt,dashboardpro,editorial,frost,glass,gold,ivory,minimal,neobrutal,obsidian,oled,orbit,prism,pulse,row,saffron,signature,sketch,swiss,terminal,', 'a non-lowercase directory name is skipped');
 });
 
 test('rt_switch_template moves Row -> Editorial -> Row with branding intact, and refuses bad moves', () => {
