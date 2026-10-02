@@ -21,13 +21,13 @@
   <a href="https://github.com/zarkmakerburg/Gold-Template/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/zarkmakerburg/Gold-Template?sort=semver"></a>
   <img alt="Panels" src="https://img.shields.io/badge/panels-3X--UI%20%7C%20PasarGuard%20%7C%20Rebecca-informational">
   <img alt="Platform" src="https://img.shields.io/badge/platform-Linux-lightgrey">
-  <a href="https://iitzseridev.github.io/Row-Template/"><img alt="Documentation" src="https://img.shields.io/badge/docs-GitHub%20Pages-blue"></a>
+  <a href="https://zarkmakerburg.github.io/Gold-Template/"><img alt="Documentation" src="https://img.shields.io/badge/docs-GitHub%20Pages-blue"></a>
 </p>
 
 <p align="center">
   <a href="#نصب">نصب</a> ·
   <a href="#طرح-ها">طرح ها</a> ·
-  <a href="https://iitzseridev.github.io/Row-Template/fa/">مستندات</a> ·
+  <a href="https://zarkmakerburg.github.io/Gold-Template/fa/">مستندات</a> ·
   <a href="CHANGELOG.md">تغییرات</a> ·
   <a href="https://github.com/zarkmakerburg/Gold-Template/releases">نسخه ها</a>
 </p>
@@ -119,7 +119,7 @@ Gold-Template شامل ۱۷ طرح frozen upstream به‌علاوهٔ ۱۳ طر
 | **Minimal** | کنسول Signature با فضای تنفسی، radius نرم و accent آبی |
 | **Dashboard Pro** | داشبورد Meter با سلسله‌مراتب KPI قوی‌تر و ابزارهای cyan |
 
-<sub>پیش نمایش ها با داده های نمونهٔ خود پروژه ساخته شده اند. پیش نمایش دسکتاپ و موبایل همهٔ طرح ها در <a href="https://iitzseridev.github.io/Row-Template/fa/templates/">گالری طرح ها</a> موجود است.</sub>
+<sub>پیش نمایش ها با داده های نمونهٔ خود پروژه ساخته شده اند. پیش نمایش دسکتاپ و موبایل همهٔ طرح ها در <a href="https://zarkmakerburg.github.io/Gold-Template/fa/templates/">گالری طرح ها</a> موجود است.</sub>
 
 طرح را هنگام یک نصب تعاملی تازه انتخاب کنید، برای نصب اسکریپتی `RT_TEMPLATE` را تنظیم کنید، یا بعداً آن را از مدیر تغییر دهید (**Reconfigure branding → Template**). به روزرسانی ها انتخاب شما را حفظ می کنند. مقدارهای `RT_TEMPLATE` عبارت اند از `row`، `editorial`، `canvas`، `prism`، `terminal`، `pulse`، `brutal`، `arcade`، `sketch`، `signature`، `saffron`، `pulsenova`، `prismnova`، `terminalnova`، `arcadenova`، `meter`، `notebook`، `gold`، `obsidian`، `swiss`، `cobalt`، `ivory`، `carbon`، `frost`، `orbit`، `glass`، `neobrutal`، `oled`، `minimal` و `dashboardpro`.
 
@@ -154,7 +154,7 @@ Gold-Template شامل ۱۷ طرح frozen upstream به‌علاوهٔ ۱۳ طر
 | [PasarGuard](https://github.com/PasarGuard/panel) | ✅ پشتیبانی شده از 1.3.0 | PasarGuard نسخهٔ **5.x** — نصب رسمی Docker یا نصب از سورس (`pasarguard.service`) |
 | [Rebecca](https://github.com/rebeccapanel/Rebecca) | ✅ پشتیبانی شده از 1.3.0 | Rebecca نسخهٔ **1.x**، نسخهٔ Go (نصب باینری Rebecca). فعال سازی خودکار با SQLite و `sqlite3`؛ با MySQL/MariaDB یک تنظیم که باید در داشبورد وارد شود. **پشتیبانی نمی شود:** ایمیج Docker که هنوز Rebecca نسخهٔ 0.0.x (نسخهٔ پایتونی) است — نصب کننده آن را رد می کند و چیزی را تغییر نمی دهد |
 
-این سه پنل از سه موتور قالب متفاوت استفاده می کنند — `html/template` زبان Go، Jinja2 و pongo2 — پس هر طرح برای هر پنل یک بار ساخته می شود و هر نسخه با رندر شدن توسط موتور واقعی همان پنل آزموده می شود. نصب کننده تشخیص می دهد کدام پنل روی سرور است؛ روی سروری با بیش از یک پنل، از شما می پرسد (یا `RT_PANEL` را می خواند). **پشتیبانی‌شده** یعنی هر هفت توانایی روی آن پنل موجود است — تشخیص، نصب، فعال‌سازی، بررسی، پشتیبان‌گیری، بازگردانی و حذف نصب — و هر کدام توسط مجموعهٔ آزمون آزموده می شود. برای جزئیات هر پنل، [سازگاری](https://iitzseridev.github.io/Row-Template/fa/compatibility/) را ببینید.
+این سه پنل از سه موتور قالب متفاوت استفاده می کنند — `html/template` زبان Go، Jinja2 و pongo2 — پس هر طرح برای هر پنل یک بار ساخته می شود و هر نسخه با رندر شدن توسط موتور واقعی همان پنل آزموده می شود. نصب کننده تشخیص می دهد کدام پنل روی سرور است؛ روی سروری با بیش از یک پنل، از شما می پرسد (یا `RT_PANEL` را می خواند). **پشتیبانی‌شده** یعنی هر هفت توانایی روی آن پنل موجود است — تشخیص، نصب، فعال‌سازی، بررسی، پشتیبان‌گیری، بازگردانی و حذف نصب — و هر کدام توسط مجموعهٔ آزمون آزموده می شود. برای جزئیات هر پنل، [سازگاری](https://zarkmakerburg.github.io/Gold-Template/fa/compatibility/) را ببینید.
 
 **محدودیت های 1.4.0:**
 
@@ -322,7 +322,7 @@ row-template
 - **بازگردانی** یک نسخهٔ پیشین را از یک پشتیبان اعتبارسنجی شده بازیابی می کند. ابتدا از نسخهٔ فعلی یک عکس فوری (snapshot) گرفته می شود تا یک بازگردانی ناموفق قابل جبران باشد، و برندسازی شما حفظ می شود. پشتیبان ها پنلی را که روی آن ساخته شده اند ثبت می کنند و هرگز روی پنل دیگری بازگردانده نمی شوند؛ پشتیبانی از یک نسخهٔ قدیمی تر که نام طرحش را ثبت نکرده، به صورت Row بازگردانده می شود. بازگردانی، صفحه و نسخه ای را که پشتیبان ثبت کرده بازیابی می کند، نه خود مدیر `row-template` را: پس از بازگردانی به یک پشتیبان 1.1.0، `row-template version` نسخهٔ 1.1.0 را گزارش می دهد در حالی که مدیر 1.4.0 سر جایش می ماند، و `row-template update` بعدی به 1.4.0 برمی گردد. فقط دو پشتیبان جدیدتر نگه داشته می شوند — هر به روزرسانی، تغییر طرح و بازگردانی یکی می سازد.
 - **حذف نصب** فایل های Row-Template را حذف می کند و پنل را به صفحه ای که پیش تر داشت بازمی گرداند: در 3X-UI، `subThemeDir` را تنها در صورتی پاک می کند که به Row-Template اشاره کند؛ در PasarGuard بلوک `.env` و صفحهٔ خودش را برمی دارد؛ در Rebecca دو تنظیم اشتراکی را که تغییر داده بازمی گرداند (و اگر از آن پس صفحهٔ دیگری انتخاب کرده باشید، به آن ها دست نمی زند). به کاربران، inboundها، کلاینت ها، نودها و گواهی های شما دست زده نمی شود.
 
-[مستندات](https://iitzseridev.github.io/Row-Template/fa/) پیکربندی، برندسازی و رفع اشکال را با جزئیات بیشتری پوشش می دهد.
+[مستندات](https://zarkmakerburg.github.io/Gold-Template/fa/) پیکربندی، برندسازی و رفع اشکال را با جزئیات بیشتری پوشش می دهد.
 
 ## توسعه
 
