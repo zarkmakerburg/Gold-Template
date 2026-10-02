@@ -1,17 +1,18 @@
 ---
 title: Template Gallery
-description: The seventeen core designs that ship with Row-Template, with their structural traits.
+description: All thirty Gold-Template designs, including seventeen frozen upstream cores and thirteen GoldApp custom designs.
 ---
 
 import TemplateGallery from "../../../components/TemplateGallery.astro";
 import TemplateComparison from "../../../components/TemplateComparison.astro";
 
-Row-Template ships **seventeen core templates**. Each is a complete design — its own
-layout, its own typography, its own structure — and each is byte-locked, so a released
-design cannot change without a deliberate, reviewed update.
+Gold-Template ships **thirty selectable templates**: **seventeen frozen upstream core
+designs** and **thirteen GoldApp custom designs**. The core set stays byte-locked for
+reproducibility; the custom set is deliberately unlocked so GoldApp can evolve it
+without weakening the upstream locks.
 
-Every template is available, every template is locked, and every template owns an
-independent `layout.html`. There are no provisional designs.
+Every design uses the same shared runtime contract and is selectable from the installer
+or manager.
 
 ## What every template shares
 
@@ -23,19 +24,19 @@ not from any individual design:
 - **The same runtime.** A template is a layout and a stylesheet set, never a fork of the
   logic.
 - **The same data.** Status, traffic, expiry, configurations and clients are identical
-  across all seventeen.
+  across all thirty.
 - **Right-to-left support**, and **dark and light themes**.
-- **79 required hooks**, exactly three scripts, and a byte lock pinning the artifact to
-  an exact size and SHA-256.
+- **79 required hooks**, deterministic builds, and a **280 KiB hard artifact ceiling**.
+  The seventeen upstream core designs additionally carry exact byte/SHA-256 locks.
 
 ## Compare by structure
 
-The templates differ in structure, not in colour. This table compares them on the traits
-that actually distinguish them.
+The catalogue differs in structure, composition and visual treatment — not just colour.
+This table compares the traits that distinguish the designs.
 
 <TemplateComparison />
 
-## The seventeen designs
+## The thirty designs
 
 Each entry lists its structural traits and how to select it. **No template is ranked above
 another** — they are different designs for different services.
@@ -44,7 +45,7 @@ another** — they are different designs for different services.
 
 ## Previews
 
-Every preview above is captured from the **frozen artifact** itself, rendered with the
+Every preview above is captured from the **built artifact** itself, rendered with the
 project's own fixture data at desktop and phone width — so what you see is what the
 template actually produces. **Nothing here is a synthetic screenshot.**
 
