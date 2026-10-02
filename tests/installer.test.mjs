@@ -1337,7 +1337,7 @@ test('an update keeps an available selection live across the release', () => {
   assert.match(r.out, /name=Test VPN/, 'branding survives the update');
   assert.match(r.out, /ver=1.2.0/);
   assert.match(r.out, /live=editorial/, 'the updated install serves the selected design');
-  assert.match(r.out, /store=arcade,brutal,canvas,editorial,gold,obsidian,prism,pulse,row,saffron,signature,sketch,swiss,terminal/, 'the release store was staged');
+  assert.match(r.out, /store=arcade,brutal,canvas,carbon,cobalt,editorial,frost,gold,ivory,obsidian,orbit,prism,pulse,row,saffron,signature,sketch,swiss,terminal/, 'the release store was staged');
 });
 
 test('an update against a payload without a store degrades to Row and keeps the invariant', () => {
