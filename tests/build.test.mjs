@@ -721,6 +721,46 @@ for (const [id, name, accent, base] of [
   });
 }
 
+/* Advanced GoldApp custom designs. Each uses a different proven layout contract
+   and adds a small downstream component-treatment layer. */
+for (const [id, name, accent, base] of [
+  ['glass', 'Glass', '#4AB9F2', 'canvas'],
+  ['neobrutal', 'NeoBrutal', '#FF5D9E', 'brutal'],
+  ['oled', 'OLED', '#16D977', 'terminal'],
+  ['minimal', 'Minimal', '#5F8FFF', 'signature'],
+  ['dashboardpro', 'Dashboard Pro', '#42C7F5', 'meter'],
+]) {
+  const custom = build(true, id);
+
+  test(`the ${name} build is deterministic, whole and inside the release budget`, () => {
+    const html = custom.html;
+    const bytes = Buffer.byteLength(html, 'utf8');
+
+    assert.equal(build(true, id).html, html, 'same sources must produce the same bytes');
+    assert.ok(html.startsWith('<!doctype html>'));
+    assert.ok(html.trimEnd().endsWith('</html>'));
+    assert.equal(html.match(/\/\*__[A-Z][A-Z0-9_]*__\*\//), null);
+    assert.equal((html.match(/<style>/g) || []).length, 2, 'the head stylesheet and the flag face');
+    assert.equal((html.match(/<script(?: |>)/g) || []).length, 3, 'shared boot, locale island and app');
+    assert.equal((html.match(/\/\* row:branding \*\//g) || []).length, 1);
+    assert.equal((html.match(new RegExp(`data-template="${id}"`, 'g')) || []).length, 1);
+    assert.equal(custom.dataTemplate, id);
+    assert.ok(html.includes(accent), `${name} must carry its own accent token`);
+    assert.ok(bytes <= 280 * 1024, `${(bytes / 1024).toFixed(1)} KiB exceeds the 280 KiB refusal point`);
+
+    for (const hook of REQUIRED_HOOKS) {
+      assert.equal(html.split(`id="${hook}"`).length - 1, 1,
+        `${name}: hook id="${hook}" must appear exactly once`);
+    }
+  });
+
+  test(`${name} keeps the approved ${base} layout contract`, () => {
+    const sourceLayout = readFileSync(join(ROOT, 'src', 'templates', base, 'layout.html'), 'utf8');
+    const customLayout = readFileSync(join(ROOT, 'src', 'templates', id, 'layout.html'), 'utf8');
+    assert.equal(customLayout, sourceLayout, `${name} must reuse the approved ${base} DOM contract`);
+  });
+}
+
 /* Saffron is the eleventh design: same guarantees, its own budget line. */
 const saffron = build(true, 'saffron');
 
