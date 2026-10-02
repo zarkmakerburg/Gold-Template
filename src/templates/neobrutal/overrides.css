@@ -1,0 +1,1 @@
+.poster,.rows,.rail,.client,.cfg,.menu,.dialog{box-shadow:6px 6px 0 var(--text)}.btn,.ctl,.tab,.more,.search{box-shadow:3px 3px 0 var(--text)}.btn:active,.ctl:active,.tab:active,.more:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--text)}.stripe{border-block-end:var(--rule-hard) solid var(--text)}
