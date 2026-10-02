@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Capture real preview screenshots for the seventeen core templates.
+ * Capture real preview screenshots for every selectable Gold-Template design.
  *
  * ARCHITECTURE
  *   The previews come from the project's OWN fixture preview server — the one the
@@ -37,10 +37,10 @@
  *   day differs from the last one even though nothing in the product changed.
  *   See REFERENCE_UNIX below for how the instant was derived.
  *
- *   All seventeen artifacts are rebuilt before the browser starts, and each one is
+ *   All selectable artifacts are rebuilt before the browser starts, and each one is
  *   checked to be newer than src/. Row is served from template/index.html and the
- *   other fourteen from dist/templates/**, which `npm run build` does not write,
- *   so without this preflight a capture would photograph fourteen stale designs
+ *   remaining designs from dist/templates/**, which `npm run build` does not write,
+ *   so without this preflight a capture could photograph stale designs
  *   and report success.
  *
  * OUTPUT
@@ -108,9 +108,10 @@ const CHROME_CANDIDATES = [
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const { templateIds } = await import(pathToFileURL(join(ROOT, "tools", "templates.mjs")).href);
-const IDS = templateIds();
-if (IDS.length !== 17) { console.error(`expected 17 templates, registry reports ${IDS.length}`); process.exit(1); }
+const { availableTemplateIds } = await import(pathToFileURL(join(ROOT, "tools", "templates.mjs")).href);
+const IDS = availableTemplateIds();
+if (!IDS.length) { console.error("template registry exposes no selectable designs"); process.exit(1); }
+const EXPECTED_CAPTURES = IDS.length * 2;
 
 // ── preflight: build every artifact, then prove the tree is fresh ───────────
 //
@@ -119,7 +120,7 @@ if (IDS.length !== 17) { console.error(`expected 17 templates, registry reports 
 // Capturing without an all-template build therefore photographs fourteen stale
 // designs and reports success. The official command does the build itself, so
 // the prerequisite cannot be forgotten by whoever runs it.
-console.log("building all 17 artifacts …");
+console.log(`building all ${IDS.length} selectable artifacts …`);
 const built = spawnSync("node", [join("tools", "build.mjs"), "--all", "--quiet"], {
   cwd: ROOT, stdio: ["ignore", "inherit", "inherit"], shell: process.platform === "win32",
 });
@@ -393,7 +394,7 @@ const uniqueHashes = new Set(entries.map((e) => e.sha256)).size;
 writeFileSync(join(OUT, "manifest.json"), JSON.stringify({
   fixture: FIXTURE,
   generator: "docs/scripts/capture-previews.mjs",
-  source: "the project's own fixture preview server, rendering each frozen artifact",
+  source: "the project's own fixture preview server, rendering each selectable built artifact",
   format: "webp",
   quality: 92,
   desktop: { width: DESKTOP.width, height: DESKTOP.height },
@@ -412,5 +413,11 @@ try { rmSync(profile, { recursive: true, force: true }); } catch {}
 console.log(`\n${entries.length} screenshot(s) written to docs/public/previews/`);
 console.log(`total ${total} bytes (${(total / 1024 / 1024).toFixed(2)} MB) · ${uniqueHashes} unique sha256`);
 if (failed) { console.error(`${failed} capture(s) failed`); process.exit(1); }
-if (entries.length !== 34) { console.error(`expected 34 captures, got ${entries.length}`); process.exit(1); }
-if (uniqueHashes !== 34) { console.error(`expected 34 unique hashes, got ${uniqueHashes}`); process.exit(1); }
+if (entries.length !== EXPECTED_CAPTURES) {
+  console.error(`expected ${EXPECTED_CAPTURES} captures for ${IDS.length} templates, got ${entries.length}`);
+  process.exit(1);
+}
+if (uniqueHashes !== EXPECTED_CAPTURES) {
+  console.error(`expected ${EXPECTED_CAPTURES} unique hashes, got ${uniqueHashes}`);
+  process.exit(1);
+}
