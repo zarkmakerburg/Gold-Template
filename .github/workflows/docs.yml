@@ -33,11 +33,11 @@ permissions:
   pages: write
   id-token: write
 
-# One deployment at a time; a newer push supersedes a queued one, but a
-# deployment already running is allowed to finish.
+# One docs run per ref. A newer commit cancels an obsolete capture/build so
+# pull requests cannot be blocked behind screenshots from an older HEAD.
 concurrency:
   group: pages-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
