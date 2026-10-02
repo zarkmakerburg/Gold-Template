@@ -108,6 +108,23 @@ const CHROME_CANDIDATES = [
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+/* `go run` and Chrome both create child processes. Killing only the direct
+ * ChildProcess can leave descendants holding our stdio pipes open, which makes
+ * Node appear finished while GitHub Actions waits forever. Both children are
+ * started detached on POSIX so their entire process group can be terminated. */
+function terminateTree(child) {
+  if (!child?.pid) return;
+  try {
+    if (process.platform === "win32") child.kill("SIGTERM");
+    else process.kill(-child.pid, "SIGTERM");
+  } catch {
+    try { child.kill("SIGTERM"); } catch {}
+  }
+  child.stdout?.destroy();
+  child.stderr?.destroy();
+  child.unref();
+}
+
 const { availableTemplateIds } = await import(pathToFileURL(join(ROOT, "tools", "templates.mjs")).href);
 const IDS = availableTemplateIds();
 if (!IDS.length) { console.error("template registry exposes no selectable designs"); process.exit(1); }
@@ -116,7 +133,7 @@ const EXPECTED_CAPTURES = IDS.length * 2;
 // ── preflight: build every artifact, then prove the tree is fresh ───────────
 //
 // The preview server serves Row from the committed template/index.html and the
-// other fourteen from dist/templates/**, but `npm run build` builds Row alone.
+// the remaining designs from dist/templates/**, but `npm run build` builds Row alone.
 // Capturing without an all-template build therefore photographs fourteen stale
 // designs and reports success. The official command does the build itself, so
 // the prerequisite cannot be forgotten by whoever runs it.
@@ -177,13 +194,13 @@ for (let i = 0; i < 90; i++) {
   if (/\(\d+ fixtures, \d+ templates\)/.test(serverLog)) { up = true; break; }
   try { const r = await fetch(`${BASE}/f/${FIXTURE}`); if (r.ok) { up = true; break; } } catch {}
 }
-if (!up) { console.error("the fixture server did not come up.\n" + serverLog); server.kill(); process.exit(1); }
+if (!up) { console.error("the fixture server did not come up.\n" + serverLog); terminateTree(server); process.exit(1); }
 const m = serverLog.match(/\((\d+) fixtures, (\d+) templates\)/);
 console.log(`  server up — ${m ? m[1] + " fixtures, " + m[2] + " templates" : "responding"}`);
 
 // ── chrome ──────────────────────────────────────────────────────────────────
 const bin = CHROME_CANDIDATES.find((p) => existsSync(p));
-if (!bin) { console.error("no Chrome/Chromium found"); server.kill(); process.exit(1); }
+if (!bin) { console.error("no Chrome/Chromium found"); terminateTree(server); process.exit(1); }
 const profile = mkdtempSync(join(tmpdir(), "row-previews-"));
 console.log(`browser: ${bin}`);
 
