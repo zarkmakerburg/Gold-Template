@@ -1,0 +1,144 @@
+/* Design tokens. Every value a theme can change lives here and nowhere else;
+   the rest of the stylesheet only ever reads custom properties.
+
+   The page is a signal flow: one horizontal lane with a live trace, milestones
+   marked along it, and channels running beneath. The scale is built for that
+   reading, so the figure is set to be read at the head of a lane rather than
+   centred in a card. */
+
+:root {
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+          Arial, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas,
+               "Liberation Mono", monospace;
+  --font-arabic: Vazirmatn, "Segoe UI", Tahoma, "Noto Naskh Arabic",
+                 "Geeza Pro", sans-serif;
+
+  --fs-figure: 2.25rem;
+  --fs-title: 1.0625rem;
+  --fs-channel: 1rem;
+  --fs-label: 0.6875rem;
+  --fs-body: 0.9375rem;
+  --fs-caption: 0.8125rem;
+  --fs-micro: 0.6875rem;
+
+  --lh-figure: 1.1;
+  --lh-tight: 1.35;
+  --lh-body: 1.55;
+  --measure: 64ch;
+  --ls-label: 0.12em;
+
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 32px;
+
+  /* The rail and the channel nodes are the only curved things on the page. */
+  --r-control: 4px;
+  --r-pill: 999px;
+  --node: 11px;
+  --rail-x: 18px;
+
+  --dur: 140ms;
+  --dur-slow: 220ms;
+  --ease: cubic-bezier(0.3, 0.6, 0.2, 1);
+
+  --page-max: 960px;
+  --tap: 44px;
+  --mark: 28px;
+}
+
+/* Dark is the default so a client with no matchMedia and no stored preference
+   still lands on a coherent theme. A cold instrument panel with one warm trace. */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #061214;
+  --surface: #0B1C1F;
+  --track: #123238;
+
+  --rule: #17383D;
+  --rule-strong: #315B61;
+  --control-border: #4B7479;
+
+  --text: #E7F7F5;
+  --muted: #8FB5B0;
+  --subtle: #668F8A;
+
+  --accent: #55E0D0;
+  --accent-solid: #20BFAF;
+  --accent-hover: #78EBDD;
+  --on-accent: #031514;
+
+  --warning: #E0A33D;
+  --danger: #F0655C;
+  --success: #58C48A;
+  --info: #6FB6D6;
+  --focus: #78EBDD;
+
+  --shadow-pop: 0 12px 30px rgb(2 6 10 / 0.66);
+  --scrim: rgb(3 7 11 / 0.72);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #F2FAF9;
+  --surface: #FFFFFF;
+  --track: #D9EEEB;
+
+  --rule: #D2E8E5;
+  --rule-strong: #9CC2BE;
+  --control-border: #679691;
+
+  --text: #0C1B1A;
+  --muted: #496966;
+  --subtle: #607F7B;
+
+  --accent: #087F77;
+  --accent-solid: #087F77;
+  --accent-hover: #06665F;
+  --on-accent: #FFFFFF;
+
+  --warning: #8A5A00;
+  --danger: #B03226;
+  --success: #1F6B45;
+  --info: #1C5E75;
+  --focus: #087F77;
+
+  --shadow-pop: 0 12px 30px rgb(15 20 24 / 0.16);
+  --scrim: rgb(15 20 24 / 0.4);
+}
+
+@media (min-width: 820px) {
+  :root {
+    --fs-figure: 3rem;
+    --fs-channel: 1.0625rem;
+    --rail-x: 20px;
+  }
+}
+
+/* row:font-face */
+@font-face {
+  font-family: Vazirmatn;
+  src: url("data:font/woff2;base64,__FONT_BASE64__") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+200C-200F, U+2066-2069, U+FB50-FDFF,
+                 U+FE70-FEFF;
+}
+/* row:font-face end */
+
+/* Arabic and Persian are first-class. The Arabic face replaces both voices: a
+   monospace font has no Arabic glyphs, and faux-mono tracking closes the joins
+   that carry the script. */
+[lang="fa"],
+[lang="ar"] {
+  --font: var(--font-arabic);
+  --font-mono: var(--font-arabic);
+  --lh-body: 1.75;
+}

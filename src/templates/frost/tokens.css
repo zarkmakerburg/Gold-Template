@@ -1,0 +1,144 @@
+/* Design tokens. Every value a theme can change lives here and nowhere else;
+   the rest of the stylesheet only ever reads custom properties. */
+
+:root {
+  /* One technical sans voice; the dashboard reads through weight, alignment
+     and spatial hierarchy, not through decoration. */
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+          Arial, sans-serif;
+  --font-arabic: Vazirmatn, "Segoe UI", Tahoma, "Noto Naskh Arabic",
+                 "Geeza Pro", sans-serif;
+
+  --fs-display: 2.5rem;
+  --fs-title: 1.0625rem;
+  --fs-section: 0.75rem;
+  --fs-body: 1rem;
+  --fs-caption: 0.875rem;
+  --fs-micro: 0.75rem;
+
+  --lh-display: 1.12;
+  --lh-tight: 1.4;
+  --lh-body: 1.6;
+  --measure: 60ch;
+
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 32px;
+
+  --r-panel: 14px;
+  --r-control: 10px;
+  --r-mark: 8px;
+  --r-pill: 999px;
+
+  --dur-fast: 100ms;
+  --dur: 180ms;
+  --dur-slow: 260ms;
+  --ease: cubic-bezier(0.25, 0.5, 0.2, 1);
+
+  --page-max: 840px;
+  --tap: 44px;
+
+  --header-h: 52px;
+  --mark: 32px;
+  --card-pad: var(--sp-5);
+  --btn-h: 46px;
+}
+
+/* Dark is the default. Cool slate planes, indigo-violet signal accent. */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #071019;
+  --surface: #0D1924;
+  --surface-2: #142534;
+  --track: #1B3142;
+
+  --hairline: #172936;
+  --border: #254155;
+  --border-strong: #395A70;
+  --control-border: #55768A;
+
+  --text: #EAF6FF;
+  --muted: #91AFC0;
+  --subtle: #7291A3;
+
+  --accent: #7CC9FF;
+  --accent-solid: #4AADE8;
+  --accent-hover: #A3DCFF;
+  --accent-soft: #10283A;
+  --info-surface: #0D1D28;
+  --info-border: #254155;
+  --on-accent: #06131B;
+
+  --success: #4CC38A;
+  --warning: #D9A94F;
+  --danger: #D96C5F;
+  --focus: #7CC9FF;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #F4FAFD;
+  --surface: #FFFFFF;
+  --surface-2: #E8F4FA;
+  --track: #D7EAF4;
+
+  --hairline: #DCEBF2;
+  --border: #CADFEA;
+  --border-strong: #A4BFCC;
+  --control-border: #7595A5;
+
+  --text: #14242D;
+  --muted: #526B77;
+  --subtle: #66808C;
+
+  --accent: #2B7FAE;
+  --accent-solid: #2B7FAE;
+  --accent-hover: #21658B;
+  --accent-soft: #E0F3FC;
+  --info-surface: #EDF7FB;
+  --info-border: #D5E8F0;
+  --on-accent: #FFFFFF;
+
+  --success: #1B7A4E;
+  --warning: #96660D;
+  --danger: #B33A2B;
+  --focus: #2B7FAE;
+}
+
+@media (min-width: 480px) {
+  :root { --card-pad: var(--sp-5); }
+}
+
+@media (min-width: 720px) {
+  :root { --fs-display: 3rem; }
+}
+
+@media (min-width: 1200px) {
+  :root { --page-max: 1020px; }
+}
+
+/* row:font-face */
+@font-face {
+  font-family: Vazirmatn;
+  src: url("data:font/woff2;base64,__FONT_BASE64__") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+200C-200F, U+2066-2069, U+FB50-FDFF,
+                 U+FE70-FEFF;
+}
+/* row:font-face end */
+
+/* The Arabic-script face is opted into by language, and its unicode-range
+   keeps it off Latin, Cyrillic and CJK text even here. */
+[lang="fa"],
+[lang="ar"] {
+  --font: var(--font-arabic);
+  --lh-body: 1.8;
+}
