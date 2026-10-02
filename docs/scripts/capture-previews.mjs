@@ -162,6 +162,7 @@ console.log(`starting the fixture preview server on ${BASE} …`);
 console.log(`  fixture clock pinned to ${new Date(REFERENCE_UNIX * 1000).toISOString()} (ROW_FIXTURE_NOW=${REFERENCE_UNIX})`);
 const server = spawn("go", ["-C", join("tools", "fixtures"), "run", ".", "-serve", `127.0.0.1:${PORT}`], {
   cwd: ROOT, stdio: ["ignore", "pipe", "pipe"], shell: process.platform === "win32",
+  detached: process.platform !== "win32",
   /* The one thing that makes the fixture data reproducible. The server reads it
      once at start-up; nothing else in the project sets it. */
   env: { ...process.env, ROW_FIXTURE_NOW: String(REFERENCE_UNIX) },
@@ -191,7 +192,10 @@ const chrome = spawn(bin, [
   "--no-first-run", "--no-default-browser-check", "--disable-gpu",
   "--hide-scrollbars", "--force-device-scale-factor=1", "--font-render-hinting=none",
   "about:blank",
-], { stdio: ["ignore", "ignore", "pipe"] });
+], {
+  stdio: ["ignore", "ignore", "pipe"],
+  detached: process.platform !== "win32",
+});
 
 const wsUrl = await new Promise((res, rej) => {
   let buf = ""; const t = setTimeout(() => rej(new Error("chrome did not report a devtools port")), 30000);
@@ -266,6 +270,22 @@ const CLOCK_SHIM = `(() => {
   globalThis.Date = FixedDate;
 })()`;
 await send("Page.addScriptToEvaluateOnNewDocument", { source: CLOCK_SHIM });
+
+function stopTree(child) {
+  if (!child || child.exitCode !== null || child.killed) return;
+  try {
+    if (process.platform === "win32") child.kill("SIGTERM");
+    else process.kill(-child.pid, "SIGTERM");
+  } catch {}
+}
+
+async function waitForExit(child, timeoutMs = 3000) {
+  if (!child || child.exitCode !== null) return;
+  await Promise.race([
+    new Promise((resolve) => child.once("exit", resolve)),
+    sleep(timeoutMs),
+  ]);
+}
 
 // ── capture ─────────────────────────────────────────────────────────────────
 mkdirSync(OUT, { recursive: true });
@@ -406,8 +426,12 @@ writeFileSync(join(OUT, "manifest.json"), JSON.stringify({
 }, null, 2) + "\n", "utf8");
 
 ws.close();
-chrome.kill();
-server.kill();
+stopTree(chrome);
+stopTree(server);
+await Promise.all([waitForExit(chrome), waitForExit(server)]);
+chrome.stderr?.destroy();
+server.stdout?.destroy();
+server.stderr?.destroy();
 try { rmSync(profile, { recursive: true, force: true }); } catch {}
 
 console.log(`\n${entries.length} screenshot(s) written to docs/public/previews/`);
@@ -421,3 +445,7 @@ if (uniqueHashes !== EXPECTED_CAPTURES) {
   console.error(`expected ${EXPECTED_CAPTURES} unique hashes, got ${uniqueHashes}`);
   process.exit(1);
 }
+
+/* All output is durable at this point. Explicitly exit so a browser/Go pipe that
+   ignores shutdown cannot keep CI alive after a successful deterministic capture. */
+process.exit(0);
