@@ -5,6 +5,52 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-10-02
+
+The first independent Gold-Template release. It keeps the seventeen upstream
+Row-Template designs frozen and attributable, adds thirteen GoldApp custom designs,
+and moves installation, updates, documentation and future releases onto the
+Gold-Template repository.
+
+### Added
+
+- **Thirty selectable designs.** The catalogue is now seventeen frozen upstream
+  core templates plus thirteen GoldApp custom templates: Gold, Obsidian, Swiss,
+  Cobalt, Ivory, Carbon, Frost, Orbit, Glass, NeoBrutal, OLED, Minimal and
+  Dashboard Pro.
+- **GoldApp preset.** `RT_PRESET=goldapp` selects the Gold design, the
+  `GoldApp Online` service name and the GoldApp support/renewal destination unless
+  an explicit `RT_*` value overrides that field.
+- **Recommended `gold-template` CLI.** Existing `row-template` installations and
+  scripts remain compatible; both commands point at the same trusted manager.
+- **Gold-only Smart Renewal treatment.** The Gold design can turn its support action
+  into a renewal action from local subscription state without adding telemetry or
+  a third-party request.
+- **Independent release automation.** A version tag is accepted only when it matches
+  `VERSION`; the full test, verification, ShellCheck and panel-build gates run
+  again before deterministic release assets are built and published.
+- **Thirty-template documentation gallery.** Preview capture now follows the
+  selectable registry instead of a hard-coded seventeen-design list and captures
+  desktop and mobile output for every selectable template.
+
+### Changed
+
+- **Gold-Template owns its release channel.** The installer, updater, badges and
+  documentation use this repository rather than silently following upstream
+  releases.
+- **Documentation is Gold-Template native.** The gallery distinguishes the frozen
+  core tier from the evolving GoldApp custom tier and documents the current
+  280 KiB artifact ceiling.
+- **GitHub Pages build includes real previews.** The docs workflow captures all
+  selectable templates with the project's own deterministic fixture renderer before
+  building the site.
+
+### Compatibility
+
+- 3X-UI, PasarGuard and Rebecca remain supported.
+- The original seventeen upstream template artifacts stay byte-locked.
+- Existing `row-template` paths and command usage remain supported.
+
 ## [1.4.0] - 2026-09-28
 
 Every country's flag, on every platform. On PasarGuard, the applications and

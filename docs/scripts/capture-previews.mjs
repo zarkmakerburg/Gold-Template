@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Capture real preview screenshots for the seventeen core templates.
+ * Capture real preview screenshots for every selectable Gold-Template design.
  *
  * ARCHITECTURE
  *   The previews come from the project's OWN fixture preview server — the one the
@@ -37,10 +37,10 @@
  *   day differs from the last one even though nothing in the product changed.
  *   See REFERENCE_UNIX below for how the instant was derived.
  *
- *   All seventeen artifacts are rebuilt before the browser starts, and each one is
+ *   All selectable artifacts are rebuilt before the browser starts, and each one is
  *   checked to be newer than src/. Row is served from template/index.html and the
- *   other fourteen from dist/templates/**, which `npm run build` does not write,
- *   so without this preflight a capture would photograph fourteen stale designs
+ *   remaining designs from dist/templates/**, which `npm run build` does not write,
+ *   so without this preflight a capture could photograph stale designs
  *   and report success.
  *
  * OUTPUT
@@ -108,18 +108,36 @@ const CHROME_CANDIDATES = [
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const { templateIds } = await import(pathToFileURL(join(ROOT, "tools", "templates.mjs")).href);
-const IDS = templateIds();
-if (IDS.length !== 17) { console.error(`expected 17 templates, registry reports ${IDS.length}`); process.exit(1); }
+/* `go run` and Chrome both create child processes. Killing only the direct
+ * ChildProcess can leave descendants holding our stdio pipes open, which makes
+ * Node appear finished while GitHub Actions waits forever. Both children are
+ * started detached on POSIX so their entire process group can be terminated. */
+function terminateTree(child) {
+  if (!child?.pid) return;
+  try {
+    if (process.platform === "win32") child.kill("SIGTERM");
+    else process.kill(-child.pid, "SIGTERM");
+  } catch {
+    try { child.kill("SIGTERM"); } catch {}
+  }
+  child.stdout?.destroy();
+  child.stderr?.destroy();
+  child.unref();
+}
+
+const { availableTemplateIds } = await import(pathToFileURL(join(ROOT, "tools", "templates.mjs")).href);
+const IDS = availableTemplateIds();
+if (!IDS.length) { console.error("template registry exposes no selectable designs"); process.exit(1); }
+const EXPECTED_CAPTURES = IDS.length * 2;
 
 // ── preflight: build every artifact, then prove the tree is fresh ───────────
 //
 // The preview server serves Row from the committed template/index.html and the
-// other fourteen from dist/templates/**, but `npm run build` builds Row alone.
+// the remaining designs from dist/templates/**, but `npm run build` builds Row alone.
 // Capturing without an all-template build therefore photographs fourteen stale
 // designs and reports success. The official command does the build itself, so
 // the prerequisite cannot be forgotten by whoever runs it.
-console.log("building all 17 artifacts …");
+console.log(`building all ${IDS.length} selectable artifacts …`);
 const built = spawnSync("node", [join("tools", "build.mjs"), "--all", "--quiet"], {
   cwd: ROOT, stdio: ["ignore", "inherit", "inherit"], shell: process.platform === "win32",
 });
@@ -161,6 +179,7 @@ console.log(`starting the fixture preview server on ${BASE} …`);
 console.log(`  fixture clock pinned to ${new Date(REFERENCE_UNIX * 1000).toISOString()} (ROW_FIXTURE_NOW=${REFERENCE_UNIX})`);
 const server = spawn("go", ["-C", join("tools", "fixtures"), "run", ".", "-serve", `127.0.0.1:${PORT}`], {
   cwd: ROOT, stdio: ["ignore", "pipe", "pipe"], shell: process.platform === "win32",
+  detached: process.platform !== "win32",
   /* The one thing that makes the fixture data reproducible. The server reads it
      once at start-up; nothing else in the project sets it. */
   env: { ...process.env, ROW_FIXTURE_NOW: String(REFERENCE_UNIX) },
@@ -175,13 +194,13 @@ for (let i = 0; i < 90; i++) {
   if (/\(\d+ fixtures, \d+ templates\)/.test(serverLog)) { up = true; break; }
   try { const r = await fetch(`${BASE}/f/${FIXTURE}`); if (r.ok) { up = true; break; } } catch {}
 }
-if (!up) { console.error("the fixture server did not come up.\n" + serverLog); server.kill(); process.exit(1); }
+if (!up) { console.error("the fixture server did not come up.\n" + serverLog); terminateTree(server); process.exit(1); }
 const m = serverLog.match(/\((\d+) fixtures, (\d+) templates\)/);
 console.log(`  server up — ${m ? m[1] + " fixtures, " + m[2] + " templates" : "responding"}`);
 
 // ── chrome ──────────────────────────────────────────────────────────────────
 const bin = CHROME_CANDIDATES.find((p) => existsSync(p));
-if (!bin) { console.error("no Chrome/Chromium found"); server.kill(); process.exit(1); }
+if (!bin) { console.error("no Chrome/Chromium found"); terminateTree(server); process.exit(1); }
 const profile = mkdtempSync(join(tmpdir(), "row-previews-"));
 console.log(`browser: ${bin}`);
 
@@ -190,7 +209,10 @@ const chrome = spawn(bin, [
   "--no-first-run", "--no-default-browser-check", "--disable-gpu",
   "--hide-scrollbars", "--force-device-scale-factor=1", "--font-render-hinting=none",
   "about:blank",
-], { stdio: ["ignore", "ignore", "pipe"] });
+], {
+  stdio: ["ignore", "ignore", "pipe"],
+  detached: process.platform !== "win32",
+});
 
 const wsUrl = await new Promise((res, rej) => {
   let buf = ""; const t = setTimeout(() => rej(new Error("chrome did not report a devtools port")), 30000);
@@ -265,6 +287,22 @@ const CLOCK_SHIM = `(() => {
   globalThis.Date = FixedDate;
 })()`;
 await send("Page.addScriptToEvaluateOnNewDocument", { source: CLOCK_SHIM });
+
+function stopTree(child) {
+  if (!child || child.exitCode !== null || child.killed) return;
+  try {
+    if (process.platform === "win32") child.kill("SIGTERM");
+    else process.kill(-child.pid, "SIGTERM");
+  } catch {}
+}
+
+async function waitForExit(child, timeoutMs = 3000) {
+  if (!child || child.exitCode !== null) return;
+  await Promise.race([
+    new Promise((resolve) => child.once("exit", resolve)),
+    sleep(timeoutMs),
+  ]);
+}
 
 // ── capture ─────────────────────────────────────────────────────────────────
 mkdirSync(OUT, { recursive: true });
@@ -393,7 +431,7 @@ const uniqueHashes = new Set(entries.map((e) => e.sha256)).size;
 writeFileSync(join(OUT, "manifest.json"), JSON.stringify({
   fixture: FIXTURE,
   generator: "docs/scripts/capture-previews.mjs",
-  source: "the project's own fixture preview server, rendering each frozen artifact",
+  source: "the project's own fixture preview server, rendering each selectable built artifact",
   format: "webp",
   quality: 92,
   desktop: { width: DESKTOP.width, height: DESKTOP.height },
@@ -405,12 +443,26 @@ writeFileSync(join(OUT, "manifest.json"), JSON.stringify({
 }, null, 2) + "\n", "utf8");
 
 ws.close();
-chrome.kill();
-server.kill();
+stopTree(chrome);
+stopTree(server);
+await Promise.all([waitForExit(chrome), waitForExit(server)]);
+chrome.stderr?.destroy();
+server.stdout?.destroy();
+server.stderr?.destroy();
 try { rmSync(profile, { recursive: true, force: true }); } catch {}
 
 console.log(`\n${entries.length} screenshot(s) written to docs/public/previews/`);
 console.log(`total ${total} bytes (${(total / 1024 / 1024).toFixed(2)} MB) · ${uniqueHashes} unique sha256`);
 if (failed) { console.error(`${failed} capture(s) failed`); process.exit(1); }
-if (entries.length !== 34) { console.error(`expected 34 captures, got ${entries.length}`); process.exit(1); }
-if (uniqueHashes !== 34) { console.error(`expected 34 unique hashes, got ${uniqueHashes}`); process.exit(1); }
+if (entries.length !== EXPECTED_CAPTURES) {
+  console.error(`expected ${EXPECTED_CAPTURES} captures for ${IDS.length} templates, got ${entries.length}`);
+  process.exit(1);
+}
+if (uniqueHashes !== EXPECTED_CAPTURES) {
+  console.error(`expected ${EXPECTED_CAPTURES} unique hashes, got ${uniqueHashes}`);
+  process.exit(1);
+}
+
+/* All output is durable at this point. Explicitly exit so a browser/Go pipe that
+   ignores shutdown cannot keep CI alive after a successful deterministic capture. */
+process.exit(0);

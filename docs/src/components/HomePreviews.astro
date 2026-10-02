@@ -6,10 +6,10 @@
  * of four different layout families, so the row shows range rather than a ranking.
  * Nothing here is called "best", "popular" or "recommended".
  *
- *   row        single column, type-led      (also the default)
- *   editorial  narrow column, reading-first
- *   brutal     wide board, grid-led
- *   pulsenova  dashboard, card-led
+ *   gold          premium dossier, GoldApp default preset
+ *   glass         airy glass dashboard
+ *   neobrutal     wide poster board
+ *   dashboardpro  KPI dashboard
  *
  * Captured by docs/scripts/capture-previews.mjs from the project's own fixture
  * preview server. Presence is read from disk, so a missing capture degrades to
@@ -25,14 +25,14 @@ const PREVIEW_DIR = join(process.cwd(), "public", "previews");
 const PREVIEW_URL = `${import.meta.env.BASE_URL.replace(/\/$/, "")}/previews`;
 const locale = Astro.currentLocale === "fa" ? "fa" : Astro.currentLocale === "ar" ? "ar" : "en";
 
-const PICKS = ["row", "editorial", "brutal", "pulsenova"];
+const PICKS = ["gold", "glass", "neobrutal", "dashboardpro"];
 
 const CAPTION = {
-  en: { row: "Row", editorial: "Editorial", brutal: "Brutal", pulsenova: "Pulse Nova",
+  en: { gold: "Gold", glass: "Glass", neobrutal: "NeoBrutal", dashboardpro: "Dashboard Pro",
         alt: (n) => `${n} template preview at desktop width` },
-  fa: { row: "Row", editorial: "Editorial", brutal: "Brutal", pulsenova: "Pulse Nova",
+  fa: { gold: "Gold", glass: "Glass", neobrutal: "NeoBrutal", dashboardpro: "Dashboard Pro",
         alt: (n) => `پیش‌نمایش تمپلیت ${n} در عرض دسکتاپ` },
-  ar: { row: "Row", editorial: "Editorial", brutal: "Brutal", pulsenova: "Pulse Nova",
+  ar: { gold: "Gold", glass: "Glass", neobrutal: "NeoBrutal", dashboardpro: "Dashboard Pro",
         alt: (n) => `معاينة قالب ${n} بعرض سطح المكتب` },
 }[locale];
 

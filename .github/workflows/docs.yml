@@ -14,20 +14,30 @@ on:
     paths:
       - "docs/**"
       - ".github/workflows/docs.yml"
+      - "src/templates/**"
+      - "tools/templates.mjs"
+      - "tools/build.mjs"
+      - "tools/fixtures/**"
   pull_request:
     paths:
       - "docs/**"
       - ".github/workflows/docs.yml"
+      - "src/templates/**"
+      - "tools/templates.mjs"
+      - "tools/build.mjs"
+      - "tools/fixtures/**"
   workflow_dispatch:
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
 
-# One deployment at a time; a newer push supersedes a queued one, but a
-# deployment already running is allowed to finish.
+# One docs run per ref. A newer commit cancels an obsolete capture/build so
+# pull requests cannot be blocked behind screenshots from an older HEAD.
 concurrency:
-  group: pages-${{ github.ref }}
-  cancel-in-progress: false
+  group: pages-v2-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -44,11 +54,28 @@ jobs:
           cache: npm
           cache-dependency-path: docs/package-lock.json
 
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
       - name: Install (lockfile only)
         run: npm ci
 
+      - name: Capture all selectable template previews
+        run: npm run previews
+
+      - name: Verify preview manifest
+        run: |
+          node -e "const m=require('./public/previews/manifest.json'); if(m.total!==60||m.uniqueHashes!==60) throw new Error('expected 60 unique captures'); console.log(m.total, 'previews OK')"
+
       - name: Build
         run: npm run build
+
+      - name: Configure GitHub Pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Upload the site
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'

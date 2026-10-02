@@ -21,13 +21,13 @@
   <a href="https://github.com/zarkmakerburg/Gold-Template/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/zarkmakerburg/Gold-Template?sort=semver"></a>
   <img alt="Panels" src="https://img.shields.io/badge/panels-3X--UI%20%7C%20PasarGuard%20%7C%20Rebecca-informational">
   <img alt="Platform" src="https://img.shields.io/badge/platform-Linux-lightgrey">
-  <a href="https://iitzseridev.github.io/Row-Template/"><img alt="Documentation" src="https://img.shields.io/badge/docs-GitHub%20Pages-blue"></a>
+  <a href="https://zarkmakerburg.github.io/Gold-Template/"><img alt="Documentation" src="https://img.shields.io/badge/docs-GitHub%20Pages-blue"></a>
 </p>
 
 <p align="center">
   <a href="#installation">Install</a> ·
   <a href="#designs">Designs</a> ·
-  <a href="https://iitzseridev.github.io/Row-Template/">Documentation</a> ·
+  <a href="https://zarkmakerburg.github.io/Gold-Template/">Documentation</a> ·
   <a href="CHANGELOG.md">Changelog</a> ·
   <a href="https://github.com/zarkmakerburg/Gold-Template/releases">Releases</a>
 </p>
@@ -119,7 +119,7 @@ Gold-Template carries 17 frozen upstream designs plus thirteen downstream custom
 | **Minimal** | Signature console, spacious product rhythm, soft radii, cool blue accent |
 | **Dashboard Pro** | Meter dashboard, stronger KPI hierarchy, cyan instrumentation |
 
-<sub>Previews are rendered from the project's own placeholder data. Desktop and mobile previews of every design are in the <a href="https://iitzseridev.github.io/Row-Template/templates/">template gallery</a>.</sub>
+<sub>Previews are rendered from the project's own placeholder data. Desktop and mobile previews of every design are in the <a href="https://zarkmakerburg.github.io/Gold-Template/templates/">template gallery</a>.</sub>
 
 Choose a design during a fresh interactive install, set `RT_TEMPLATE` for a scripted one, or change it later from the manager (**Reconfigure branding → Template**). Updates keep your choice. The `RT_TEMPLATE` values are `row`, `editorial`, `canvas`, `prism`, `terminal`, `pulse`, `brutal`, `arcade`, `sketch`, `signature`, `saffron`, `pulsenova`, `prismnova`, `terminalnova`, `arcadenova`, `meter`, `notebook`, `gold`, `obsidian`, `swiss`, `cobalt`, `ivory`, `carbon`, `frost`, `orbit`, `glass`, `neobrutal`, `oled`, `minimal`, and `dashboardpro`.
 
@@ -154,7 +154,7 @@ Choose a design during a fresh interactive install, set `RT_TEMPLATE` for a scri
 | [PasarGuard](https://github.com/PasarGuard/panel) | ✅ Supported since 1.3.0 | PasarGuard **5.x** — the official Docker install or a source install (`pasarguard.service`) |
 | [Rebecca](https://github.com/rebeccapanel/Rebecca) | ✅ Supported since 1.3.0 | Rebecca **1.x**, the Go edition (Rebecca's binary install). Automatic activation with SQLite and `sqlite3`; with MySQL/MariaDB, one setting to enter in the dashboard. **Not supported:** the Docker image, which is still Rebecca 0.0.x (the Python edition) — the installer refuses it and changes nothing |
 
-The three panels use three different template engines — Go `html/template`, Jinja2 and pongo2 — so every design is built once per panel, and each version is tested by rendering it with that panel's real engine. The installer detects which panel is on the server; on a server with more than one, it asks (or reads `RT_PANEL`). **Supported** means all seven capabilities are present on that panel — detect, install, activate, verify, backup, restore and uninstall — and each one is exercised by the test suite. See [Compatibility](https://iitzseridev.github.io/Row-Template/compatibility/) for the details of each panel.
+The three panels use three different template engines — Go `html/template`, Jinja2 and pongo2 — so every design is built once per panel, and each version is tested by rendering it with that panel's real engine. The installer detects which panel is on the server; on a server with more than one, it asks (or reads `RT_PANEL`). **Supported** means all seven capabilities are present on that panel — detect, install, activate, verify, backup, restore and uninstall — and each one is exercised by the test suite. See [Compatibility](https://zarkmakerburg.github.io/Gold-Template/compatibility/) for the details of each panel.
 
 **Limitations in 1.4.0:**
 
@@ -322,7 +322,7 @@ Commands that change the system (`config`, `update`, `rollback`, `uninstall`) mu
 - **Rollback** restores a previous version from a validated backup. The current version is snapshotted first, so a failed rollback can be recovered, and your branding is preserved. Backups record the panel they were made on and are never restored onto another; a backup from an older release that does not name its design restores as Row. A rollback restores the page and the version it records, not the `row-template` manager itself: after rolling back to a 1.1.0 backup, `row-template version` reports 1.1.0 while the 1.4.0 manager stays in place, and the next `row-template update` returns to 1.4.0. Only the two newest backups are kept — each update, design switch, and rollback makes one.
 - **Uninstall** removes Row-Template's files and returns the panel to the page it had before: on 3X-UI it clears `subThemeDir` only if it points at Row-Template; on PasarGuard it removes its `.env` block and its page; on Rebecca it restores the two subscription settings it changed (leaving them alone if you have since chosen another page). Your users, inbounds, clients, nodes, and certificates are not touched.
 
-The [documentation](https://iitzseridev.github.io/Row-Template/) covers configuration, branding, and troubleshooting in more depth.
+The [documentation](https://zarkmakerburg.github.io/Gold-Template/) covers configuration, branding, and troubleshooting in more depth.
 
 ## Development
 
