@@ -1,0 +1,142 @@
+/* Design tokens. Every value a theme can change lives here and nowhere else;
+   the rest of the stylesheet only ever reads custom properties.
+
+   The sheet is faceted: three vertical rails run down it and the records are set
+   across them, so the geometry carries the design before any colour does. The
+   scale is built around that - a heavy anchor for the figure, and a measured
+   column for the records. */
+
+:root {
+  --font: "Bahnschrift", "DIN Alternate", "Avenir Next", system-ui,
+          -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas,
+               "Liberation Mono", monospace;
+  --font-arabic: Vazirmatn, "Segoe UI", Tahoma, "Noto Naskh Arabic",
+                 "Geeza Pro", sans-serif;
+
+  --fs-figure: 2.5rem;
+  --fs-title: 1.0625rem;
+  --fs-record: 1rem;
+  --fs-label: 0.6875rem;
+  --fs-body: 0.9375rem;
+  --fs-caption: 0.8125rem;
+  --fs-micro: 0.6875rem;
+
+  --lh-figure: 1.05;
+  --lh-tight: 1.3;
+  --lh-body: 1.55;
+  --measure: 60ch;
+  --ls-label: 0.16em;
+
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 32px;
+
+  /* Facets are cut, not rounded. */
+  --r-control: 0px;
+  --r-pill: 999px;
+  --rails: 3;
+
+  --dur: 120ms;
+  --dur-slow: 180ms;
+  --ease: cubic-bezier(0.3, 0.5, 0.2, 1);
+
+  --page-max: 1000px;
+  --tap: 44px;
+  --mark: 30px;
+}
+
+/* Dark is the default so a client with no matchMedia and no stored preference
+   still lands on a coherent theme. Cold violet graphite with one spectral ink. */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #07111F;
+  --surface: #0C1829;
+  --track: #14263D;
+
+  --rule: #16283F;
+  --rule-strong: #284A70;
+  --control-border: #4779A8;
+
+  --text: #EAF4FF;
+  --muted: #9AB0C8;
+  --subtle: #6D829A;
+
+  --accent: #55B7FF;
+  --accent-solid: #168CE0;
+  --accent-hover: #79C9FF;
+  --on-accent: #04111C;
+
+  --warning: #DDA84B;
+  --danger: #E4726A;
+  --success: #5FC08E;
+  --info: #74B4D6;
+  --focus: #79C9FF;
+
+  --shadow-pop: 0 12px 30px rgb(4 2 10 / 0.64);
+  --scrim: rgb(5 3 11 / 0.72);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #F3F8FC;
+  --surface: #FFFFFF;
+  --track: #DCEAF5;
+
+  --rule: #D4E4F0;
+  --rule-strong: #9EB8CC;
+  --control-border: #6A8EAA;
+
+  --text: #0A1824;
+  --muted: #456176;
+  --subtle: #5D7588;
+
+  --accent: #006DB3;
+  --accent-solid: #006DB3;
+  --accent-hover: #00568C;
+  --on-accent: #FFFFFF;
+
+  --warning: #8A5A00;
+  --danger: #B03226;
+  --success: #1F6B45;
+  --info: #1C5E75;
+  --focus: #006DB3;
+
+  --shadow-pop: 0 12px 30px rgb(18 15 24 / 0.16);
+  --scrim: rgb(18 15 24 / 0.4);
+}
+
+@media (min-width: 860px) {
+  :root {
+    --fs-figure: 3.75rem;
+    --fs-record: 1.125rem;
+  }
+}
+
+/* row:font-face */
+@font-face {
+  font-family: Vazirmatn;
+  src: url("data:font/woff2;base64,__FONT_BASE64__") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+200C-200F, U+2066-2069, U+FB50-FDFF,
+                 U+FE70-FEFF;
+}
+/* row:font-face end */
+
+/* Arabic and Persian are first-class. The Arabic face replaces both voices: a
+   monospace font has no Arabic glyphs, and faux-mono tracking closes the joins
+   that carry the script. */
+[lang="fa"],
+[lang="ar"] {
+  --font: var(--font-arabic);
+  --font-mono: var(--font-arabic);
+  --lh-body: 1.75;
+}
