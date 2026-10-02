@@ -3,12 +3,12 @@ title: Custom Templates
 description: What a custom template must satisfy before it can be added.
 ---
 
-Seventeen core designs ship with Row-Template. Adding your own is possible, and the
+Gold-Template ships seventeen frozen core designs plus thirteen downstream custom designs. Adding another is possible, and the
 contract it must satisfy is written down rather than discovered by breaking things.
 
-> **Status:** the tier mechanism that separates core templates from custom ones is
-> implemented, but **no custom template has been added yet**, and the authoring workflow
-> is not final. This page describes the contract. It is not yet a step-by-step guide.
+> **Status:** the custom tier is in production. GoldApp currently ships thirteen custom
+> designs (`gold` through `dashboardpro`) alongside the seventeen frozen core templates.
+> This page documents the contract new custom designs must continue to satisfy.
 
 ## The tier model
 
@@ -38,8 +38,8 @@ A custom template must satisfy all of the following:
 - The **application runtime** is byte-identical to Row's.
 - The **locale island** is byte-identical.
 - **Exactly three `<script>` tags** — boot, locale island, application.
-- **No per-template JavaScript.** The runtime is shared precisely so templates cannot
-  drift into their own dialects of the same behaviour.
+- **No fork of the shared application runtime.** Small downstream enhancement scripts are
+  allowed only when explicitly isolated to a custom design and covered by build/runtime tests.
 
 ## Layout ownership
 
@@ -55,8 +55,9 @@ src/templates/<id>/
 └── rtl.css
 ```
 
-- **No template may import another template's layout or stylesheet.**
-- **Shared runtime is expected. Shared visual structure is forbidden.**
+- A custom design may reuse a proven core layout/style contract when that reuse is explicit,
+  tested and documented.
+- Shared application runtime is expected; visual overrides must stay downstream and scoped.
 
 ## Accessibility
 
@@ -69,7 +70,7 @@ dialog controls and dropdown items.
 - **No remote assets, no external fonts, no network dependency.** Assets are inlined at
   build time.
 - **Deterministic output.**
-- Within the **204,800-byte** ceiling.
+- Within the **280 KiB (286,720-byte)** hard ceiling.
 
 ## RTL
 
@@ -85,4 +86,4 @@ not to the design.
 ## Next
 
 - [Developer Reference](/developer/) — the build pipeline and verification gates
-- [Template Gallery](/templates/) — the seventeen core designs
+- [Template Gallery](/templates/) — all thirty selectable designs
