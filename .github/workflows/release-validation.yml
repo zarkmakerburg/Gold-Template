@@ -41,6 +41,7 @@ on:
       - "CHANGELOG.md"
       - ".github/workflows/release-validation.yml"
       - ".github/workflows/release.yml"
+      - ".github/workflows/docs.yml"
   push:
     branches: [main]
   workflow_dispatch:
