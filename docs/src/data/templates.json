@@ -1,16 +1,16 @@
 {
   "_comment": "Shared template gallery data. Facts are read from source (tools/templates.mjs, each template's tokens.css, and the build). Only the per-locale description prose is authored. Enum values are keyed so the gallery can render translated labels without duplicating structure.",
   "meta": {
-    "count": 17,
+    "count": 30,
     "default": "row",
-    "ceiling": "204800 bytes",
+    "ceiling": "286720 bytes",
     "shared": [
       "One self-contained artifact — CSS, JavaScript, fonts and the QR generator are inlined.",
-      "The same shared runtime; a template is a layout and a stylesheet set, never a fork of the logic.",
-      "The same data — status, traffic, expiry, configurations and clients are identical across all seventeen.",
+      "The same shared runtime; a template is a layout and stylesheet set, never a fork of the core logic.",
+      "The same subscription data — status, traffic, expiry, configurations and clients are available across all thirty.",
       "Full right-to-left support for Persian and Arabic.",
       "Dark and light themes.",
-      "79 required hooks, exactly three scripts, and a byte lock pinning the artifact to an exact size and SHA-256."
+      "79 required hooks, deterministic builds and a 280 KiB hard artifact ceiling. The 17 upstream core designs are byte-locked; GoldApp custom designs remain deliberately unlocked."
     ]
   },
   "templates": [
@@ -267,6 +267,201 @@
         "en": "A page from a dotted notebook. Hand-inked cards with uneven corners, sticky-note accents and margin doodles, kept to a narrow reading column.",
         "fa": "صفحه‌ای از یک دفترچهٔ نقطه‌دار. کارت‌هایی با جوهر دست‌کشیده و گوشه‌های ناهموار، تأکیدهایی به شکل یادداشت چسبان و طرح‌های حاشیه، در یک ستون خواندن باریک.",
         "ar": "صفحة من دفتر منقّط. بطاقات بحبر مرسوم باليد وزوايا غير متساوية، ولمسات تشبه الملاحظات اللاصقة، ورسوم في الهوامش، ضمن عمود قراءة ضيق."
+      }
+    },
+    {
+      "id": "gold",
+      "name": "Gold",
+      "family": "dossier",
+      "composition": "document-led",
+      "density": "spacious",
+      "grouping": "columns",
+      "radius": "soft",
+      "measure": "medium",
+      "description": {
+        "en": "A premium GoldApp console in black/navy and gold. It keeps Signature's asymmetric dossier structure while adding the Gold-only renewal treatment.",
+        "fa": "کنسول پریمیوم GoldApp با مشکی/سرمه‌ای و طلایی. ساختار نامتقارن Signature را حفظ می‌کند و رفتار تمدید اختصاصی Gold را به آن اضافه می‌کند.",
+        "ar": "واجهة GoldApp فاخرة بالأسود/الكحلي والذهبي. تحافظ على بنية Signature غير المتناظرة وتضيف معالجة التجديد الخاصة بـ Gold."
+      }
+    },
+    {
+      "id": "obsidian",
+      "name": "Obsidian",
+      "family": "dossier",
+      "composition": "document-led",
+      "density": "spacious",
+      "grouping": "columns",
+      "radius": "soft",
+      "measure": "medium",
+      "description": {
+        "en": "A restrained architectural dossier in near-black graphite with bronze accents and compact geometry.",
+        "fa": "پرونده‌ای معماری و کنترل‌شده با گرافیت نزدیک به مشکی، accent برنزی و هندسهٔ جمع‌وجور.",
+        "ar": "ملف معماري هادئ بلون غرافيت قريب من الأسود مع لمسات برونزية وهندسة مدمجة."
+      }
+    },
+    {
+      "id": "swiss",
+      "name": "Swiss",
+      "family": "dossier",
+      "composition": "document-led",
+      "density": "spacious",
+      "grouping": "columns",
+      "radius": "square",
+      "measure": "medium",
+      "description": {
+        "en": "A high-contrast Swiss-inspired interpretation of the Signature console, with square geometry and a restrained red signal.",
+        "fa": "برداشتی پرکنتراست و الهام‌گرفته از طراحی سوئیسی از کنسول Signature، با هندسهٔ مربعی و سیگنال قرمز کنترل‌شده.",
+        "ar": "تفسير عالي التباين مستوحى من التصميم السويسري لواجهة Signature، بهندسة مربعة وإشارة حمراء مضبوطة."
+      }
+    },
+    {
+      "id": "cobalt",
+      "name": "Cobalt",
+      "family": "faceted",
+      "composition": "record-led",
+      "density": "compact",
+      "grouping": "facets",
+      "radius": "square",
+      "measure": "wide",
+      "description": {
+        "en": "A deep-navy Prism variant with electric-blue signal accents across the faceted record layout.",
+        "fa": "نسخه‌ای سرمه‌ای عمیق از Prism با accent آبی الکتریکی روی ساختار رکورد چندوجهی.",
+        "ar": "نسخة Prism بكحلي عميق ولمسات زرقاء كهربائية ضمن تخطيط السجلات متعدد الأوجه."
+      }
+    },
+    {
+      "id": "ivory",
+      "name": "Ivory",
+      "family": "narrow-column",
+      "composition": "reading-first",
+      "density": "comfortable",
+      "grouping": "columns",
+      "radius": "square",
+      "measure": "narrow",
+      "description": {
+        "en": "An editorial serif treatment in warm ivory and forest green, tuned to feel like a premium printed service sheet.",
+        "fa": "پرداخت ادیتوریال serif با عاجی گرم و سبز جنگلی که حس یک برگهٔ خدمات چاپی پریمیوم را می‌دهد.",
+        "ar": "معالجة تحريرية بخط serif وعاجي دافئ وأخضر غابي، بطابع ورقة خدمة مطبوعة فاخرة."
+      }
+    },
+    {
+      "id": "carbon",
+      "name": "Carbon",
+      "family": "narrow-column",
+      "composition": "session-sheet",
+      "density": "compact",
+      "grouping": "rules",
+      "radius": "square",
+      "measure": "narrow",
+      "description": {
+        "en": "An industrial near-black Terminal variant with a cool turquoise technical accent.",
+        "fa": "نسخه‌ای صنعتی و نزدیک به مشکی از Terminal با accent فیروزه‌ای فنی.",
+        "ar": "نسخة Terminal صناعية قريبة من الأسود مع لمسة فيروزية تقنية باردة."
+      }
+    },
+    {
+      "id": "frost",
+      "name": "Frost",
+      "family": "single-column",
+      "composition": "airy",
+      "density": "spacious",
+      "grouping": "space",
+      "radius": "soft",
+      "measure": "narrow",
+      "description": {
+        "en": "A colder, softer Canvas dashboard with icy-blue surfaces and more generous rounded geometry.",
+        "fa": "داشبورد Canvas سردتر و نرم‌تر با سطوح آبی یخی و هندسهٔ گرد و بازتر.",
+        "ar": "لوحة Canvas أبرد وأنعم بأسطح زرقاء جليدية وهندسة مستديرة أكثر رحابة."
+      }
+    },
+    {
+      "id": "orbit",
+      "name": "Orbit",
+      "family": "dashboard",
+      "composition": "status-led",
+      "density": "compact",
+      "grouping": "bands",
+      "radius": "square",
+      "measure": "wide",
+      "description": {
+        "en": "A midnight-teal Pulse variant with bright aqua traces that emphasize signal flow and status.",
+        "fa": "نسخه‌ای سبزآبی نیمه‌شب از Pulse با خط‌های aqua روشن که جریان سیگنال و وضعیت را برجسته می‌کند.",
+        "ar": "نسخة Pulse بلون أزرق مخضر ليلي وخطوط مائية مضيئة تبرز تدفق الإشارة والحالة."
+      }
+    },
+    {
+      "id": "glass",
+      "name": "Glass",
+      "family": "single-column",
+      "composition": "airy",
+      "density": "spacious",
+      "grouping": "space",
+      "radius": "soft",
+      "measure": "narrow",
+      "description": {
+        "en": "A layered glassmorphism dashboard with translucent surfaces, soft blur and restrained depth.",
+        "fa": "داشبورد شیشه‌ای لایه‌ای با سطوح نیمه‌شفاف، blur نرم و عمق کنترل‌شده.",
+        "ar": "لوحة زجاجية متعددة الطبقات بأسطح شفافة جزئيًا وتمويه ناعم وعمق متزن."
+      }
+    },
+    {
+      "id": "neobrutal",
+      "name": "NeoBrutal",
+      "family": "wide-board",
+      "composition": "grid-led",
+      "density": "dense",
+      "grouping": "grid",
+      "radius": "square",
+      "measure": "wide",
+      "description": {
+        "en": "A poster-like Neo-Brutalist board with hard outlines, offset shadows and a hot-pink signal accent.",
+        "fa": "برد Neo-Brutalist شبیه پوستر با خطوط دور خشن، سایه‌های offset و accent صورتی تند.",
+        "ar": "لوحة Neo-Brutalist شبيهة بالملصق بحدود حادة وظلال مزاحة ولمسة وردية قوية."
+      }
+    },
+    {
+      "id": "oled",
+      "name": "OLED",
+      "family": "narrow-column",
+      "composition": "session-sheet",
+      "density": "compact",
+      "grouping": "rules",
+      "radius": "square",
+      "measure": "narrow",
+      "description": {
+        "en": "A true-black Terminal interpretation with restrained green phosphor accents for OLED displays.",
+        "fa": "برداشت مشکی واقعی از Terminal با accent سبز فسفری کنترل‌شده برای نمایشگرهای OLED.",
+        "ar": "تفسير Terminal بأسود حقيقي ولمسات فوسفورية خضراء مضبوطة لشاشات OLED."
+      }
+    },
+    {
+      "id": "minimal",
+      "name": "Minimal",
+      "family": "dossier",
+      "composition": "document-led",
+      "density": "spacious",
+      "grouping": "columns",
+      "radius": "soft",
+      "measure": "medium",
+      "description": {
+        "en": "A calm product-oriented Signature variant with softer radii, more breathing room and cool blue accents.",
+        "fa": "نسخه‌ای آرام و محصول‌محور از Signature با radius نرم‌تر، فضای تنفسی بیشتر و accent آبی سرد.",
+        "ar": "نسخة Signature هادئة موجهة للمنتج بزوايا أنعم ومساحة تنفس أكبر ولمسات زرقاء باردة."
+      }
+    },
+    {
+      "id": "dashboardpro",
+      "name": "Dashboard Pro",
+      "family": "dashboard",
+      "composition": "card-led",
+      "density": "comfortable",
+      "grouping": "cards",
+      "radius": "soft",
+      "measure": "wide",
+      "description": {
+        "en": "A KPI-focused Meter variant with stronger metric hierarchy, denser instrumentation and cyan signals.",
+        "fa": "نسخه‌ای KPI-محور از Meter با سلسله‌مراتب قوی‌تر متریک‌ها، ابزارهای متراکم‌تر و سیگنال‌های cyan.",
+        "ar": "نسخة Meter تركز على مؤشرات الأداء بهرمية أقوى للمقاييس وأدوات أكثف وإشارات سماوية."
       }
     }
   ]
