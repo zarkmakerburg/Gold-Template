@@ -319,7 +319,7 @@ rt_config_write() {
 
 # The selectable ids of this release, in catalogue order. Row is first and is
 # the default.
-RT_TEMPLATES_AVAILABLE="row editorial canvas prism terminal pulse brutal arcade sketch signature saffron pulsenova prismnova terminalnova arcadenova meter notebook gold obsidian swiss cobalt ivory carbon frost orbit"
+RT_TEMPLATES_AVAILABLE="row editorial canvas prism terminal pulse brutal arcade sketch signature saffron pulsenova prismnova terminalnova arcadenova meter notebook gold obsidian swiss cobalt ivory carbon frost orbit glass neobrutal oled minimal dashboardpro"
 
 rt_template_allowed() {
   local id
@@ -356,6 +356,11 @@ rt_template_display_name() {
     carbon)    printf 'Carbon' ;;
     frost)     printf 'Frost' ;;
     orbit)     printf 'Orbit' ;;
+    glass)     printf 'Glass' ;;
+    neobrutal) printf 'NeoBrutal' ;;
+    oled)      printf 'OLED' ;;
+    minimal)   printf 'Minimal' ;;
+    dashboardpro) printf 'Dashboard Pro' ;;
     *)         printf '%s' "$1" ;;
   esac
 }

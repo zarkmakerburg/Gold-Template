@@ -232,9 +232,9 @@ test('the pinned instant reproduces the baseline caption as well as the date', (
 
 /* --- the freshness invariant, executed ----------------------------------- */
 
-test('an all-template build produces twenty-five fresh artifacts', () => {
+test('an all-template build produces thirty fresh artifacts', () => {
   const ids = read('tools', 'templates.mjs').match(/^\s{2}(\w+):\s*\{/gm) || [];
-  assert.equal(ids.length, 25, 'Gold-Template should expose 17 upstream templates plus 8 custom designs');
+  assert.equal(ids.length, 30, 'Gold-Template should expose 17 upstream templates plus 13 custom designs');
 
   const r = spawnSync('node', [join('tools', 'build.mjs'), '--all', '--quiet'], {
     cwd: ROOT, encoding: 'utf8',
@@ -260,7 +260,7 @@ test('an all-template build produces twenty-five fresh artifacts', () => {
       .map((e) => join(ROOT, 'dist', 'templates', e.name, 'template.html')),
   ];
 
-  assert.equal(served.length, 25, `the preview server should see 25 artifacts, saw ${served.length}`);
+  assert.equal(served.length, 30, `the preview server should see 30 artifacts, saw ${served.length}`);
   for (const p of served) {
     assert.ok(existsSync(p), `${p} should exist after an --all build`);
     assert.ok(statSync(p).mtimeMs >= srcNewest,

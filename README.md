@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  A polished, self-contained subscription page for <a href="https://github.com/MHSanaei/3x-ui">3X-UI</a>, <a href="https://github.com/PasarGuard/panel">PasarGuard</a> and <a href="https://github.com/rebeccapanel/Rebecca">Rebecca</a> panels — twenty-five designs (17 upstream + 8 GoldApp custom designs), each a single HTML file, fully white-label, with no third-party requests from the page your subscribers open.
+  A polished, self-contained subscription page for <a href="https://github.com/MHSanaei/3x-ui">3X-UI</a>, <a href="https://github.com/PasarGuard/panel">PasarGuard</a> and <a href="https://github.com/rebeccapanel/Rebecca">Rebecca</a> panels — thirty designs (17 upstream + 13 GoldApp custom designs), each a single HTML file, fully white-label, with no third-party requests from the page your subscribers open.
 </p>
 
 <p align="center">
@@ -44,10 +44,15 @@
 - **Carbon** — an industrial Terminal-derived layout in near-black with a cool turquoise technical accent.
 - **Frost** — a soft Canvas-derived dashboard with icy blue surfaces and more generous rounded geometry.
 - **Orbit** — a Pulse-derived signal-flow layout in midnight teal with bright aqua traces.
+- **Glass** — a layered Canvas-derived glassmorphism dashboard with translucent surfaces and soft blur.
+- **NeoBrutal** — a Brutal-derived poster UI with hard outlines, offset shadows and hot-pink signal accents.
+- **OLED** — a Terminal-derived true-black interface with restrained green phosphor accents.
+- **Minimal** — a Signature-derived product UI with softer radii, spacious rhythm and cool blue accents.
+- **Dashboard Pro** — a Meter-derived metric dashboard with denser KPI emphasis and cyan instrumentation.
 - **Smart Renewal CTA** — using only local subscription facts, the support action becomes a renewal action at ≥85% traffic usage, within 3 calendar days of expiry, or after expiry/limit exhaustion. No telemetry or third-party request is added.
 - **GoldApp preset** — `RT_PRESET=goldapp` selects the Gold design, `GoldApp Online` service name and `https://go.goldapponline.ir` support/renewal destination; explicit `RT_*` values override individual defaults.
 - **Independent release channel** — Gold-Template installers and updates are prepared to follow this repository instead of silently pulling upstream releases.
-- **Upstream-friendly** — the original 17 designs remain core/byte-locked; all eight GoldApp designs are unlocked custom-tier designs, so upstream updates can be merged with less friction.
+- **Upstream-friendly** — the original 17 designs remain core/byte-locked; all thirteen GoldApp designs are unlocked custom-tier designs, so upstream updates can be merged with less friction.
 - **CLI compatibility** — the existing `row-template` command and install paths are intentionally kept for now to avoid breaking deployed hosts.
 
 > Gold-Template is a derivative distribution. Original Row-Template authorship, licenses and bundled third-party licenses remain credited and must be preserved.
@@ -62,13 +67,13 @@ It ships as one self-contained HTML file per design, with every style, script, f
 
 - **Private by design.** The page your subscribers open makes no third-party requests. QR codes are generated on the page, and your branding is injected as text — never executed, never sent anywhere.
 - **Genuinely white-label.** Your service name, your support link, your logo. Nothing on the served page identifies Row-Template.
-- **Twenty-five designs, one file each.** Pick the look that fits your service. Every design shares the same features, languages, and safety checks — on every supported panel.
+- **Thirty designs, one file each.** Pick the look that fits your service. Every design shares the same features, languages, and safety checks — on every supported panel.
 - **Made for your subscribers.** Live usage and expiry, one-tap import into popular apps, and a searchable list of individual configurations for adding a single server by hand.
 - **Safe to operate.** Checksum-verified releases, transactional activation that restores the panel exactly if any step fails, and one-command rollback. It never patches your panel: on 3X-UI it changes one setting (`subThemeDir`), on PasarGuard it adds one marked block to `.env`, and on Rebecca it sets two fields of its subscription settings.
 
 ## Designs
 
-Gold-Template carries 17 frozen upstream designs plus eight downstream custom designs: **Gold**, **Obsidian**, **Swiss**, **Cobalt**, **Ivory**, **Carbon**, **Frost**, and **Orbit**. Row remains the compatibility default; select any custom look with `RT_TEMPLATE=<id>`.
+Gold-Template carries 17 frozen upstream designs plus thirteen downstream custom designs: **Gold**, **Obsidian**, **Swiss**, **Cobalt**, **Ivory**, **Carbon**, **Frost**, **Orbit**, **Glass**, **NeoBrutal**, **OLED**, **Minimal**, and **Dashboard Pro**. Row remains the compatibility default; select any custom look with `RT_TEMPLATE=<id>`.
 
 <table>
   <tr>
@@ -108,10 +113,15 @@ Gold-Template carries 17 frozen upstream designs plus eight downstream custom de
 | **Carbon** | Terminal sheet, near-black industrial surfaces, turquoise technical accent |
 | **Frost** | Canvas dashboard, icy blue palette, softer rounded geometry |
 | **Orbit** | Pulse signal-flow layout, midnight teal, bright aqua traces |
+| **Glass** | Translucent Canvas dashboard, soft blur and layered glass surfaces |
+| **NeoBrutal** | Brutal poster grid, hard outlines, offset shadows, hot-pink accent |
+| **OLED** | True-black Terminal sheet, green phosphor accent, near-zero decorative light |
+| **Minimal** | Signature console, spacious product rhythm, soft radii, cool blue accent |
+| **Dashboard Pro** | Meter dashboard, stronger KPI hierarchy, cyan instrumentation |
 
 <sub>Previews are rendered from the project's own placeholder data. Desktop and mobile previews of every design are in the <a href="https://iitzseridev.github.io/Row-Template/templates/">template gallery</a>.</sub>
 
-Choose a design during a fresh interactive install, set `RT_TEMPLATE` for a scripted one, or change it later from the manager (**Reconfigure branding → Template**). Updates keep your choice. The `RT_TEMPLATE` values are `row`, `editorial`, `canvas`, `prism`, `terminal`, `pulse`, `brutal`, `arcade`, `sketch`, `signature`, `saffron`, `pulsenova`, `prismnova`, `terminalnova`, `arcadenova`, `meter`, `notebook`, `gold`, `obsidian`, `swiss`, `cobalt`, `ivory`, `carbon`, `frost`, and `orbit`.
+Choose a design during a fresh interactive install, set `RT_TEMPLATE` for a scripted one, or change it later from the manager (**Reconfigure branding → Template**). Updates keep your choice. The `RT_TEMPLATE` values are `row`, `editorial`, `canvas`, `prism`, `terminal`, `pulse`, `brutal`, `arcade`, `sketch`, `signature`, `saffron`, `pulsenova`, `prismnova`, `terminalnova`, `arcadenova`, `meter`, `notebook`, `gold`, `obsidian`, `swiss`, `cobalt`, `ivory`, `carbon`, `frost`, `orbit`, `glass`, `neobrutal`, `oled`, `minimal`, and `dashboardpro`.
 
 ## Features
 
@@ -162,7 +172,7 @@ The three panels use three different template engines — Go `html/template`, Ji
 flowchart TB
   subgraph build ["Build and release"]
     direction LR
-    SRC["src/<br/>runtime, styles, locales,<br/>25 design layouts"] --> BUILD["tools/build.mjs"]
+    SRC["src/<br/>runtime, styles, locales,<br/>30 design layouts"] --> BUILD["tools/build.mjs"]
     BUILD --> ART["One self-contained<br/>HTML file per design,<br/>per panel"]
     ART --> REL["tools/make-release.sh<br/>tarball + SHA256SUMS"]
   end
