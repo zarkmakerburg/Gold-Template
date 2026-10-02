@@ -36,7 +36,7 @@ permissions:
 # One docs run per ref. A newer commit cancels an obsolete capture/build so
 # pull requests cannot be blocked behind screenshots from an older HEAD.
 concurrency:
-  group: pages-${{ github.ref }}
+  group: pages-v2-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
