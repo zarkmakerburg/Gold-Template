@@ -1,6 +1,6 @@
 ---
 /**
- * TemplateGallery — renders all seventeen core templates from shared data.
+ * TemplateGallery — renders all selectable Gold-Template designs from shared data.
  *
  * One component, three locales. The structural facts live in src/data/templates.json
  * and the per-locale prose lives alongside them, so there is no duplicated metadata
@@ -8,7 +8,7 @@
  *
  * PREVIEWS
  * Real previews are produced by docs/scripts/capture-previews.mjs from the project's
- * own fixture preview server — genuine rendered output of each frozen artifact, not a
+ * own fixture preview server — genuine rendered output of each built artifact, not a
  * reconstruction. Presence is inferred from the filesystem rather than recorded as a
  * hand-maintained flag, so a preview can never be claimed that does not exist.
  *
@@ -41,7 +41,7 @@ const L = {
     themes: "Themes", detail: "Structural detail", select: "Selecting this template",
     selectBody: "Choose it in the installer, or switch to it later from the manager:",
     preview: "Preview not captured yet",
-    previewNote: "Previews are captured from the frozen artifacts. They are not published yet.",
+    previewNote: "A real preview has not been committed yet. Preview CI captures every selectable design from the project fixture renderer.",
     desktop: "Desktop", mobile: "Mobile",
     altDesktop: (n) => `${n} template rendered at desktop width`,
     altMobile: (n) => `${n} template rendered at mobile width`,
@@ -60,7 +60,7 @@ const L = {
     themes: "پوسته‌ها", detail: "جزئیات ساختاری", select: "انتخاب این تمپلیت",
     selectBody: "آن را در نصب‌کننده برگزینید، یا بعداً از مدیر به آن جابه‌جا شوید:",
     preview: "پیش‌نمایش هنوز گرفته نشده",
-    previewNote: "پیش‌نمایش‌ها از فایل‌های قفل‌شده گرفته می‌شوند و هنوز منتشر نشده‌اند.",
+    previewNote: "هنوز پیش‌نمایش واقعی این طرح commit نشده است. CI پیش‌نمایش، همهٔ طرح‌های قابل انتخاب را با renderer خود پروژه ثبت می‌کند.",
     desktop: "دسکتاپ", mobile: "موبایل",
     altDesktop: (n) => `تمپلیت ${n} در عرض دسکتاپ`,
     altMobile: (n) => `تمپلیت ${n} در عرض موبایل`,
@@ -79,7 +79,7 @@ const L = {
     themes: "المظهران", detail: "التفصيل البنيوي", select: "اختيار هذا القالب",
     selectBody: "اختره في المثبّت، أو انتقل إليه لاحقًا من المدير:",
     preview: "لم تُلتقط معاينة بعد",
-    previewNote: "تُلتقط المعاينات من الملفات المجمّدة، ولم تُنشر بعد.",
+    previewNote: "لم تُثبّت معاينة حقيقية لهذا القالب بعد. يلتقط CI المعاينات لكل التصاميم القابلة للاختيار من عارض المشروع نفسه.",
     desktop: "سطح المكتب", mobile: "الجوال",
     altDesktop: (n) => `قالب ${n} بعرض سطح المكتب`,
     altMobile: (n) => `قالب ${n} بعرض الجوال`,
@@ -96,7 +96,7 @@ const L = {
 
 const t = L[locale];
 const themesLabel = { en: "Dark and light", fa: "تیره و روشن", ar: "داكن وفاتح" }[locale];
-const selectCmd = "row-template";   // manager menu: 2 Reconfigure -> 4 Template
+const selectCmd = "gold-template";   // manager menu: 2 Reconfigure -> 4 Template
 const envCmd = (id) => `RT_TEMPLATE=${id} bash install.sh   # from an extracted release bundle`;
 
 // Presence is read from disk, never asserted in data.
