@@ -2,8 +2,8 @@ name: Publish release
 
 on:
   push:
-    tags:
-      - "v*"
+    branches:
+      - "release/*"
 
 permissions:
   contents: write
@@ -30,14 +30,23 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends python3-jinja2 shellcheck
 
-      - name: Require tag to match VERSION
+      - name: Require an exact release branch from main
         shell: bash
         run: |
           set -euo pipefail
           version="$(tr -d '[:space:]' < VERSION)"
-          expected="v${version}"
+          expected="release/${version}"
           test "${GITHUB_REF_NAME}" = "${expected}" || {
-            echo "::error::tag ${GITHUB_REF_NAME} does not match VERSION (${expected})"
+            echo "::error::release branch ${GITHUB_REF_NAME} does not match VERSION (${expected})"
+            exit 1
+          }
+          git fetch origin main
+          main_sha="$(git rev-parse origin/main)"
+          head_sha="$(git rev-parse HEAD)"
+          test "${head_sha}" = "${main_sha}" || {
+            echo "::error::release branch must point exactly at current main"
+            echo "head=${head_sha}"
+            echo "main=${main_sha}"
             exit 1
           }
 
@@ -84,8 +93,8 @@ jobs:
           - Mandatory SHA-256 verification and transactional install/update/rollback.
           - English, Persian and Arabic documentation with deterministic preview generation.
 
-          The release assets are built from this tag only after the full test, verification,
-          ShellCheck and panel-build gates pass.
+          The release assets are built from current main only after the full test,
+          verification, ShellCheck and panel-build gates pass.
           EOF
 
       - name: Publish GitHub Release
@@ -95,12 +104,17 @@ jobs:
         run: |
           set -euo pipefail
           version="$(tr -d '[:space:]' < VERSION)"
-          gh release create "${GITHUB_REF_NAME}" \
+          tag="v${version}"
+          if gh release view "${tag}" >/dev/null 2>&1; then
+            echo "::error::release ${tag} already exists"
+            exit 1
+          fi
+          gh release create "${tag}" \
             "release/install.sh" \
             "release/manifest.txt" \
             "release/SHA256SUMS" \
             "release/row-template-${version}.tar.gz" \
-            --verify-tag \
+            --target "${GITHUB_SHA}" \
             --latest \
             --title "Gold-Template ${version}" \
             --notes-file /tmp/release-notes.md
